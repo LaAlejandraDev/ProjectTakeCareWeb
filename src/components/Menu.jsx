@@ -60,7 +60,6 @@ export default function Menu() {
 }
 
 function MenuItem({ title, section, setSection, children }) {
-  console.log(section === title);
   return (
     <li onClick={() => setSection(title)}>
       <a

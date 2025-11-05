@@ -11,6 +11,8 @@ import ForumPost from './pages/ForumPost.jsx';
 import ForumAllPosts from './pages/ForumAllPosts.jsx';
 import Messages from './pages/Messages.jsx';
 import CreatePost from './pages/ForumCreatePost.jsx';
+import Chat from './pages/Chat.jsx';
+import PearsonList from './components/Chat/PearsonList.jsx';
 
 const router = createBrowserRouter([
   {
@@ -49,7 +51,17 @@ const router = createBrowserRouter([
       },
       {
         path: "/index/messages",
-        Component: Messages
+        Component: Messages,
+        children: [
+          {
+            path: "index/messages/list",
+            Component: PearsonList,
+          },
+          {
+            path: "/index/messages/chat",
+            Component: Chat
+          }
+        ]
       },
       {
         path: "/index/diary",
