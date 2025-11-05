@@ -1,16 +1,19 @@
+import { Outlet, useNavigate, useNavigation } from "react-router-dom";
 import PearsonList from "../components/Chat/PearsonList";
-import { Contacts } from "../data/Contacts";
+import { useEffect } from "react";
 
 export default function Messages() {
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    navigate("index/messages/list")
+  }, [])
+
   return (
     <>
-      {Contacts.length > 0 ? (
-        <PearsonList contactList={Contacts} />
-      ) : (
-        <p className="text-center mt-10 text-gray-500">
-          No tienes mensajes aún
-        </p>
-      )}
+      <div className="w-full h-full">
+        <Outlet />
+      </div>
     </>
   );
 }

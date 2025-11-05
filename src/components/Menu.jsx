@@ -57,7 +57,6 @@ useEffect(() => {
 }
 
 function MenuItem({ title, section, setSection, children }) {
-  console.log(section === title)
   return (
     <li onClick={() => setSection(title)}>
       <a className={"tooltip tooltip-right text-base-800 py-2 text-md " + (title == section ? "bg-secondary text-white" : null) } data-tip={title}>
