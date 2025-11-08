@@ -8,7 +8,7 @@ export default function LoginForm() {
   }
   return (
     <>
-      <div className="card card-xl card-border bg-base-100 shadow-sm w-full">
+      <div className="card card-xl card-border bg-base-100 shadow-sm w-full md:w-1/3">
         <div className="card-body">
           <h2 className="card-title">
             Take Care <HeartIcon className="size-[1.5em]" /> - Iniciar Sesion

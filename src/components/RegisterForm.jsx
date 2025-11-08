@@ -4,7 +4,7 @@ import { HeartIcon } from "@heroicons/react/16/solid";
 export default function RegisterForm() {
   return (
     <>
-      <div className="card card-xl card-border bg-base-100 shadow-sm w-full">
+      <div className="card card-xl card-border bg-base-100 shadow-sm w-full md:w-1/3">
         <div className="card-body">
           <h2 className="card-title">
             Take Care <HeartIcon className="size-[1.5em]" /> - Registro
@@ -13,7 +13,7 @@ export default function RegisterForm() {
             <legend className="fieldset-legend">¿Cual es tu nombre?</legend>
             <input
               type="text"
-              className="input"
+              className="input w-full"
               placeholder="Ingresa tu nombre"
             />
           </fieldset>
@@ -21,7 +21,7 @@ export default function RegisterForm() {
             <legend className="fieldset-legend">Ingresa tu correo</legend>
             <input
               type="email"
-              className="input"
+              className="input w-full"
               placeholder="Ingresa tu correo"
             />
           </fieldset>
@@ -29,11 +29,11 @@ export default function RegisterForm() {
             <legend className="fieldset-legend">Ingresa tu clave</legend>
             <input
               type="password"
-              className="input"
+              className="input w-full"
               placeholder="Ingresa tu clave"
             />
           </fieldset>
-          <div classname="card-actions">
+          <div classname="card-actions py-4">
             <button className="btn btn-secondary w-full">Crear Cuenta</button>
             <p className="text-sm text-gray-500 mt-2">
               ¿Ya tienes cuenta?{" "}

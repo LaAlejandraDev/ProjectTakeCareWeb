@@ -30,7 +30,8 @@ useEffect(() => {
 
   return (
     <>
-      <ul className="menu bg-base-100 rounded-box shadow-sm gap-5">
+      <ul className="menu bg-base-100 rounded shadow-sm gap-5 w-full">
+        <h2 className="text-center pt-2 font-bold text-xl">TakeCare</h2>
         <MenuItem title={"Inicio"} section={selected} setSection={setSelected}>
           <HomeIcon className="h-6 w-6"/>
         </MenuItem>
@@ -41,13 +42,6 @@ useEffect(() => {
         >
           <ChatBubbleBottomCenterIcon className="h-6 w-6"/>
         </MenuItem>
-        <MenuItem
-          title={"Mi Diario"}
-          section={selected}
-          setSection={setSelected}
-        >
-          <BookmarkIcon className="h-6 w-6"/>
-        </MenuItem>
         <MenuItem title={"Perfil"} section={selected} setSection={setSelected}>
           <UserCircleIcon className="h-6 w-6"/>
         </MenuItem>
@@ -57,10 +51,9 @@ useEffect(() => {
 }
 
 function MenuItem({ title, section, setSection, children }) {
-  console.log(section === title)
   return (
     <li onClick={() => setSection(title)}>
-      <a className={"tooltip tooltip-right text-base-800 py-2 text-md " + (title == section ? "bg-secondary text-white" : null) } data-tip={title}>
+      <a className={"tooltip tooltip-right text-base-800 py-2" + (title == section ? "bg-secondary" : null) } data-tip={title}>
       { children }
       { title  }
       </a>
