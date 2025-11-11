@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import "./App.css";
 import Menu from "./components/Menu";
-import { Navigate, Outlet, useLocation } from "react-router-dom";
+import { Navigate, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useSignalR } from "./context/SignalContext";
@@ -9,7 +9,17 @@ import { useSignalR } from "./context/SignalContext";
 function App() {
   const { connection, isConnected } = useSignalR()
   const location = useLocation()
+  const navigate = useNavigate();
   const lastMessageId = useRef(null);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      toast.warning("Tu sesión ha expirado. Inicia sesión nuevamente.");
+      localStorage.removeItem("token");
+      navigate("/login", { replace: true });
+    }
+  }, [navigate]);
 
   useEffect(() => {
     if (!connection || isConnected) return
