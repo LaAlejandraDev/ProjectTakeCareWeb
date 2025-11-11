@@ -7,8 +7,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { useSignalR } from "./context/SignalContext";
 
 function App() {
-  const { connection, isConnected } = useSignalR()
-  const location = useLocation()
+  const { connection, isConnected } = useSignalR();
+  const location = useLocation();
   const navigate = useNavigate();
   const lastMessageId = useRef(null);
 
@@ -22,12 +22,12 @@ function App() {
   }, [navigate]);
 
   useEffect(() => {
-    if (!connection || isConnected) return
+    if (!connection || isConnected) return;
 
     const handleMessage = (user, message) => {
-      const msgId = Date.now()
-      if (lastMessageId.current === msgId) return
-      lastMessageId.current = msgId
+      const msgId = Date.now();
+      if (lastMessageId.current === msgId) return;
+      lastMessageId.current = msgId;
 
       if (!location.pathname.includes("/mensajes")) {
         toast.info(`${user}: ${message}`, {
@@ -38,14 +38,14 @@ function App() {
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-        })
+        });
       }
-    }
-    connection.on("ReceiveMessage", handleMessage)
+    };
+    connection.on("ReceiveMessage", handleMessage);
 
     return () => {
-      connection.off("ReceiveMessage", handleMessage)
-    }
+      connection.off("ReceiveMessage", handleMessage);
+    };
   }, [connection, isConnected, location]);
 
   return (

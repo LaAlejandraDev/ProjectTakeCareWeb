@@ -9,8 +9,6 @@ import {
   RouterProvider,
 } from "react-router-dom";
 
-import Login from "./pages/Login.jsx";
-import Register from "./pages/Register.jsx";
 import Forum from "./pages/Forum.jsx";
 import ForumPost from "./pages/ForumPost.jsx";
 import ForumAllPosts from "./pages/ForumAllPosts.jsx";
@@ -20,6 +18,8 @@ import Chat from "./pages/Chat.jsx";
 import PearsonList from "./components/Chat/PearsonList.jsx";
 import SubscriptionsPage from "./pages/Subscriptions.jsx";
 import { SignalProvider } from "./context/SignalContext.jsx";
+import Login from "./pages/Auth/Login.jsx";
+import Register from "./pages/Auth/Register.jsx";
 
 const router = createBrowserRouter([
   {
@@ -69,6 +69,6 @@ createRoot(document.getElementById("root")).render(
   <StrictMode>
     <SignalProvider>
       <RouterProvider router={router} />
-    </ SignalProvider>
+    </SignalProvider>
   </StrictMode>
 );
