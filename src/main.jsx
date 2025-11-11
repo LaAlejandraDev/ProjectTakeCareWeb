@@ -19,6 +19,7 @@ import CreatePost from "./pages/ForumCreatePost.jsx";
 import Chat from "./pages/Chat.jsx";
 import PearsonList from "./components/Chat/PearsonList.jsx";
 import SubscriptionsPage from "./pages/Subscriptions.jsx";
+import { SignalProvider } from "./context/SignalContext.jsx";
 
 const router = createBrowserRouter([
   {
@@ -66,6 +67,8 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <SignalProvider>
+      <RouterProvider router={router} />
+    </ SignalProvider>
   </StrictMode>
 );

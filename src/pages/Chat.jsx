@@ -2,6 +2,7 @@ import * as signalR from "@microsoft/signalr";
 import { useEffect, useState } from "react";
 import MessageComponent from "../components/Chat/Message";
 import Avatar from "../components/Avatar";
+import { useSignalR } from "../context/SignalContext";
 
 class Message {
   constructor(user = "", message = "", owner = true) {
@@ -12,49 +13,28 @@ class Message {
 }
 
 export default function Chat() {
+  const { connection, isConnected } = useSignalR();
   const [messagesList, setMessagesList] = useState([]);
-  const [connection, setConnection] = useState(null);
   const [userConected, setUser] = useState("WebUser");
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    const newConnection = new signalR.HubConnectionBuilder()
-      .withUrl("http://localhost:5002/chatHub")
-      .configureLogging(signalR.LogLevel.Information)
-      .withAutomaticReconnect()
-      .build();
+    if (!connection || !isConnected) return;
 
-    setConnection(newConnection);
-  }, []);
-
-  useEffect(() => {
-    if (!connection) return;
-
-    let isMounted = true;
-
-    connection
-      .start()
-      .then(() => {
-        console.log("Conectado al hub de chat.");
-
-        connection.on("ReceiveMessage", (user, message) => {
-          if (!isMounted) return;
-          const newMessage = new Message(
-            user,
-            message,
-            user == userConected ? true : false
-          );
-
-          setMessagesList((prev = []) => [...prev, newMessage]);
-        });
-      })
-      .catch((err) => console.error("Error al conectar al hub:", err));
-
-    return () => {
-      isMounted = false;
-      connection.stop();
+    const handleMessage = (user, msg) => {
+      const newMessage = new Message(
+        user,
+        msg,
+        user === userConected ? true : false
+      );
+      setMessagesList((prev) => [...prev, newMessage]);
     };
-  }, [connection]);
+
+    connection.on("ReceiveMessage", handleMessage);
+    return () => {
+      connection.off("ReceiveMessage", handleMessage);
+    };
+  }, [connection, isConnected, userConected]);
 
   const sendMessage = async () => {
     if (connection && message.trim()) {

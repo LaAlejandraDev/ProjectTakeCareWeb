@@ -1,11 +1,22 @@
 import { HeartIcon } from "@heroicons/react/16/solid";
 import { NavLink, useNavigate } from "react-router-dom";
+import { AuthAPI } from "../api/auth.api";
 
 export default function LoginForm() {
   const navigation = useNavigate()
 
+  async function handleLogin() {
+    try {
+      const response = await AuthAPI.login({ username, password })
+      localStorage.setItem("token", res.data.token)
+      login()
+    } catch(error) {
+      console.error("Error al iniciar sesion", error)
+    }
+  }
+
   const login = () => {
-    navigation("/index")
+    navigation("/index/forum")
   }
   return (
     <>

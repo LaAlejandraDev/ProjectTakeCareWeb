@@ -28,7 +28,7 @@ export default function Menu() {
     setSelected(title);
     switch (title) {
       case "Inicio":
-        navigate("/index/forum/allpost");
+        navigate("/index/forum");
         break;
       case "Mensajes":
         navigate("/index/messages");
@@ -45,19 +45,24 @@ export default function Menu() {
   };
 
   return (
-    <ul className="menu bg-base-100 rounded shadow-sm gap-5 w-full">
+    <ul className="menu bg-base-100 rounded-xl shadow-sm gap-5 w-full">
       <h2 className="text-center pt-2 font-bold text-xl menu-title">
         TakeCare
       </h2>
       <li>
-        <a className="font-bold text-lg">Inicio</a>
+        <a className="font-bold text-lg">Foro</a>
         <ul>
           <MenuItem
-            title="Foro"
+            title="Inicio"
             section={selected}
             onSelect={handleSelect}
             icon={<QueueListIcon className="h-6 w-6" />}
           />
+        </ul>
+      </li>
+      <li>
+        <a className="font-bold text-lg">Mensajeria</a>
+        <ul>
           <MenuItem
             title="Mensajes"
             section={selected}

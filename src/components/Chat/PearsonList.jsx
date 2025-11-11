@@ -30,7 +30,7 @@ function ListItem({ name, avatar, lastMessage }) {
   const navigation = useNavigate()
   return (
     <>
-      <li className="rounded-none list-row border-bottom hover:bg-base-300 cursor-pointer transition items-center" onClick={() => navigation("/index/messages/chat")}>
+      <li className="list-row border-bottom hover:bg-base-300 cursor-pointer transition items-center" onClick={() => navigation("/index/messages/chat")}>
         <div>
           <Avatar name={name} isComment={true} />
         </div>
