@@ -1,16 +1,19 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import Menu from "./components/Menu";
 import { Navigate, Outlet } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
-import MyToast from "./components/Toast/ToastTest";
 
 function App() {
-  const notify = () => toast(<MyToast />)
+  const [messages, setMessages] = useState([])
 
   useEffect(() => {
-    notify()
-  }, [])
+    messages.map((item, index) => {
+      toast(item)
+    messages.reduce()
+    })
+  }, [messages])
+
   return (
     <>
       <Navigate to={"/index/forum"} />

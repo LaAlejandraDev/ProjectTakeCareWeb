@@ -1,12 +1,13 @@
 import * as signalR from "@microsoft/signalr";
 import { useEffect, useState } from "react";
 import MessageComponent from "../components/Chat/Message";
+import Avatar from "../components/Avatar";
 
 class Message {
   constructor(user = "", message = "", owner = true) {
     this.user = user;
     this.message = message;
-    this.owner = owner
+    this.owner = owner;
   }
 }
 
@@ -38,7 +39,11 @@ export default function Chat() {
 
         connection.on("ReceiveMessage", (user, message) => {
           if (!isMounted) return;
-          const newMessage = new Message(user, message, user == userConected ? true : false);
+          const newMessage = new Message(
+            user,
+            message,
+            user == userConected ? true : false
+          );
 
           setMessagesList((prev = []) => [...prev, newMessage]);
         });
@@ -63,27 +68,30 @@ export default function Chat() {
   };
 
   return (
-    <div className="w-full h-full flex flex-col items-center">
-      <div className="w-1/2 flex-1 overflow-y-auto bg-base-100 shadow-md rounded p-4 space-y-2">
+    <div className="w-full h-full flex flex-col items-center shadow-lg">
+      <div className="w-full p-4 bg-base-300 shadow-lg">
+        <div className="w-full flex items-center gap-x-2">
+          <Avatar name="J" isComment={true} />
+          <p>Juan Pablo</p>
+        </div>
+      </div>
+      <div className="w-full flex-1 overflow-y-auto bg-base-100 shadow-md p-4 space-y-2">
         {Array.isArray(messagesList) && messagesList.length > 0 ? (
           messagesList.map((item, index) => (
-            <MessageComponent key={index} message={item.message} owner={item.owner} user={item.user} />
+            <MessageComponent
+              key={index}
+              message={item.message}
+              owner={item.owner}
+              user={item.user}
+            />
           ))
         ) : (
-          <p className="text-gray-400 italic text-center">
+          <p className="text-gray-500 text-2xl italic text-center">
             No hay mensajes aún...
           </p>
         )}
       </div>
-
-      <div className="w-1/2 flex mt-4 gap-2">
-        <input
-          type="text"
-          placeholder="Tu nombre"
-          value={userConected}
-          onChange={(e) => setUser(e.target.value)}
-          className="input flex-1"
-        />
+      <div className="w-full flex gap-2 bg-base-100 p-2">
         <input
           type="text"
           placeholder="Escribe un mensaje..."
@@ -91,10 +99,7 @@ export default function Chat() {
           onChange={(e) => setMessage(e.target.value)}
           className="input flex-1"
         />
-        <button
-          onClick={sendMessage}
-          className="btn btn-primary"
-        >
+        <button onClick={sendMessage} className="btn btn-primary">
           Enviar Mensaje
         </button>
       </div>

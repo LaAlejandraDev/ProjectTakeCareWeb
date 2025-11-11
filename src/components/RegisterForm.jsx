@@ -1,7 +1,12 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { HeartIcon } from "@heroicons/react/16/solid";
 
 export default function RegisterForm() {
+  const navigation = useNavigate()
+
+  const nextPage = () => {
+    navigation("/subscriptions")
+  }
   return (
     <>
       <div className="card card-xl card-border bg-base-100 shadow-sm w-full md:w-1/3">
@@ -34,7 +39,7 @@ export default function RegisterForm() {
             />
           </fieldset>
           <div classname="card-actions py-4">
-            <button className="btn btn-secondary w-full">Crear Cuenta</button>
+            <button className="btn btn-secondary w-full" onClick={() => nextPage()}>Crear Cuenta</button>
             <p className="text-sm text-gray-500 mt-2">
               ¿Ya tienes cuenta?{" "}
               <NavLink to="/" className="link">

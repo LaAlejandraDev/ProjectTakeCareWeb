@@ -6,9 +6,9 @@ import { Contacts } from "../../data/Contacts";
 export default function PearsonList() {
   return (
     <>
-      <ul className="list rounded shadow-md">
+      <ul className="list rounded shadow-md bg-base-100">
         <li className="p-4 pb-2 text-xs opacity-60 tracking-wide">
-          Lista de mensajes
+          Lista de pacientes
         </li>
         {
           Contacts.map((item, index) => {
@@ -30,7 +30,7 @@ function ListItem({ name, avatar, lastMessage }) {
   const navigation = useNavigate()
   return (
     <>
-      <li className="rounded-none list-row border-bottom hover:bg-base-300 cursor-pointer transition" onClick={() => navigation("/index/messages/chat")}>
+      <li className="rounded-none list-row border-bottom hover:bg-base-300 cursor-pointer transition items-center" onClick={() => navigation("/index/messages/chat")}>
         <div>
           <Avatar name={name} isComment={true} />
         </div>

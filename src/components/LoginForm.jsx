@@ -1,10 +1,11 @@
 import { HeartIcon } from "@heroicons/react/16/solid";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 export default function LoginForm() {
+  const navigation = useNavigate()
 
   const login = () => {
-    window.location.href = '/index';
+    navigation("/index")
   }
   return (
     <>
