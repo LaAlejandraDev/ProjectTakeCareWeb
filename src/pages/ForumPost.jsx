@@ -7,18 +7,20 @@ export default function ForumPost() {
   const post = samplePosts.find((p) => p.id === parseInt(postId));
   return (
     <>
-      <Post
-        id={post.id}
-        avatar={post.avatar}
-        title={post.title}
-        author={post.author}
-        date={post.date}
-        userRole={post.userRole}
-        content={post.content}
-        likes={post.likes}
-        comments={post.comments}
-        expanded={true}
-      />
+      <div className="animate__animated">
+        <Post
+          id={post.id}
+          avatar={post.avatar}
+          title={post.title}
+          author={post.author}
+          date={post.date}
+          userRole={post.userRole}
+          content={post.content}
+          likes={post.likes}
+          comments={post.comments}
+          expanded={true}
+        />
+      </div>
     </>
   );
 }

@@ -57,7 +57,7 @@ export default function Post({
           <h2 className="card-badgeTitle text-2xl font-bold text-indigo-950">
             {title.toUpperCase()}
           </h2>
-          <div className="my-2 flex gap-2">
+          <div className="my-2 flex gap-2 p-2 rounded shadow-sm items-center">
             <Avatar name={author} url={avatar} />
             <div>
               <p className="font-bold">{author}</p>

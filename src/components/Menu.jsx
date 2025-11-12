@@ -1,22 +1,34 @@
 import {
   HomeIcon,
   ChatBubbleBottomCenterIcon,
-  BookmarkIcon,
   UserCircleIcon,
-  BookOpenIcon,
-  ChartBarIcon,
+  QueueListIcon,
 } from "@heroicons/react/24/solid";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 export default function Menu() {
   const [selected, setSelected] = useState("Inicio");
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
-    switch (selected) {
+    if (location.pathname.includes("/index/forum")) {
+      setSelected("Inicio");
+    } else if (location.pathname.includes("/index/messages")) {
+      setSelected("Mensajes");
+    } else if (location.pathname.includes("/index/diary")) {
+      setSelected("Mi Diario");
+    } else if (location.pathname.includes("/index/profile")) {
+      setSelected("Perfil");
+    }
+  }, [location.pathname]);
+
+  const handleSelect = (title) => {
+    setSelected(title);
+    switch (title) {
       case "Inicio":
-        navigate("/index/forum/allpost");
+        navigate("/index/forum");
         break;
       case "Mensajes":
         navigate("/index/messages");
@@ -27,72 +39,64 @@ export default function Menu() {
       case "Perfil":
         navigate("/index/profile");
         break;
-      case "Leer Mensajes":
-        navigate("/index/read_Messages");
+      default:
         break;
-      case "Dashboard":
-        navigate("/index/Dashboard");
-        break;
-      case "Expedientes":
-        navigate("/index/Expediente");
     }
-  }, [selected]);
+  };
 
   return (
-    <>
-      <ul className="menu bg-base-100 rounded-box shadow-sm gap-5">
-        <MenuItem
-          title={"Dashboard"}
-          section={selected}
-          setSection={setSelected}
-        >
-          <ChartBarIcon className="h-6 w-6" />
-        </MenuItem>
-        <MenuItem title={"Inicio"} section={selected} setSection={setSelected}>
-          <HomeIcon className="h-6 w-6" />
-        </MenuItem>
-        <MenuItem
-          title={"Mensajes"}
-          section={selected}
-          setSection={setSelected}
-        >
-          <ChatBubbleBottomCenterIcon className="h-6 w-6" />
-        </MenuItem>
-        <MenuItem
-          title={"Mi Diario"}
-          section={selected}
-          setSection={setSelected}
-        >
-          <BookmarkIcon className="h-6 w-6" />
-        </MenuItem>
-
-        <MenuItem
-          title={"Expedientes"}
-          section={selected}
-          setSection={setSelected}
-        >
-          <BookOpenIcon className="h-6 w-6" />
-        </MenuItem>
-
-        <MenuItem title={"Perfil"} section={selected} setSection={setSelected}>
-          <UserCircleIcon className="h-6 w-6" />
-        </MenuItem>
-      </ul>
-    </>
+    <ul className="menu bg-base-100 rounded-xl shadow-sm gap-5 w-full">
+      <h2 className="text-center pt-2 font-bold text-xl menu-title">
+        TakeCare
+      </h2>
+      <li>
+        <a className="font-bold text-lg">Foro</a>
+        <ul>
+          <MenuItem
+            title="Inicio"
+            section={selected}
+            onSelect={handleSelect}
+            icon={<QueueListIcon className="h-6 w-6" />}
+          />
+        </ul>
+      </li>
+      <li>
+        <a className="font-bold text-lg">Mensajeria</a>
+        <ul>
+          <MenuItem
+            title="Mensajes"
+            section={selected}
+            onSelect={handleSelect}
+            icon={<ChatBubbleBottomCenterIcon className="h-6 w-6" />}
+          />{" "}
+        </ul>
+      </li>
+      <li>
+        <a className="font-bold text-lg">Personal</a>
+        <ul>
+          <MenuItem
+            title="Perfil"
+            section={selected}
+            onSelect={handleSelect}
+            icon={<UserCircleIcon className="h-6 w-6" />}
+          />
+        </ul>
+      </li>
+    </ul>
   );
 }
 
-function MenuItem({ title, section, setSection, children }) {
+function MenuItem({ title, section, onSelect, icon }) {
+  const isActive = title === section;
   return (
-    <li onClick={() => setSection(title)}>
+    <li onClick={() => onSelect(title)} className="my-2">
       <a
-        className={
-          "tooltip tooltip-right text-base-800 py-2 text-md " +
-          (title == section ? "bg-secondary text-white" : null)
-        }
+        className={`tooltip tooltip-right text-base-800 rounded-box py-2 ${
+          isActive ? "bg-secondary text-white" : ""
+        }`}
         data-tip={title}
       >
-        {children}
+        {icon}
         {title}
       </a>
     </li>

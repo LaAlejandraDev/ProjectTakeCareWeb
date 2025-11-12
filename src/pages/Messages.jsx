@@ -1,19 +1,15 @@
-import { Outlet, useNavigate, useNavigation } from "react-router-dom";
-import PearsonList from "../components/Chat/PearsonList";
-import { useEffect } from "react";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
 
 export default function Messages() {
-  const navigate = useNavigate();
+  const location = useLocation();
 
-  useEffect(() => {
-    navigate("index/messages/list");
-  }, []);
+  if (location.pathname === "/index/messages") {
+    return <Navigate to="list" replace />;
+  }
 
   return (
-    <>
-      <div className="w-full h-full">
-        <Outlet />
-      </div>
-    </>
+    <div className="w-full h-full">
+      <Outlet />
+    </div>
   );
 }

@@ -7,8 +7,8 @@ import {
   createBrowserRouter,
   Navigate,
   RouterProvider,
-  useNavigate,
 } from "react-router-dom";
+
 import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
 import Forum from "./pages/Forum.jsx";
@@ -18,87 +18,57 @@ import Messages from "./pages/Messages.jsx";
 import CreatePost from "./pages/ForumCreatePost.jsx";
 import Chat from "./pages/Chat.jsx";
 import PearsonList from "./components/Chat/PearsonList.jsx";
-import Diary from "./pages/Diary.jsx";
-import EditProfile from "./pages/EditProfile.jsx";
-import Dashboard from "./pages/Dashboard.jsx";
-import Expediente from "./pages/Expediente.jsx";
-import Sesiones from "./pages/Sesiones.jsx";
+import SubscriptionsPage from "./pages/Subscriptions.jsx";
+import { SignalProvider } from "./context/SignalContext.jsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    Component: () => <Navigate to="/login" />,
+    element: <Navigate to="/login" replace />,
   },
   {
     path: "/login",
-    Component: Login,
+    element: <Login />,
   },
   {
     path: "/register",
-    Component: Register,
+    element: <Register />,
+  },
+  {
+    path: "/subscriptions",
+    element: <SubscriptionsPage />,
   },
   {
     path: "/index",
-    Component: App,
+    element: <App />,
     children: [
       {
-        path: "/index/forum",
-        Component: Forum,
+        path: "forum",
+        element: <Forum />,
         children: [
-          {
-            path: "/index/forum/allpost",
-            Component: ForumAllPosts,
-          },
-          {
-            path: "/index/forum/post/:postId",
-            Component: ForumPost,
-          },
-          {
-            path: "/index/forum/post/create",
-            Component: CreatePost,
-          },
+          { path: "allpost", element: <ForumAllPosts /> },
+          { path: "post/:postId", element: <ForumPost /> },
+          { path: "post/create", element: <CreatePost /> },
         ],
       },
       {
-        path: "/index/messages",
-        Component: Messages,
+        path: "messages",
+        element: <Messages />,
         children: [
-          {
-            path: "index/messages/list",
-            Component: PearsonList,
-          },
-          {
-            path: "/index/messages/chat",
-            Component: Chat,
-          },
+          { path: "list", element: <PearsonList /> },
+          { path: "chat", element: <Chat /> },
         ],
       },
-      {
-        path: "/index/expediente",
-        Component: Expediente,
-      },
-      {
-        path: "/index/sesiones/:id",
-        Component: Sesiones,
-      },
-      {
-        path: "/index/diary",
-        Component: Diary,
-      },
-      {
-        path: "/index/profile",
-        Component: EditProfile,
-      },
-      {
-        path: "/index/Dashboard",
-        Component: Dashboard,
-      },
+      { path: "diary", element: <h1>Diario</h1> },
+      { path: "profile", element: <h1>Perfil</h1> },
     ],
   },
 ]);
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <SignalProvider>
+      <RouterProvider router={router} />
+    </SignalProvider>
   </StrictMode>
 );
