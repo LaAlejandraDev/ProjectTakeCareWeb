@@ -1,22 +1,45 @@
-import { samplePosts } from "../data/Post";
+import { useEffect, useState } from "react";
+import { ForumAPI } from "../api/forum.api";
+import { PostModel } from "../classes/Post";
 import Post from "../components/Forum/Post";
 
 export default function ForumAllPosts() {
+  const [allPost, setAllPost] = useState([]);
+
+  async function getAllpost() {
+    try {
+      const response = await ForumAPI.getAllPost();
+      if (response.status === 200) {
+        const postInstances = response.data.map(
+          (postData) => new PostModel(postData)
+        );
+        console.log(postInstances)
+        setAllPost(postInstances);
+      }
+    } catch (error) {
+      console.error("Error obteniendo posts:", error);
+    }
+  }
+
+  useEffect(() => {
+    getAllpost();
+  }, []);
+
   return (
     <>
-      {samplePosts.map((post, index) => (
+      {allPost.map((post, index) => (
         <Post
-          key={index}
+          key={post.id || index}
           id={post.id}
-          title={post.title}
-          author={post.author}
-          avatar={post.avatar}
-          date={post.date}
-          userRole={post.userRole}
-          content={post.content}
-          likes={post.likes}
-          postType={post.postType}
-          comments={post.comments}
+          title={post.titulo}
+          author={`${post.usuario?.nombre || "Anónimo"} ${post.usuario?.apellidoPaterno || ""}`}
+          avatar={post.usuario?.avatar}
+          date={post.fecha.toLocaleDateString()}
+          userRole={post.usuario?.rol}
+          content={post.contenido}
+          likes={post.likesCount}
+          postType={post.tipo}
+          comments={post.commentCount}
         />
       ))}
     </>

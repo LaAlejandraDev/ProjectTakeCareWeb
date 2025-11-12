@@ -1,7 +1,8 @@
 import axiosClient from "./axiosClient";
 
 export const ChatAPI = {
-  getConversations: () => axiosClient.get("/chat"),
-  getMessages: (chatId) => axiosClient.get(`/chat/${chatId}`),
-  sendMessage: (chatId, data) => axiosClient.post(`/chat/${chatId}`, data)
+  getChatMessages: (chatId) => axiosClient.get(`/ChatMensajes/chat/${chatId}`),
+  sendMessage: (data) => axiosClient.post(`/Chats`, data),
+  getChatList: (idPsicologo) => axiosClient.get("/Chats/lista", { params: { "idPsicologo": idPsicologo }}),
+  getChatInfo: (chatId) => axiosClient.get(`/Chats/chatinfo/${chatId}`)
 }

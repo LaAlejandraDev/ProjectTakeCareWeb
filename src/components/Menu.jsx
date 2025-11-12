@@ -166,7 +166,7 @@ function MenuItem({ title, section, onSelect, icon }) {
     <li onClick={() => onSelect(title)} className="my-2">
       <a
         className={`tooltip tooltip-right text-base-800 rounded-box py-2 ${
-          isActive ? "bg-secondary text-white" : ""
+          isActive ? "bg-primary text-white" : ""
         }`}
         data-tip={title}
       >
