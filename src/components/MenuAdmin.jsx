@@ -12,7 +12,6 @@ export default function MenuAdmin() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Detecta selección según la URL
   useEffect(() => {
     if (location.pathname.includes("/admin/dashboard")) {
       setSelected("Dashboard");
@@ -25,7 +24,6 @@ export default function MenuAdmin() {
     }
   }, [location.pathname]);
 
-  // Navegación al seleccionar
   const handleSelect = (title) => {
     setSelected(title);
     switch (title) {
