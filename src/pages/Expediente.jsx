@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 
 const Expediente = () => {
   const navigate = useNavigate();
@@ -54,11 +54,14 @@ const Expediente = () => {
   ]);
 
   const handleClick = (entry) => {
-    navigate(`/index/sesiones/${entry.id}`, { state: { paciente: entry } });
+    navigate(`/index/session/${entry.id}`, {
+      state: { paciente: entry },
+    });
   };
 
   return (
     <div className="flex w-full min-h-screen bg-base-200">
+      <Outlet />
       <main className="flex-1 p-6 flex flex-col gap-7">
         <h1 className="text-3xl font-bold text-black">Expedientes</h1>
         <input

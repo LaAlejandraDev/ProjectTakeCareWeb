@@ -20,6 +20,11 @@ import SubscriptionsPage from "./pages/Subscriptions.jsx";
 import { SignalProvider } from "./context/SignalContext.jsx";
 import Login from "./pages/Auth/Login.jsx";
 import Register from "./pages/Auth/Register.jsx";
+import Expediente from "./pages/Expediente.jsx";
+import Sesiones from "./pages/Sesiones.jsx";
+import Dashboard from "./pages/Dashboard.jsx";
+import Diary from "./pages/Diary.jsx";
+import EditProfile from "./pages/EditProfile.jsx";
 
 const router = createBrowserRouter([
   {
@@ -59,8 +64,18 @@ const router = createBrowserRouter([
           { path: "chat", element: <Chat /> },
         ],
       },
-      { path: "diary", element: <h1>Diario</h1> },
-      { path: "profile", element: <h1>Perfil</h1> },
+      { path: "diary", element: <Diary /> },
+      { path: "profile", element: <EditProfile /> },
+
+      {
+        path: "record",
+        element: <Expediente />,
+      },
+      {
+        path: "session/:id",
+        element: <Sesiones />,
+      },
+      { path: "dashboard", element: <Dashboard /> },
     ],
   },
 ]);

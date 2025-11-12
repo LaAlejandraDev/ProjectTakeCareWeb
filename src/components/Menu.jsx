@@ -1,3 +1,4 @@
+import { BookOpenIcon } from "@heroicons/react/16/solid";
 import {
   ChatBubbleBottomCenterIcon,
   UserCircleIcon,
@@ -40,16 +41,26 @@ export default function Menu() {
       case "Perfil":
         navigate("/index/profile");
         break;
+      case "Expediente":
+        navigate("/index/record");
+        break;
+      case "Dashboard":
+        navigate("/index/dashboard");
+        break;
+      case "Diario":
+        navigate("/index/diary");
+        break;
       default:
         break;
     }
   };
 
   return (
-    <ul className="menu bg-base-100 rounded-xl shadow-sm gap-5 w-full">
-      <h2 className="text-center pt-2 font-bold text-xl menu-title">
-        TakeCare
-      </h2>
+    <ul className="menu bg-base-100 rounded-xl shadow-sm w-full h-full">
+      <div className="w-full flex flex-col items-center justify-center">
+        <img className="h-19 w-19" src="/logoNB.png" />
+      </div>
+
       <li>
         <a className="font-bold text-lg">Dashboard</a>
         <ul>
@@ -58,6 +69,14 @@ export default function Menu() {
             section={selected}
             onSelect={handleSelect}
             icon={<ChartBarIcon className="h-6 w-6" />}
+          />
+        </ul>
+        <ul>
+          <MenuItem
+            title="Diario"
+            section={selected}
+            onSelect={handleSelect}
+            icon={<BookOpenIcon className="h-6 w-6" />}
           />
         </ul>
         <ul>
@@ -80,6 +99,7 @@ export default function Menu() {
           />
         </ul>
       </li>
+
       <li>
         <a className="font-bold text-lg">Mensajeria</a>
         <ul>
