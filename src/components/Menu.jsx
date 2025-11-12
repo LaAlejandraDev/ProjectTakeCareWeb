@@ -3,6 +3,8 @@ import {
   ChatBubbleBottomCenterIcon,
   BookmarkIcon,
   UserCircleIcon,
+  BookOpenIcon,
+  ChartBarIcon,
 } from "@heroicons/react/24/solid";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -28,12 +30,24 @@ export default function Menu() {
       case "Leer Mensajes":
         navigate("/index/read_Messages");
         break;
+      case "Dashboard":
+        navigate("/index/Dashboard");
+        break;
+      case "Expedientes":
+        navigate("/index/Expediente");
     }
   }, [selected]);
 
   return (
     <>
       <ul className="menu bg-base-100 rounded-box shadow-sm gap-5">
+        <MenuItem
+          title={"Dashboard"}
+          section={selected}
+          setSection={setSelected}
+        >
+          <ChartBarIcon className="h-6 w-6" />
+        </MenuItem>
         <MenuItem title={"Inicio"} section={selected} setSection={setSelected}>
           <HomeIcon className="h-6 w-6" />
         </MenuItem>
@@ -51,6 +65,15 @@ export default function Menu() {
         >
           <BookmarkIcon className="h-6 w-6" />
         </MenuItem>
+
+        <MenuItem
+          title={"Expedientes"}
+          section={selected}
+          setSection={setSelected}
+        >
+          <BookOpenIcon className="h-6 w-6" />
+        </MenuItem>
+
         <MenuItem title={"Perfil"} section={selected} setSection={setSelected}>
           <UserCircleIcon className="h-6 w-6" />
         </MenuItem>

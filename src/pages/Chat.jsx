@@ -6,7 +6,7 @@ class Message {
   constructor(user = "", message = "", owner = true) {
     this.user = user;
     this.message = message;
-    this.owner = owner
+    this.owner = owner;
   }
 }
 
@@ -18,7 +18,7 @@ export default function Chat() {
 
   useEffect(() => {
     const newConnection = new signalR.HubConnectionBuilder()
-      .withUrl("http://localhost:5002/chatHub")
+      .withUrl("http://172.28.43.177:5002/chatHub")
       .configureLogging(signalR.LogLevel.Information)
       .withAutomaticReconnect()
       .build();
@@ -38,7 +38,11 @@ export default function Chat() {
 
         connection.on("ReceiveMessage", (user, message) => {
           if (!isMounted) return;
-          const newMessage = new Message(user, message, user == userConected ? true : false);
+          const newMessage = new Message(
+            user,
+            message,
+            user == userConected ? true : false
+          );
 
           setMessagesList((prev = []) => [...prev, newMessage]);
         });
@@ -67,7 +71,12 @@ export default function Chat() {
       <div className="w-1/2 flex-1 overflow-y-auto bg-base-100 shadow-md rounded p-4 space-y-2">
         {Array.isArray(messagesList) && messagesList.length > 0 ? (
           messagesList.map((item, index) => (
-            <MessageComponent key={index} message={item.message} owner={item.owner} user={item.user} />
+            <MessageComponent
+              key={index}
+              message={item.message}
+              owner={item.owner}
+              user={item.user}
+            />
           ))
         ) : (
           <p className="text-gray-400 italic text-center">
@@ -91,10 +100,7 @@ export default function Chat() {
           onChange={(e) => setMessage(e.target.value)}
           className="input flex-1"
         />
-        <button
-          onClick={sendMessage}
-          className="btn btn-primary"
-        >
+        <button onClick={sendMessage} className="btn btn-primary">
           Enviar Mensaje
         </button>
       </div>

@@ -1,31 +1,41 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.jsx'
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import "./index.css";
+import App from "./App.jsx";
 
-import { createBrowserRouter, Navigate, RouterProvider, useNavigate } from "react-router-dom";
-import Login from './pages/Login.jsx';
-import Register from './pages/Register.jsx';
-import Forum from './pages/Forum.jsx';
-import ForumPost from './pages/ForumPost.jsx';
-import ForumAllPosts from './pages/ForumAllPosts.jsx';
-import Messages from './pages/Messages.jsx';
-import CreatePost from './pages/ForumCreatePost.jsx';
-import Chat from './pages/Chat.jsx';
-import PearsonList from './components/Chat/PearsonList.jsx';
+import {
+  createBrowserRouter,
+  Navigate,
+  RouterProvider,
+  useNavigate,
+} from "react-router-dom";
+import Login from "./pages/Login.jsx";
+import Register from "./pages/Register.jsx";
+import Forum from "./pages/Forum.jsx";
+import ForumPost from "./pages/ForumPost.jsx";
+import ForumAllPosts from "./pages/ForumAllPosts.jsx";
+import Messages from "./pages/Messages.jsx";
+import CreatePost from "./pages/ForumCreatePost.jsx";
+import Chat from "./pages/Chat.jsx";
+import PearsonList from "./components/Chat/PearsonList.jsx";
+import Diary from "./pages/Diary.jsx";
+import EditProfile from "./pages/EditProfile.jsx";
+import Dashboard from "./pages/Dashboard.jsx";
+import Expediente from "./pages/Expediente.jsx";
+import Sesiones from "./pages/Sesiones.jsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    Component: () => <Navigate to="/login" />
+    Component: () => <Navigate to="/login" />,
   },
   {
     path: "/login",
-    Component: Login
+    Component: Login,
   },
   {
     path: "/register",
-    Component: Register
+    Component: Register,
   },
   {
     path: "/index",
@@ -37,17 +47,17 @@ const router = createBrowserRouter([
         children: [
           {
             path: "/index/forum/allpost",
-            Component: ForumAllPosts
+            Component: ForumAllPosts,
           },
           {
             path: "/index/forum/post/:postId",
-            Component: ForumPost
+            Component: ForumPost,
           },
           {
             path: "/index/forum/post/create",
-            Component: CreatePost
-          }
-        ]
+            Component: CreatePost,
+          },
+        ],
       },
       {
         path: "/index/messages",
@@ -59,24 +69,36 @@ const router = createBrowserRouter([
           },
           {
             path: "/index/messages/chat",
-            Component: Chat
-          }
-        ]
+            Component: Chat,
+          },
+        ],
+      },
+      {
+        path: "/index/expediente",
+        Component: Expediente,
+      },
+      {
+        path: "/index/sesiones/:id",
+        Component: Sesiones,
       },
       {
         path: "/index/diary",
-        Component: () => <h1>Diario</h1>
+        Component: Diary,
       },
       {
         path: "/index/profile",
-        Component: () => <h1>Perfil</h1>
-      }
-    ]
-  }
-])
+        Component: EditProfile,
+      },
+      {
+        path: "/index/Dashboard",
+        Component: Dashboard,
+      },
+    ],
+  },
+]);
 
-createRoot(document.getElementById('root')).render(
+createRoot(document.getElementById("root")).render(
   <StrictMode>
     <RouterProvider router={router} />
-  </StrictMode>,
-)
+  </StrictMode>
+);
