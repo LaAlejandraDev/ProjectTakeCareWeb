@@ -24,10 +24,6 @@ export default function RegisterForm() {
       toast.error("Ocurrió un error inesperado. Intenta nuevamente más tarde.");
     }
   }
-
-  /* const nextPage = () => {
-    navigation("/subscriptions");
-  }; */
   return (
     <>
       <div className="card card-xl card-border bg-base-100 shadow-sm w-full md:w-1/3">
