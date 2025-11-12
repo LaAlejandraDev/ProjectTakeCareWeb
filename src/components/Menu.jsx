@@ -1,8 +1,9 @@
 import {
-  HomeIcon,
   ChatBubbleBottomCenterIcon,
   UserCircleIcon,
   QueueListIcon,
+  ChartBarIcon,
+  BookmarkSquareIcon,
 } from "@heroicons/react/24/solid";
 import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -49,6 +50,25 @@ export default function Menu() {
       <h2 className="text-center pt-2 font-bold text-xl menu-title">
         TakeCare
       </h2>
+      <li>
+        <a className="font-bold text-lg">Dashboard</a>
+        <ul>
+          <MenuItem
+            title="Dashboard"
+            section={selected}
+            onSelect={handleSelect}
+            icon={<ChartBarIcon className="h-6 w-6" />}
+          />
+        </ul>
+        <ul>
+          <MenuItem
+            title="Expediente"
+            section={selected}
+            onSelect={handleSelect}
+            icon={<BookmarkSquareIcon className="h-6 w-6" />}
+          />
+        </ul>
+      </li>
       <li>
         <a className="font-bold text-lg">Foro</a>
         <ul>
