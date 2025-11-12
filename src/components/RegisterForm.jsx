@@ -1,14 +1,29 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import { HeartIcon } from "@heroicons/react/16/solid";
 import { useState } from "react";
-import axios from "axios";
+import { AuthAPI } from "../api/auth.api";
+import { toast } from "react-toastify";
 
 export default function RegisterForm() {
   const navigation = useNavigate();
+  const [nombre, setNombre] = useState("");
+  const [email, setEmail] = useState("");
+  const [contrasena, setContrasena] = useState("");
 
-  const nextPage = () => {
-    navigation("/subscriptions");
-  };
+  async function handleRegister() {
+    try {
+      const response = await AuthAPI.register({
+        nombre: nombre,
+        correo: email,
+        contrasena: contrasena,
+      });
+      toast.success("Cuenta creada");
+      navigation("/subscriptions");
+      console.log(response);
+    } catch (error) {
+      toast.error("Ocurrió un error inesperado. Intenta nuevamente más tarde.");
+    }
+  }
   return (
     <>
       <div className="card card-xl card-border bg-base-100 shadow-sm w-full md:w-1/3">
@@ -22,6 +37,8 @@ export default function RegisterForm() {
               type="text"
               className="input w-full"
               placeholder="Ingresa tu nombre"
+              value={nombre}
+              onChange={(e) => setNombre(e.target.value)}
             />
           </fieldset>
           <fieldset className="fieldset">
@@ -30,6 +47,8 @@ export default function RegisterForm() {
               type="email"
               className="input w-full"
               placeholder="Ingresa tu correo"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </fieldset>
           <fieldset className="fieldset">
@@ -38,12 +57,14 @@ export default function RegisterForm() {
               type="password"
               className="input w-full"
               placeholder="Ingresa tu clave"
+              value={contrasena}
+              onChange={(e) => setContrasena(e.target.value)}
             />
           </fieldset>
           <div classname="card-actions py-4">
             <button
               className="btn btn-secondary w-full"
-              onClick={() => nextPage()}
+              onClick={() => handleRegister()}
             >
               Crear Cuenta
             </button>

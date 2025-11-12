@@ -22,6 +22,7 @@ export default function LoginForm() {
       if (response.status === 200) {
         toast.success("Inicio de sesión exitoso. ¡Bienvenido de nuevo!");
         localStorage.setItem("token", response.data.token);
+        localStorage.setItem("rol", response.data.usuario.rol);
         setTimeout(() => {
           navigation("/index/forum");
         }, 1500);
