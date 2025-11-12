@@ -56,7 +56,7 @@ const router = createBrowserRouter([
         element: <Messages />,
         children: [
           { path: "list", element: <PearsonList /> },
-          { path: "chat", element: <Chat /> },
+          { path: "chat/:id", element: <Chat /> },
         ],
       },
       { path: "diary", element: <h1>Diario</h1> },
