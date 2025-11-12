@@ -5,27 +5,30 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 
 export default function LoginForm() {
-  const [email, setEmail] = useState("")
-  const [password, setUserPassword] = useState("")
-  const navigation = useNavigate()
+  const [email, setEmail] = useState("");
+  const [password, setUserPassword] = useState("");
+  const navigation = useNavigate();
 
   async function handleLogin() {
     try {
       const response = await AuthAPI.login({
         correo: email,
-        contrasena: password
-      })
+        contrasena: password,
+      });
 
-      console.log(response)
+      console.log(response);
 
       if (response.status === 200) {
         toast.success("Inicio de sesión exitoso. ¡Bienvenido de nuevo!");
-        localStorage.setItem("token", response.data.token)
+        localStorage.setItem("token", response.data.token);
+        localStorage.setItem("rol", response.data.usuario.rol);
         setTimeout(() => {
           navigation("/index/forum");
-        }, 1500)
+        }, 1500);
       } else {
-        toast.error("Correo o contraseña incorrectos. Verifica tus datos e inténtalo de nuevo.");
+        toast.error(
+          "Correo o contraseña incorrectos. Verifica tus datos e inténtalo de nuevo."
+        );
       }
     } catch (error) {
       toast.error("Ocurrió un error inesperado. Intenta nuevamente más tarde.");
@@ -40,14 +43,31 @@ export default function LoginForm() {
           </h2>
           <fieldset className="fieldset">
             <legend className="fieldset-legend">Ingresa tu correo</legend>
-            <input type="text" className="input w-full" placeholder="correo@ejemplo.com" value={email} onChange={(e) => setEmail(e.target.value)} />
+            <input
+              type="text"
+              className="input w-full"
+              placeholder="correo@ejemplo.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
           </fieldset>
           <fieldset className="fieldset">
             <legend className="fieldset-legend">Ingresa tu clave</legend>
-            <input type="text" className="input w-full" placeholder="Ingresa la clave" value={password} onChange={(e) => setUserPassword(e.target.value)} />
+            <input
+              type="text"
+              className="input w-full"
+              placeholder="Ingresa la clave"
+              value={password}
+              onChange={(e) => setUserPassword(e.target.value)}
+            />
           </fieldset>
           <div classname="card-actions">
-            <button className="btn btn-primary w-full" onClick={() => handleLogin()}>Iniciar Sesion</button>
+            <button
+              className="btn btn-primary w-full"
+              onClick={() => handleLogin()}
+            >
+              Iniciar Sesion
+            </button>
             <p className="text-sm text-gray-500 mt-2">
               ¿No tienes cuenta?{" "}
               <NavLink to="/register" className="link">
