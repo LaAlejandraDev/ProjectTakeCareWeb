@@ -13,7 +13,6 @@ export default function ForumAllPosts() {
         const postInstances = response.data.map(
           (postData) => new PostModel(postData)
         );
-        console.log(postInstances)
         setAllPost(postInstances);
       }
     } catch (error) {

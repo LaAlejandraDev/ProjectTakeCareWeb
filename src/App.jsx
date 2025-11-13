@@ -5,6 +5,7 @@ import { Navigate, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useSignalR } from "./context/SignalContext";
+import ToastMessage from "./components/Toast/ToastTest";
 
 function App() {
   const { connection, isConnected } = useSignalR();
@@ -22,25 +23,23 @@ function App() {
   }, [navigate]);
 
   useEffect(() => {
-    if (!connection || isConnected) return;
+    if (!connection) return;
 
-    const handleMessage = (user, message) => {
+    console.log("Listo para recibir mensajes")
+
+    const handleMessage = (message) => {
+      console.log(message)
       const msgId = Date.now();
       if (lastMessageId.current === msgId) return;
       lastMessageId.current = msgId;
 
-      if (!location.pathname.includes("/mensajes")) {
-        toast.info(`${user}: ${message}`, {
-          position: "bottom-right",
-          autoClose: 3000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
+      console.log(location.pathname.includes("/messages/chat"))
+
+      if (!location.pathname.includes("/messages/chat")) {
+        toast(<ToastMessage message={message} toastProps={{  }}/>)
       }
     };
+
     connection.on("ReceiveMessage", handleMessage);
 
     return () => {
