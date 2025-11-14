@@ -22,50 +22,53 @@ import Login from "./pages/Auth/Login.jsx";
 import Register from "./pages/Auth/Register.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
 import NotFoundPage from "./pages/NotFound.jsx";
+import RoutesProtect from "./context/RoutesProtect.jsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Navigate to="/login" replace />,
-    errorElement: <NotFoundPage />
+    errorElement: <NotFoundPage />,
   },
+  { path: "/login", element: <Login /> },
+  { path: "/register", element: <Register /> },
+
+  { path: "/subscriptions", element: <SubscriptionsPage /> },
   {
-    path: "/login",
-    element: <Login />,
-  },
-  {
-    path: "/register",
-    element: <Register />,
-  },
-  {
-    path: "/subscriptions",
-    element: <SubscriptionsPage />,
-  },
-  {
-    path: "/index",
-    element: <App />,
+    element: <RoutesProtect />,
     children: [
       {
-        path: "forum",
-        element: <Forum />,
+        path: "/index",
+        element: <App />,
         children: [
-          { path: "allpost", element: <ForumAllPosts /> },
-          { path: "post/:postId", element: <ForumPost /> },
-          { path: "post/create", element: <CreatePost /> },
+          { index: true, element: <Navigate to="forum" replace /> },
+
+          {
+            path: "forum",
+            element: <Forum />,
+            children: [
+              { index: true, element: <ForumAllPosts /> },
+              { path: "allpost", element: <ForumAllPosts /> },
+              { path: "post/:postId", element: <ForumPost /> },
+              { path: "post/create", element: <CreatePost /> },
+            ],
+          },
+          {
+            path: "messages",
+            element: <Messages />,
+            children: [
+              { index: true, element: <PearsonList /> },
+              { path: "list", element: <PearsonList /> },
+              { path: "chat/:id", element: <Chat /> },
+            ],
+          },
+          { path: "diary", element: <h1>Diario</h1> },
+          { path: "profile", element: <h1>Perfil</h1> },
         ],
       },
-      {
-        path: "messages",
-        element: <Messages />,
-        children: [
-          { path: "list", element: <PearsonList /> },
-          { path: "chat/:id", element: <Chat /> },
-        ],
-      },
-      { path: "diary", element: <h1>Diario</h1> },
-      { path: "profile", element: <h1>Perfil</h1> },
     ],
   },
+  { path: "*", element: <NotFoundPage /> },
 ]);
 
 createRoot(document.getElementById("root")).render(
