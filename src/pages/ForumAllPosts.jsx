@@ -26,21 +26,25 @@ export default function ForumAllPosts() {
 
   return (
     <>
-      {allPost.map((post, index) => (
-        <Post
-          key={post.id || index}
-          id={post.id}
-          title={post.titulo}
-          author={`${post.usuario?.nombre || "Anónimo"} ${post.usuario?.apellidoPaterno || ""}`}
-          avatar={post.usuario?.avatar}
-          date={post.fecha.toLocaleDateString()}
-          userRole={post.usuario?.rol}
-          content={post.contenido}
-          likes={post.likesCount}
-          postType={post.tipo}
-          comments={post.commentCount}
-        />
-      ))}
+      <div className="w-full h-full bg-pink-500">
+        {allPost.map((post, index) => (
+          <Post
+            key={post.id || index}
+            id={post.id}
+            title={post.titulo}
+            author={`${post.usuario?.nombre || "Anónimo"} ${
+              post.usuario?.apellidoPaterno || ""
+            }`}
+            avatar={post.usuario?.avatar}
+            date={post.fecha.toLocaleDateString()}
+            userRole={post.usuario?.rol}
+            content={post.contenido}
+            likes={post.likesCount}
+            postType={post.tipo}
+            comments={post.commentCount}
+          />
+        ))}
+      </div>
     </>
   );
 }

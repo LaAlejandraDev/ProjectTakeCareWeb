@@ -5,10 +5,13 @@ import {
   ChartBarIcon,
   BookmarkSquareIcon,
 } from "@heroicons/react/24/solid";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
+import Avatar from "./Avatar";
 
 export default function Menu() {
+  const { user } = useContext(AuthContext);
   const [selected, setSelected] = useState("Inicio");
   const navigate = useNavigate();
   const location = useLocation();
@@ -50,6 +53,13 @@ export default function Menu() {
       <h2 className="text-center pt-2 font-bold text-xl menu-title">
         TakeCare
       </h2>
+      <div className="w-full flex justify-center">
+        {user != null ? (
+          <Avatar name={user.nombre} isComment={true} />
+        ) : (
+          <p>Cargando...</p>
+        )}
+      </div>
       <li>
         <a className="font-bold text-lg">Dashboard</a>
         <ul>
@@ -106,7 +116,7 @@ export default function Menu() {
   );
 }
 
-function MenuItem({ title, section, onSelect, icon }) {
+function MenuItem({ title, section, onSelect, icon, username = "" }) {
   const isActive = title === section;
   return (
     <li onClick={() => onSelect(title)} className="my-2">

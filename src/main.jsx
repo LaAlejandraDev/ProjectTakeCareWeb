@@ -20,11 +20,14 @@ import SubscriptionsPage from "./pages/Subscriptions.jsx";
 import { SignalProvider } from "./context/SignalContext.jsx";
 import Login from "./pages/Auth/Login.jsx";
 import Register from "./pages/Auth/Register.jsx";
+import { AuthProvider } from "./context/AuthContext.jsx";
+import NotFoundPage from "./pages/NotFound.jsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Navigate to="/login" replace />,
+    errorElement: <NotFoundPage />
   },
   {
     path: "/login",
@@ -67,8 +70,10 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <SignalProvider>
-      <RouterProvider router={router} />
-    </SignalProvider>
+    <AuthProvider>
+      <SignalProvider>
+        <RouterProvider router={router} />
+      </SignalProvider>
+    </AuthProvider>
   </StrictMode>
 );
