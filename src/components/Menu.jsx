@@ -53,11 +53,16 @@ export default function Menu() {
       <h2 className="text-center pt-2 font-bold text-xl menu-title">
         TakeCare
       </h2>
-      <div className="w-full flex justify-center">
+      <div className="flex justify-center bg-base-200 p-1 rounded-box shadow-sm">
         {user != null ? (
-          <Avatar name={user.nombre} isComment={true} />
+          <div className="w-full flex items-center justify-between">
+            <Avatar name={user.nombre} isComment={true} />
+            <p className="font-bold mx-2">{user.nombre}</p>
+          </div>
         ) : (
-          <p>Cargando...</p>
+          <div className="w-full flex items-center justify-center">
+            <p className="font-bold mx-2">Cargando...</p>
+          </div>
         )}
       </div>
       <li>
