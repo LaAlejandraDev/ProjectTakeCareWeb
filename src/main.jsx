@@ -32,7 +32,6 @@ const router = createBrowserRouter([
   },
   { path: "/login", element: <Login /> },
   { path: "/register", element: <Register /> },
-
   { path: "/subscriptions", element: <SubscriptionsPage /> },
   {
     element: <RoutesProtect />,
@@ -42,7 +41,6 @@ const router = createBrowserRouter([
         element: <App />,
         children: [
           { index: true, element: <Navigate to="forum" replace /> },
-
           {
             path: "forum",
             element: <Forum />,

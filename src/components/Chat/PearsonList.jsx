@@ -1,31 +1,35 @@
 import { Outlet, useNavigate } from "react-router-dom";
 import Avatar from "../Avatar";
 import { Contacts } from "../../data/Contacts";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ChatAPI } from "../../api/chat.api";
 import { toast } from "react-toastify";
-
+import { AuthContext } from "../../context/AuthContext";
+import { UserAPI } from "../../api/user.api";
 
 export default function PearsonList() {
-  const [listContacts, setListContacts] = useState([])
+  const [listContacts, setListContacts] = useState([]);
+  const { rolId } = useContext(AuthContext)
 
   async function getList() {
     try {
-      const response = await ChatAPI.getChatList(1)
-      console.log(response)
+      const response = await ChatAPI.getChatListPatient(rolId.id);
+      console.log(response);
       if (response.status === 200) {
-        setListContacts(response.data)
+        setListContacts(response.data);
       } else {
-        toast.error("Error al obtener la lista de contactos, intenta mas tarde")
+        toast.error(
+          "Error al obtener la lista de contactos, intenta mas tarde"
+        );
       }
-    } catch(error) {
-      toast.error("Ocurrio un error inesperado, intenta mas tarde")
+    } catch (error) {
+      toast.error("Ocurrio un error inesperado, intenta mas tarde");
     }
   }
 
   useEffect(() => {
-    getList()
-  }, [])
+    getList();
+  }, []);
 
   return (
     <>
@@ -33,28 +37,29 @@ export default function PearsonList() {
         <li className="p-4 pb-2 text-xs opacity-60 tracking-wide">
           Lista de pacientes
         </li>
-        {
-          listContacts.map((item, index) => {
-            return (
-              <ListItem
-                key={index}
-                id={item.id}
-                name={`${item.nombrePaciente} ${item.apellidosPaciente}`}
-                lastMessage={item.ultimoMensajeEn}
-              />
-            )
-          })
-        }
+        {listContacts.map((item, index) => {
+          return (
+            <ListItem
+              key={index}
+              id={item.id}
+              name={`${item.nombrePaciente} ${item.apellidosPaciente}`}
+              lastMessage={item.ultimoMensajeEn}
+            />
+          );
+        })}
       </ul>
     </>
   );
 }
 
 function ListItem({ id, name, avatar, lastMessage }) {
-  const navigation = useNavigate()
+  const navigation = useNavigate();
   return (
     <>
-      <li className="list-row border-bottom hover:bg-base-300 cursor-pointer transition items-center rounded-none" onClick={() => navigation("/index/messages/chat/"+id)}>
+      <li
+        className="list-row border-bottom hover:bg-base-300 cursor-pointer transition items-center rounded-none"
+        onClick={() => navigation("/index/messages/chat/" + id)}
+      >
         <div>
           <Avatar name={name} isComment={true} />
         </div>

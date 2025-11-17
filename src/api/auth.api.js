@@ -5,3 +5,4 @@ export const AuthAPI = {
   register: (data) => axiosClient.post("/Usuarios/registro", data),
   getProfile: () => axiosClient.get("/profile")
 }
+  

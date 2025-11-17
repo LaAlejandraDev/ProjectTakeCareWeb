@@ -121,12 +121,12 @@ export default function Menu() {
   );
 }
 
-function MenuItem({ title, section, onSelect, icon, username = "" }) {
+function MenuItem({ title, section, onSelect, icon}) {
   const isActive = title === section;
   return (
     <li onClick={() => onSelect(title)} className="my-2">
       <a
-        className={`tooltip tooltip-right text-base-800 rounded-box py-2 ${
+        className={`tooltip tooltip-right text-base-800 rounded-box ${
           isActive ? "bg-primary text-white" : ""
         }`}
         data-tip={title}
