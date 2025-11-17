@@ -10,13 +10,6 @@ export default function ToastMessage({ closeToast, toastProps, message }) {
           <ChatBubbleBottomCenterIcon className="size-5" />
           <p className="font-bold text-sm">Nuevo mensaje</p>
         </div>
-        <div className="w-full p-2 shadow-sm rounded flex items-center justify-between border-bottom">
-          <div className="grow-1 flex gap-x-2 items-center">
-            <Avatar isComment={true} name="T" />
-            <small className="font-bold">Trokers</small>
-          </div>
-          <small className="">Ahora</small>
-        </div>
         <div className="w-full p-2">
           <small className="font-bold">{message.mensaje}</small>
         </div>

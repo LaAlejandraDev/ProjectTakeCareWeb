@@ -26,7 +26,7 @@ export default function ForumAllPosts() {
 
   return (
     <>
-      <div className="w-full h-full bg-pink-500">
+      <div className="w-full h-full">
         {allPost.map((post, index) => (
           <Post
             key={post.id || index}

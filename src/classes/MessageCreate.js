@@ -17,12 +17,14 @@ export class MessageDeseralizerClass { // Modelo para deserealizar los mensajes 
         chatId = 0,
         senderId = 0,
         message = "",
-        isRead = false
+        isRead = false,
+        date = ""
     ) {
         this.chatId = chatId
         this.senderId = senderId
         this.message = message
         this.isRead = isRead
+        this.date = date
     }
 }
 

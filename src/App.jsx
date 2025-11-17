@@ -28,8 +28,6 @@ function App() {
   useEffect(() => {
     if (!connection) return;
 
-    console.log("Listo para recibir mensajes")
-
     const handleMessage = (message) => {
       console.log(message)
       const msgId = Date.now();
@@ -52,7 +50,7 @@ function App() {
 
   async function getRoleData() {
     try {
-      const response = await UserAPI.getPatientData(user.id)
+      const response = await UserAPI.getUserInformation(user.id)
       if (response.status === 200) {
         console.log(response.data)
         roleData(response.data)

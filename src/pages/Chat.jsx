@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import MessageComponent from "../components/Chat/Message";
 import Avatar from "../components/Avatar";
 import { useSignalR } from "../context/SignalContext";
@@ -6,6 +6,10 @@ import { useParams } from "react-router-dom";
 import { ChatAPI } from "../api/chat.api";
 import { toast } from "react-toastify";
 import { MessageCreateClass, MessageDataClass, MessageDeseralizerClass } from "../classes/MessageCreate";
+import { AuthContext } from "../context/AuthContext";
+import { PaperAirplaneIcon } from "@heroicons/react/16/solid";
+import { PaperClipIcon } from "@heroicons/react/24/outline";
+import { formatMessageDate } from "../utils/DateFormat";
 
 export default function Chat() {
   const { connection, isConnected } = useSignalR();
@@ -15,6 +19,11 @@ export default function Chat() {
   const [chatUserName, setChatUserName] = useState("User");
   const { id: chatId } = useParams();
   const [idPsyco, setIdPsyco] = useState(-1);
+  const { rolId } = useContext(AuthContext)
+  const userRolId = rolId.id
+  const userRolType = rolId.rol
+
+  console.log(userRolId)
 
   function mapServerMessageToClientModel(serverMsg) {
     return new MessageDeseralizerClass(
@@ -22,6 +31,7 @@ export default function Chat() {
       serverMsg.idRemitenteUsuario,
       serverMsg.mensaje,
       serverMsg.leido,
+      serverMsg.fecha
     );
   }
 
@@ -53,8 +63,8 @@ export default function Chat() {
     try {
       const response = await ChatAPI.getChatInfo(chatId);
       if (response.status === 200) {
-        setUser(response.data.nombrePsicologo);
-        setChatUserName(response.data.nombrePaciente);
+        setUser(userRolType === 2 ? (response.data.nombrePaciente) : (response.data.nombrePsicologo));
+        setChatUserName(userRolType === 2 ? (response.data.nombrePaciente) : (response.data.nombrePsicologo));
         setIdPsyco(response.data.idPsicologo);
       } else {
         toast.error("No se pudo obtener la información del chat");
@@ -67,15 +77,15 @@ export default function Chat() {
   async function createNewMessage() {
     const newMessage = new MessageCreateClass(
       Number(chatId),
-      idPsyco,
+      userRolId,
       message.trim(),
-      false
+      false,
     );
 
     try {
       const response = await ChatAPI.sendMessage(newMessage);
       if (response.status === 201) {
-        return response.data;
+        return response.data; 
       } else {
         toast.error("No se pudo guardar el mensaje en la base de datos");
         return null;
@@ -118,6 +128,10 @@ export default function Chat() {
     const createdMsg = await createNewMessage();
     if (!createdMsg) return;
 
+    if (!createdMsg.fecha) {
+      createdMsg.fecha = new Date().toISOString();
+    } 
+
     try {
       await connection.invoke("SendMessage", createdMsg);
       setMessage("");
@@ -141,8 +155,9 @@ export default function Chat() {
           messagesList.map((item, index) => (
             <MessageComponent
               key={index}
-              idPsycologist={idPsyco}
+              idPsycologist={userRolId}
               messageData={item}
+              date={formatMessageDate(item.date)}  
             />
           ))
         ) : (
@@ -151,18 +166,20 @@ export default function Chat() {
           </p>
         )}
       </div>
-
-      <div className="w-full flex gap-2 bg-base-100 p-2">
-        <input
-          type="text"
-          placeholder="Escribe un mensaje..."
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          className="input flex-1"
-        />
-        <button onClick={sendMessage} className="btn btn-primary">
-          Enviar
-        </button>
+      <div className="w-full bg-base-100 p-2">
+        <form className="w-full flex gap-2" onSubmit={sendMessage}>
+          <input
+            type="text"
+            placeholder="Escribe un mensaje..."
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            className="input flex-1"
+          />
+          <button onClick={sendMessage} className="btn btn-secondary" type="submit">
+            <PaperAirplaneIcon className="size-[2em]" />
+            Enviar
+          </button>
+        </form>
       </div>
     </div>
   );
