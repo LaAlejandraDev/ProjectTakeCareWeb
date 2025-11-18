@@ -39,7 +39,7 @@ export function SignalProvider({ children }) {
     <SignalContext.Provider value={{ connection, isConnected }}>
       {children}
     </SignalContext.Provider>
-  );b
+  );
 }
 
 

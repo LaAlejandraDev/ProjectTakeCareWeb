@@ -6,10 +6,13 @@ import {
   BookmarkSquareIcon,
   UserGroupIcon,
 } from "@heroicons/react/24/solid";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
+import Avatar from "./Avatar";
 
 export default function Menu() {
+  const { user } = useContext(AuthContext);
   const [selected, setSelected] = useState("Inicio");
   const navigate = useNavigate();
   const location = useLocation();
@@ -72,6 +75,7 @@ export default function Menu() {
       <h2 className="text-center pt-2 font-bold text-xl menu-title">
         TakeCare
       </h2>
+<<<<<<< HEAD
       {rol === "1" && (
         <>
           <li>
@@ -145,6 +149,61 @@ export default function Menu() {
         </>
       )}
 
+=======
+      <div className="flex justify-center bg-base-200 p-1 rounded-box shadow-sm">
+        {user != null ? (
+          <div className="w-full flex items-center justify-between">
+            <Avatar name={user.nombre} isComment={true} />
+            <p className="font-bold mx-2">{user.nombre}</p>
+          </div>
+        ) : (
+          <div className="w-full flex items-center justify-center">
+            <p className="font-bold mx-2">Cargando...</p>
+          </div>
+        )}
+      </div>
+      <li>
+        <a className="font-bold text-lg">Dashboard</a>
+        <ul>
+          <MenuItem
+            title="Dashboard"
+            section={selected}
+            onSelect={handleSelect}
+            icon={<ChartBarIcon className="h-6 w-6" />}
+          />
+        </ul>
+        <ul>
+          <MenuItem
+            title="Expediente"
+            section={selected}
+            onSelect={handleSelect}
+            icon={<BookmarkSquareIcon className="h-6 w-6" />}
+          />
+        </ul>
+      </li>
+      <li>
+        <a className="font-bold text-lg">Foro</a>
+        <ul>
+          <MenuItem
+            title="Inicio"
+            section={selected}
+            onSelect={handleSelect}
+            icon={<QueueListIcon className="h-6 w-6" />}
+          />
+        </ul>
+      </li>
+      <li>
+        <a className="font-bold text-lg">Mensajeria</a>
+        <ul>
+          <MenuItem
+            title="Mensajes"
+            section={selected}
+            onSelect={handleSelect}
+            icon={<ChatBubbleBottomCenterIcon className="h-6 w-6" />}
+          />{" "}
+        </ul>
+      </li>
+>>>>>>> 6c3e5922ca95b52b50f58be8a128ec2820bd9d7f
       <li>
         <a className="font-bold text-lg">Personal</a>
         <ul>
@@ -160,12 +219,12 @@ export default function Menu() {
   );
 }
 
-function MenuItem({ title, section, onSelect, icon }) {
+function MenuItem({ title, section, onSelect, icon}) {
   const isActive = title === section;
   return (
     <li onClick={() => onSelect(title)} className="my-2">
       <a
-        className={`tooltip tooltip-right text-base-800 rounded-box py-2 ${
+        className={`tooltip tooltip-right text-base-800 rounded-box ${
           isActive ? "bg-primary text-white" : ""
         }`}
         data-tip={title}

@@ -20,52 +20,59 @@ import SubscriptionsPage from "./pages/Subscriptions.jsx";
 import { SignalProvider } from "./context/SignalContext.jsx";
 import Login from "./pages/Auth/Login.jsx";
 import Register from "./pages/Auth/Register.jsx";
+<<<<<<< HEAD
 import Users from "./pages/admin/Users.jsx";
 import Suscriptions from "./pages/admin/Subscriptions.jsx";
 import Dashboard from "./pages/admin/Dashboard.jsx";
+=======
+import { AuthProvider } from "./context/AuthContext.jsx";
+import NotFoundPage from "./pages/NotFound.jsx";
+import RoutesProtect from "./context/RoutesProtect.jsx";
+>>>>>>> 6c3e5922ca95b52b50f58be8a128ec2820bd9d7f
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Navigate to="/login" replace />,
+    errorElement: <NotFoundPage />,
   },
+  { path: "/login", element: <Login /> },
+  { path: "/register", element: <Register /> },
+  { path: "/subscriptions", element: <SubscriptionsPage /> },
   {
-    path: "/login",
-    element: <Login />,
-  },
-  {
-    path: "/register",
-    element: <Register />,
-  },
-  {
-    path: "/subscriptions",
-    element: <SubscriptionsPage />,
-  },
-  {
-    path: "/index",
-    element: <App />,
+    element: <RoutesProtect />,
     children: [
       {
-        path: "forum",
-        element: <Forum />,
+        path: "/index",
+        element: <App />,
         children: [
-          { path: "allpost", element: <ForumAllPosts /> },
-          { path: "post/:postId", element: <ForumPost /> },
-          { path: "post/create", element: <CreatePost /> },
+          { index: true, element: <Navigate to="forum" replace /> },
+          {
+            path: "forum",
+            element: <Forum />,
+            children: [
+              { index: true, element: <ForumAllPosts /> },
+              { path: "allpost", element: <ForumAllPosts /> },
+              { path: "post/:postId", element: <ForumPost /> },
+              { path: "post/create", element: <CreatePost /> },
+            ],
+          },
+          {
+            path: "messages",
+            element: <Messages />,
+            children: [
+              { index: true, element: <PearsonList /> },
+              { path: "list", element: <PearsonList /> },
+              { path: "chat/:id", element: <Chat /> },
+            ],
+          },
+          { path: "diary", element: <h1>Diario</h1> },
+          { path: "profile", element: <h1>Perfil</h1> },
         ],
       },
-      {
-        path: "messages",
-        element: <Messages />,
-        children: [
-          { path: "list", element: <PearsonList /> },
-          { path: "chat/:id", element: <Chat /> },
-        ],
-      },
-      { path: "diary", element: <h1>Diario</h1> },
-      { path: "profile", element: <h1>Perfil</h1> },
     ],
   },
+<<<<<<< HEAD
   {
     path: "/admin",
     element: <App />,
@@ -75,12 +82,17 @@ const router = createBrowserRouter([
       { path: "dash", element: <Dashboard /> },
     ],
   },
+=======
+  { path: "*", element: <NotFoundPage /> },
+>>>>>>> 6c3e5922ca95b52b50f58be8a128ec2820bd9d7f
 ]);
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <SignalProvider>
-      <RouterProvider router={router} />
-    </SignalProvider>
+    <AuthProvider>
+      <SignalProvider>
+        <RouterProvider router={router} />
+      </SignalProvider>
+    </AuthProvider>
   </StrictMode>
 );
