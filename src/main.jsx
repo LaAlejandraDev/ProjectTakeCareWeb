@@ -25,6 +25,8 @@ import Sesiones from "./pages/Sesiones.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import Diary from "./pages/Diary.jsx";
 import EditProfile from "./pages/EditProfile.jsx";
+import PacientesDiario from "./pages/PacientesDiario.jsx";
+import Diariopaciente from "./pages/Diariopaciente.jsx";
 
 const router = createBrowserRouter([
   {
@@ -64,7 +66,11 @@ const router = createBrowserRouter([
           { path: "chat", element: <Chat /> },
         ],
       },
-      { path: "diary", element: <Diary /> },
+      { path: "diary", element: <PacientesDiario /> },
+      {
+        path: "diario/paciente/:id",
+        element: <Diariopaciente />,
+      },
       { path: "profile", element: <EditProfile /> },
 
       {

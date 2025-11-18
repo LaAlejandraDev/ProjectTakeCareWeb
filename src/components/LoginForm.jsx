@@ -62,7 +62,7 @@ export default function LoginForm() {
               onChange={(e) => setUserPassword(e.target.value)}
             />
           </fieldset>
-          <div classname="card-actions">
+          <div className="card-actions">
             <button
               className="btn btn-primary w-full"
               onClick={() => handleLogin()}
