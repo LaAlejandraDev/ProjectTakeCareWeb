@@ -1,18 +1,25 @@
 import React, { useEffect, useState } from "react";
 import { UserAPI } from "../../api/user.api";
 import { toast } from "react-toastify";
-
-import { UserPlusIcon } from "@heroicons/react/16/solid";
+import ModalUser from "./ModalUser";
 
 const UserForm = () => {
   const [users, setUsers] = useState([]);
   const [load, setLoad] = useState(true);
 
+  const [abrirModal, setAbrirModal] = useState(false);
+  const [usuarioSeleccionado, setUsuarioSeleccionado] = useState(null);
+
+  const handleEdit = (usuario) => {
+    setUsuarioSeleccionado(usuario);
+    setAbrirModal(true);
+  };
+
   useEffect(() => {
-    loadUsers();
+    cargarUsuarios();
   }, []);
 
-  const loadUsers = async () => {
+  const cargarUsuarios = async () => {
     try {
       setLoad(true);
       const response = await UserAPI.getUsers();
@@ -36,7 +43,7 @@ const UserForm = () => {
         color: "bg-red-100 text-red-800 border border-red-200",
       },
       2: {
-        label: "Psicólogo",
+        label: "Psicologo",
         color: "bg-blue-100 text-blue-800 border border-blue-200",
       },
     };
@@ -181,7 +188,10 @@ const UserForm = () => {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                       <div className="flex space-x-3">
-                        <button className="text-blue-600 hover:text-blue-900 flex items-center">
+                        <button
+                          className="text-blue-600 hover:text-blue-900 flex items-center"
+                          onClick={() => handleEdit(u)}
+                        >
                           <svg
                             className="w-4 h-4 mr-1"
                             fill="none"
@@ -219,6 +229,12 @@ const UserForm = () => {
                 ))}
               </tbody>
             </table>
+            <ModalUser
+              abrirModal={abrirModal}
+              cerrarModal={() => setAbrirModal(false)}
+              usuarioSeleccionado={usuarioSeleccionado}
+              guardar={cargarUsuarios}
+            />
           </div>
         )}
 
