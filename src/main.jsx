@@ -23,6 +23,9 @@ import Register from "./pages/Auth/Register.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
 import NotFoundPage from "./pages/NotFound.jsx";
 import RoutesProtect from "./context/RoutesProtect.jsx";
+import Users from "./pages/admin/Users.jsx";
+import Dashboard from "./pages/admin/Dashboard.jsx";
+import Suscriptions from "./pages/admin/Suscriptions.jsx";
 
 const router = createBrowserRouter([
   {
@@ -64,6 +67,15 @@ const router = createBrowserRouter([
           { path: "profile", element: <h1>Perfil</h1> },
         ],
       },
+    ],
+  },
+  {
+    path: "/admin",
+    element: <App />,
+    children: [
+      { path: "users", element: <Users /> },
+      { path: "dash", element: <Dashboard /> },
+      { path: "suscrip", element: <Suscriptions /> },
     ],
   },
   { path: "*", element: <NotFoundPage /> },

@@ -10,9 +10,30 @@ export default function ModalUser({
   usuarioSeleccionado,
   guardar,
 }) {
+  const datosPaciente = {
+    id: 0,
+    ciudad: "",
+    estadoCivil: "",
+    diagnostico: "",
+    antecedentesMedicos: "",
+    contactoEmergencia: "",
+    idUsuario: 0,
+  };
+
+  const datosPsicologo = {
+    id: 0,
+    cedulaProfesional: "",
+    especialidad: "",
+    descripcion: "",
+    experienciaAnios: "",
+    universidadEgreso: "",
+    direccionConsultorio: "",
+    idUsuario: 0,
+  };
+
   const [user, setUser] = useState(null);
-  const [paciente, setPaciente] = useState(null);
-  const [psicologo, setPsicologo] = useState(null);
+  const [paciente, setPaciente] = useState(datosPaciente);
+  const [psicologo, setPsicologo] = useState(datosPsicologo);
   const [cargar, setCargar] = useState(true);
 
   useEffect(() => {
@@ -26,18 +47,13 @@ export default function ModalUser({
 
         if (usuarioSeleccionado.rol === 0) {
           try {
-            const responsePaciente = await PacienteAPI.getPacienteByUsuario(
+            const r = await PacienteAPI.getPacienteByUsuario(
               usuarioSeleccionado.id
             );
-            setPaciente(responsePaciente.data);
+            setPaciente(r.data);
           } catch {
             setPaciente({
-              id: 0,
-              ciudad: "",
-              estadoCivil: "",
-              diagnostico: "",
-              antecedentesMedicos: "",
-              contactoEmergencia: "",
+              ...datosPaciente,
               idUsuario: usuarioSeleccionado.id,
             });
           }
@@ -45,19 +61,13 @@ export default function ModalUser({
 
         if (usuarioSeleccionado.rol === 2) {
           try {
-            const responsePsicologo = await PsicologoAPI.getPsicologoByUsuario(
+            const r = await PsicologoAPI.getPsicologoByUsuario(
               usuarioSeleccionado.id
             );
-            setPsicologo(responsePsicologo.data);
+            setPsicologo(r.data);
           } catch {
             setPsicologo({
-              id: 0,
-              cedulaProfesional: "",
-              especialidad: "",
-              descripcion: "",
-              experienciaAnios: "",
-              universidadEgreso: "",
-              direccionConsultorio: "",
+              ...datosPsicologo,
               idUsuario: usuarioSeleccionado.id,
             });
           }
@@ -86,17 +96,14 @@ export default function ModalUser({
       </div>
     );
 
-  const handleUser = (e) => {
+  const handleUser = (e) =>
     setUser({ ...user, [e.target.name]: e.target.value });
-  };
 
-  const handlePaciente = (e) => {
+  const handlePaciente = (e) =>
     setPaciente({ ...paciente, [e.target.name]: e.target.value });
-  };
 
-  const handlePsicologo = (e) => {
+  const handlePsicologo = (e) =>
     setPsicologo({ ...psicologo, [e.target.name]: e.target.value });
-  };
 
   const handleSave = async () => {
     try {
@@ -116,33 +123,18 @@ export default function ModalUser({
 
       await UserAPI.updateUsuario(user.id, usuarioDTO);
 
-      if (user.rol === 0 && paciente) {
-        const pacienteDTO = {
-          id: paciente.id,
-          ciudad: paciente.ciudad,
-          estadoCivil: paciente.estadoCivil,
-          diagnostico: paciente.diagnostico,
-          antecedentesMedicos: paciente.antecedentesMedicos,
-          contactoEmergencia: paciente.contactoEmergencia,
+      if (user.rol === 0) {
+        await UserAPI.updatePaciente(paciente.id, {
+          ...paciente,
           idUsuario: user.id,
-        };
-
-        await UserAPI.updatePaciente(paciente.id, pacienteDTO);
+        });
       }
 
-      if (user.rol === 2 && psicologo) {
-        const psicologoDTO = {
-          id: psicologo.id,
-          cedulaProfesional: psicologo.cedulaProfesional,
-          especialidad: psicologo.especialidad,
-          descripcion: psicologo.descripcion,
-          experienciaAnios: psicologo.experienciaAnios,
-          universidadEgreso: psicologo.universidadEgreso,
-          direccionConsultorio: psicologo.direccionConsultorio,
+      if (user.rol === 2) {
+        await PsicologoAPI.updatePsicologo(psicologo.id, {
+          ...psicologo,
           idUsuario: user.id,
-        };
-
-        await UserAPI.updatePsicologo(psicologo.id, psicologoDTO);
+        });
       }
 
       toast.success("Usuario actualizado correctamente");

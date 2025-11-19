@@ -6,6 +6,8 @@ import ModalUser from "./ModalUser";
 const UserForm = () => {
   const [users, setUsers] = useState([]);
   const [load, setLoad] = useState(true);
+  const [busqueda, setBusqueda] = useState("");
+  const [rolFiltro, setRolFiltro] = useState("");
 
   const [abrirModal, setAbrirModal] = useState(false);
   const [usuarioSeleccionado, setUsuarioSeleccionado] = useState(null);
@@ -78,6 +80,8 @@ const UserForm = () => {
           <div className="flex items-center space-x-4">
             <div className="relative">
               <input
+                value={busqueda}
+                onChange={(e) => setBusqueda(e.target.value)}
                 type="text"
                 placeholder="Buscar usuario..."
                 className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-64"
@@ -96,7 +100,11 @@ const UserForm = () => {
                 />
               </svg>
             </div>
-            <select className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+            <select
+              value={rolFiltro}
+              onChange={(e) => setRolFiltro(e.target.value)}
+              className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            >
               <option value="">Todos los roles</option>
               <option value="0">Paciente</option>
               <option value="1">Administrador</option>
@@ -160,73 +168,87 @@ const UserForm = () => {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {users.map((u) => (
-                  <tr key={u.id} className="hover:bg-gray-50 transition-colors">
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex items-center">
-                        <div className="flex-shrink-0 h-10 w-10 bg-blue-100 rounded-full flex items-center justify-center">
-                          <span className="text-blue-600 font-medium text-sm">
-                            {u.nombre?.charAt(0)}
-                            {u.apellidoPaterno?.charAt(0)}
-                          </span>
-                        </div>
-                        <div className="ml-4">
-                          <div className="text-sm font-medium text-gray-900">
-                            {`${u.nombre} ${u.apellidoPaterno} ${
-                              u.apellidoMaterno || ""
-                            }`}
+                {users
+                  .filter((u) =>
+                    `${u.nombre} ${u.apellidoPaterno} ${u.apellidoMaterno}`
+                      .toLowerCase()
+                      .includes(busqueda.toLowerCase())
+                  )
+                  .filter((u) =>
+                    rolFiltro === "" ? true : u.rol === Number(rolFiltro)
+                  )
+                  .map((u) => (
+                    <tr
+                      key={u.id}
+                      className="hover:bg-gray-50 transition-colors"
+                    >
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="flex items-center">
+                          <div className="flex-shrink-0 h-10 w-10 bg-blue-100 rounded-full flex items-center justify-center">
+                            <span className="text-blue-600 font-medium text-sm">
+                              {u.nombre?.charAt(0)}
+                              {u.apellidoPaterno?.charAt(0)}
+                            </span>
                           </div>
-                          <div className="text-xs text-gray-500">ID.{u.id}</div>
+                          <div className="ml-4">
+                            <div className="text-sm font-medium text-gray-900">
+                              {`${u.nombre} ${u.apellidoPaterno} ${
+                                u.apellidoMaterno || ""
+                              }`}
+                            </div>
+                            <div className="text-xs text-gray-500">
+                              ID.{u.id}
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-900">{u.correo}</div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      {getRol(u.rol)}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      <div className="flex space-x-3">
-                        <button
-                          className="text-blue-600 hover:text-blue-900 flex items-center"
-                          onClick={() => handleEdit(u)}
-                        >
-                          <svg
-                            className="w-4 h-4 mr-1"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm text-gray-900">{u.correo}</div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        {getRol(u.rol)}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                        <div className="flex space-x-3">
+                          <button
+                            className="text-blue-600 hover:text-blue-900 flex items-center"
+                            onClick={() => handleEdit(u)}
                           >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                            />
-                          </svg>
-                          Editar
-                        </button>
-                        <button className="text-red-600 hover:text-red-900 flex items-center">
-                          <svg
-                            className="w-4 h-4 mr-1"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                            />
-                          </svg>
-                          Eliminar
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
+                            <svg
+                              className="w-4 h-4 mr-1"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                              />
+                            </svg>
+                            Editar
+                          </button>
+                          <button className="text-red-600 hover:text-red-900 flex items-center">
+                            <svg
+                              className="w-4 h-4 mr-1"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                              />
+                            </svg>
+                            Eliminar
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
               </tbody>
             </table>
             <ModalUser
