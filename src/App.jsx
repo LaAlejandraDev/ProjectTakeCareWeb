@@ -29,12 +29,9 @@ function App() {
     if (!connection) return;
 
     const handleMessage = (message) => {
-      console.log(message)
       const msgId = Date.now();
       if (lastMessageId.current === msgId) return;
       lastMessageId.current = msgId;
-
-      console.log(location.pathname.includes("/messages/chat"))
 
       if (!location.pathname.includes("/messages/chat")) {
         toast(<ToastMessage message={message} toastProps={{  }}/>)
@@ -52,7 +49,6 @@ function App() {
     try {
       const response = await UserAPI.getUserInformation(user.id)
       if (response.status === 200) {
-        console.log(response.data)
         roleData(response.data)
       }
     } catch(error) {
@@ -64,7 +60,7 @@ function App() {
     <>
       <ToastContainer />
       <div className="w-screen h-screen flex bg-base-200">
-        <div className="flex p-2 w-50">
+        <div className="flex p-2 w-50 h-full">
           <Menu />
         </div>
         <div className="flex-grow overflow-y-auto p-2">

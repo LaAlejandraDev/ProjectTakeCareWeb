@@ -7,16 +7,17 @@ import { AuthContext } from "../../context/AuthContext";
 
 export default function PearsonList() {
   const [listContacts, setListContacts] = useState([]);
-  const { rolId } = useContext(AuthContext)
-  const userRolType = rolId.rol
-  const idUserRole = rolId.paciente != null ? rolId.paciente.id : rolId.psicologo.id
+  const { rolId } = useContext(AuthContext);
+  const userRolType = rolId.rol;
+  const idUserRole =
+    rolId.paciente != null ? rolId.paciente.id : rolId.psicologo.id;
 
   async function getList() {
-    console.log(idUserRole)
+    console.log(idUserRole);
     try {
       const roleApiMap = {
         0: ChatAPI.getChatListPatient,
-        2: ChatAPI.getChatList
+        2: ChatAPI.getChatList,
       };
 
       const apiFn = roleApiMap[userRolType];
@@ -29,7 +30,7 @@ export default function PearsonList() {
       const response = await apiFn(idUserRole);
 
       if (response.status === 200) {
-        console.log(response)
+        console.log(response);
         setListContacts(response.data);
       } else {
         toast.error("Error al obtener la lista de contactos");
@@ -54,7 +55,11 @@ export default function PearsonList() {
             <ListItem
               key={index}
               id={item.id}
-              name={userRolType === 2 ? (`${item.nombrePaciente} ${item.apellidosPaciente}`) : (`${item.nombrePsicologo} - ${item.especialidad}`)}
+              name={
+                userRolType === 2
+                  ? `${item.nombrePaciente} ${item.apellidosPaciente}`
+                  : `${item.nombrePsicologo} - ${item.especialidad}`
+              }
               lastMessage={item.ultimoMensajeEn}
             />
           );

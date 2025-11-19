@@ -1,3 +1,4 @@
+import { BookOpenIcon } from "@heroicons/react/16/solid";
 import {
   ChatBubbleBottomCenterIcon,
   UserCircleIcon,
@@ -43,6 +44,15 @@ export default function Menu() {
       case "Perfil":
         navigate("/index/profile");
         break;
+      case "Expediente":
+        navigate("/index/record");
+        break;
+      case "Dashboard":
+        navigate("/index/dashboard");
+        break;
+      case "Diario":
+        navigate("/index/diary");
+        break;
       default:
         break;
     }
@@ -77,6 +87,14 @@ export default function Menu() {
         </ul>
         <ul>
           <MenuItem
+            title="Diario"
+            section={selected}
+            onSelect={handleSelect}
+            icon={<BookOpenIcon className="h-6 w-6" />}
+          />
+        </ul>
+        <ul>
+          <MenuItem
             title="Expediente"
             section={selected}
             onSelect={handleSelect}
@@ -95,6 +113,7 @@ export default function Menu() {
           />
         </ul>
       </li>
+
       <li>
         <a className="font-bold text-lg">Mensajeria</a>
         <ul>
@@ -121,7 +140,7 @@ export default function Menu() {
   );
 }
 
-function MenuItem({ title, section, onSelect, icon}) {
+function MenuItem({ title, section, onSelect, icon }) {
   const isActive = title === section;
   return (
     <li onClick={() => onSelect(title)} className="my-2">
