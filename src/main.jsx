@@ -27,69 +27,76 @@ import Diary from "./pages/Diary.jsx";
 import EditProfile from "./pages/EditProfile.jsx";
 import PacientesDiario from "./pages/PacientesDiario.jsx";
 import Diariopaciente from "./pages/Diariopaciente.jsx";
+import NotFoundPage from "./pages/NotFound.jsx";
+import RoutesProtect from "./context/RoutesProtect.jsx";
+import { AuthContext } from "./context/AuthContext.jsx";
+import { AuthProvider } from "./context/AuthContext.jsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Navigate to="/login" replace />,
+    errorElement: <NotFoundPage />,
   },
+  { path: "/login", element: <Login /> },
+  { path: "/register", element: <Register /> },
+  { path: "/subscriptions", element: <SubscriptionsPage /> },
   {
-    path: "/login",
-    element: <Login />,
-  },
-  {
-    path: "/register",
-    element: <Register />,
-  },
-  {
-    path: "/subscriptions",
-    element: <SubscriptionsPage />,
-  },
-  {
-    path: "/index",
-    element: <App />,
+    element: <RoutesProtect />,
     children: [
       {
-        path: "forum",
-        element: <Forum />,
+        path: "/index",
+        element: <App />,
         children: [
-          { path: "allpost", element: <ForumAllPosts /> },
-          { path: "post/:postId", element: <ForumPost /> },
-          { path: "post/create", element: <CreatePost /> },
-        ],
-      },
-      {
-        path: "messages",
-        element: <Messages />,
-        children: [
-          { path: "list", element: <PearsonList /> },
-          { path: "chat", element: <Chat /> },
-        ],
-      },
-      { path: "diary", element: <PacientesDiario /> },
-      {
-        path: "diario/paciente/:id",
-        element: <Diariopaciente />,
-      },
-      { path: "profile", element: <EditProfile /> },
+          { index: true, element: <Navigate to="forum" replace /> },
+          {
+            path: "forum",
+            element: <Forum />,
+            children: [
+              { index: true, element: <ForumAllPosts /> },
+              { path: "allpost", element: <ForumAllPosts /> },
+              { path: "post/:postId", element: <ForumPost /> },
+              { path: "post/create", element: <CreatePost /> },
+            ],
+          },
+          {
+            path: "messages",
+            element: <Messages />,
+            children: [
+              { index: true, element: <PearsonList /> },
+              { path: "list", element: <PearsonList /> },
+              { path: "chat/:id", element: <Chat /> },
+            ],
+          },
+          { path: "diary", element: <PacientesDiario /> },
+          {
+            path: "diario/paciente/:id",
+            element: <Diariopaciente />,
+          },
+          { path: "profile", element: <EditProfile /> },
 
-      {
-        path: "record",
-        element: <Expediente />,
+          {
+            path: "record",
+            element: <Expediente />,
+          },
+          {
+            path: "session/:id",
+            element: <Sesiones />,
+          },
+          { path: "dashboard", element: <Dashboard /> },
+        ],
       },
-      {
-        path: "session/:id",
-        element: <Sesiones />,
-      },
-      { path: "dashboard", element: <Dashboard /> },
     ],
   },
+  { path: "*", element: <NotFoundPage /> },
 ]);
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <SignalProvider>
-      <RouterProvider router={router} />
-    </SignalProvider>
+    <AuthProvider>
+      <SignalProvider>
+        <RouterProvider router={router} />
+      </SignalProvider>
+    </AuthProvider>
   </StrictMode>
 );

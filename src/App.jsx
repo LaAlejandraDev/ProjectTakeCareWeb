@@ -1,19 +1,23 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import "./App.css";
 import Menu from "./components/Menu";
 import { Navigate, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useSignalR } from "./context/SignalContext";
+import ToastMessage from "./components/Toast/ToastTest";
+import { AuthContext } from "./context/AuthContext";
+import { UserAPI } from "./api/user.api";
 
 function App() {
   const { connection, isConnected } = useSignalR();
   const location = useLocation();
   const navigate = useNavigate();
   const lastMessageId = useRef(null);
-
+  const { user, roleData } = useContext(AuthContext)
   useEffect(() => {
     const token = localStorage.getItem("token");
+    getRoleData()
     if (!token) {
       toast.warning("Tu sesión ha expirado. Inicia sesión nuevamente.");
       localStorage.removeItem("token");
@@ -22,31 +26,39 @@ function App() {
   }, [navigate]);
 
   useEffect(() => {
-    if (!connection || isConnected) return;
+    if (!connection) return;
 
-    const handleMessage = (user, message) => {
+    const handleMessage = (message) => {
+      console.log(message)
       const msgId = Date.now();
       if (lastMessageId.current === msgId) return;
       lastMessageId.current = msgId;
 
-      if (!location.pathname.includes("/mensajes")) {
-        toast.info(`${user}: ${message}`, {
-          position: "bottom-right",
-          autoClose: 3000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
+      console.log(location.pathname.includes("/messages/chat"))
+
+      if (!location.pathname.includes("/messages/chat")) {
+        toast(<ToastMessage message={message} toastProps={{  }}/>)
       }
     };
+
     connection.on("ReceiveMessage", handleMessage);
 
     return () => {
       connection.off("ReceiveMessage", handleMessage);
     };
   }, [connection, isConnected, location]);
+
+  async function getRoleData() {
+    try {
+      const response = await UserAPI.getUserInformation(user.id)
+      if (response.status === 200) {
+        console.log(response.data)
+        roleData(response.data)
+      }
+    } catch(error) {
+
+    }
+  }
 
   return (
     <>

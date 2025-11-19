@@ -2,46 +2,51 @@ import React from "react";
 import { HeartIcon } from "@heroicons/react/16/solid";
 import { NavLink, useNavigate } from "react-router-dom";
 import { AuthAPI } from "../api/auth.api";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { toast } from "react-toastify";
+import { AuthContext } from "../context/AuthContext";
 
 export default function LoginForm() {
+  const { login } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setUserPassword] = useState("");
   const navigation = useNavigate();
 
-  async function handleLogin() {
+  async function handleLogin(e) {
+    if (e) e.preventDefault();
+
+    if (email.trim() === "" || password.trim() === "") {
+      toast.warning("No se pueden dejar los campos vacíos");
+      return;
+    }
+
     try {
       const response = await AuthAPI.login({
         correo: email,
         contrasena: password,
       });
 
-      console.log(response);
-
       if (response.status === 200) {
         toast.success("Inicio de sesión exitoso. ¡Bienvenido de nuevo!");
-        localStorage.setItem("token", response.data.token);
-        localStorage.setItem("rol", response.data.usuario.rol);
+        login(response.data.usuario, response.data.token);
         setTimeout(() => {
           navigation("/index/forum");
         }, 1500);
       } else {
-        toast.error(
-          "Correo o contraseña incorrectos. Verifica tus datos e inténtalo de nuevo."
-        );
+        toast.error("Correo o contraseña incorrectos. Verifica tus datos.");
       }
     } catch (error) {
-      toast.error("Ocurrió un error inesperado. Intenta nuevamente más tarde.");
+      toast.error("Ocurrió un error inesperado. Intenta de nuevo más tarde.");
     }
   }
   return (
-    <>
-      <div className="card card-xl card-border bg-base-100 shadow-sm w-full md:w-1/3">
-        <div className="card-body">
-          <h2 className="card-title">
-            Take Care <HeartIcon className="size-[1.5em]" /> - Iniciar Sesion
-          </h2>
+    <div className="card card-xl card-border bg-base-100 shadow-sm w-full md:w-1/3">
+      <div className="card-body">
+        <h2 className="card-title">
+          Take Care <HeartIcon className="size-[1.5em]" /> - Iniciar Sesión
+        </h2>
+
+        <form onSubmit={handleLogin}>
           <fieldset className="fieldset">
             <legend className="fieldset-legend">Ingresa tu correo</legend>
             <input
@@ -52,32 +57,33 @@ export default function LoginForm() {
               onChange={(e) => setEmail(e.target.value)}
             />
           </fieldset>
-          <fieldset className="fieldset">
+
+          <fieldset className="fieldset mt-2">
             <legend className="fieldset-legend">Ingresa tu clave</legend>
             <input
-              type="text"
+              type="password"
               className="input w-full"
               placeholder="Ingresa la clave"
               value={password}
               onChange={(e) => setUserPassword(e.target.value)}
             />
           </fieldset>
-          <div className="card-actions">
-            <button
-              className="btn btn-primary w-full"
-              onClick={() => handleLogin()}
-            >
-              Iniciar Sesion
+
+          <div className="card-actions mt-4">
+            <button className="btn btn-primary w-full" type="submit">
+              Iniciar Sesión
+              <kbd className="kbd kbd-sm bg-indigo-500">Enter</kbd>
             </button>
+
             <p className="text-sm text-gray-500 mt-2">
               ¿No tienes cuenta?{" "}
               <NavLink to="/register" className="link">
-                Registrate
+                Regístrate
               </NavLink>
             </p>
           </div>
-        </div>
+        </form>
       </div>
-    </>
+    </div>
   );
 }

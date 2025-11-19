@@ -52,7 +52,7 @@ export default function Post({
 
   return (
     <>
-      <div className="card w-full bg-base-100 shadow-sm">
+      <div className="card w-full bg-base-100 shadow-sm my-2">
         <div className="card-body">
           <h2 className="card-badgeTitle text-2xl font-bold text-indigo-950">
             {title.toUpperCase()}

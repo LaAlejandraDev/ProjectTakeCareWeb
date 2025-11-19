@@ -6,10 +6,13 @@ import {
   ChartBarIcon,
   BookmarkSquareIcon,
 } from "@heroicons/react/24/solid";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
+import Avatar from "./Avatar";
 
 export default function Menu() {
+  const { user } = useContext(AuthContext);
   const [selected, setSelected] = useState("Inicio");
   const navigate = useNavigate();
   const location = useLocation();
@@ -56,11 +59,22 @@ export default function Menu() {
   };
 
   return (
-    <ul className="menu bg-base-100 rounded-xl shadow-sm w-full h-full">
-      <div className="w-full flex flex-col items-center justify-center">
-        <img className="h-19 w-19" src="/logoNB.png" />
+    <ul className="menu bg-base-100 rounded-xl shadow-sm gap-5 w-full">
+      <h2 className="text-center pt-2 font-bold text-xl menu-title">
+        TakeCare
+      </h2>
+      <div className="flex justify-center bg-base-200 p-1 rounded-box shadow-sm">
+        {user != null ? (
+          <div className="w-full flex items-center justify-between">
+            <Avatar name={user.nombre} isComment={true} />
+            <p className="font-bold mx-2">{user.nombre}</p>
+          </div>
+        ) : (
+          <div className="w-full flex items-center justify-center">
+            <p className="font-bold mx-2">Cargando...</p>
+          </div>
+        )}
       </div>
-
       <li>
         <a className="font-bold text-lg">Dashboard</a>
         <ul>
@@ -131,8 +145,8 @@ function MenuItem({ title, section, onSelect, icon }) {
   return (
     <li onClick={() => onSelect(title)} className="my-2">
       <a
-        className={`tooltip tooltip-right text-base-800 rounded-box py-2 ${
-          isActive ? "bg-secondary text-white" : ""
+        className={`tooltip tooltip-right text-base-800 rounded-box ${
+          isActive ? "bg-primary text-white" : ""
         }`}
         data-tip={title}
       >
