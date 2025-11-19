@@ -29,12 +29,9 @@ function App() {
     if (!connection) return;
 
     const handleMessage = (message) => {
-      console.log(message)
       const msgId = Date.now();
       if (lastMessageId.current === msgId) return;
       lastMessageId.current = msgId;
-
-      console.log(location.pathname.includes("/messages/chat"))
 
       if (!location.pathname.includes("/messages/chat")) {
         toast(<ToastMessage message={message} toastProps={{  }}/>)
@@ -52,7 +49,6 @@ function App() {
     try {
       const response = await UserAPI.getUserInformation(user.id)
       if (response.status === 200) {
-        console.log(response.data)
         roleData(response.data)
       }
     } catch(error) {

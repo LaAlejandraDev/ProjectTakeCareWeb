@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { UserAPI } from "../api/user.api";
+import { toast } from "react-toastify";
+import Avatar from "../components/Avatar";
 
 export default function EditProfile() {
   const [user, setUser] = useState({
@@ -21,8 +23,13 @@ export default function EditProfile() {
     const loadProfile = async () => {
       try {
         const res = await UserAPI.getProfile();
-        setUser(res.data);
+        if (res.status === 200) {
+          setUser(res.data);
+        } else {
+          toast.error("Error al cargar la información, intentalo mas tarde");
+        }
       } catch (err) {
+        toast.error("Error al cargar la información, intentalo mas tarde");
         setError("No se pudo cargar el perfil.");
       } finally {
         setLoading(false);
@@ -44,8 +51,12 @@ export default function EditProfile() {
 
   const handleSave = async () => {
     try {
-      await UserAPI.updateProfile(user.id, user); // ✔ muy importante
-      alert("Perfil actualizado correctamente");
+      const res = await UserAPI.updateProfile(user.id, user); // ✔ muy importante
+      if (res.status === 200) {
+        toast.info("Se actualizo la información de manera correcta");
+      } else {
+        toast.error("Error al actualizar la información, intentalo mas tarde");
+      }
     } catch (err) {
       console.error(err);
       alert("Error al guardar cambios");
@@ -53,21 +64,16 @@ export default function EditProfile() {
   };
 
   return (
-    <div className="flex w-full min-h-screen bg-base-200">
+    <div className="flex w-full h-full items-center justify-center bg-base-200">
       <main className="flex-1 p-6 flex justify-center items-center">
         <div className="card w-full max-w-2xl bg-base-100 shadow-xl border border-base-300">
-          <div className="card-body">
-            <h2 className="card-title text-2xl font-bold text-primary mb-4">
+          <div className="card-body gap-y-4">
+            <h2 className="card-title text-2xl font-bold text-primary">
               Editar Perfil
             </h2>
 
-            <div className="flex items-center gap-4 mb-6">
-              <div className="avatar">
-                <div className="w-24 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-                  <div className="w-full h-full bg-base-300 rounded-full" />
-                </div>
-              </div>
-
+            <div className="flex items-center gap-4 flex-col">
+              <Avatar name={user.nombre}  />
               <div>
                 <label className="btn btn-outline btn-sm">
                   Cambiar foto

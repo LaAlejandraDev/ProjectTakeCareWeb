@@ -37,6 +37,7 @@ export default function LoginForm() {
       }
     } catch (error) {
       toast.error("Ocurrió un error inesperado. Intenta de nuevo más tarde.");
+      console.error(error)
     }
   }
   return (

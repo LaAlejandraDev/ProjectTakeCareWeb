@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { PacientesAPI } from "../api/pacientes.api";
 import { useNavigate } from "react-router-dom";
+import { UserAPI } from "../api/user.api";
 
 export default function PacientesDiario() {
   const [pacientes, setPacientes] = useState([]);
@@ -12,7 +13,7 @@ export default function PacientesDiario() {
 
   const loadPacientes = async () => {
     try {
-      const resp = await PacientesAPI.getAll();
+      const resp = await UserAPI.getUserInformation();
       setPacientes(resp.data);
     } catch (err) {
       console.log("Error cargando pacientes:", err);

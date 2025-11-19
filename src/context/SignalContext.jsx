@@ -9,7 +9,7 @@ export function SignalProvider({ children }) {
 
   useEffect(() => {
     const newConnection = new signalR.HubConnectionBuilder()
-      .withUrl("http://localhost:5002/chatHub")
+      .withUrl("http://10.16.6.176:5002/chatHub")
       .configureLogging(signalR.LogLevel.Information)
       .withAutomaticReconnect()
       .build();
@@ -41,7 +41,6 @@ export function SignalProvider({ children }) {
     </SignalContext.Provider>
   );
 }
-
 
 export function useSignalR() {
   return useContext(SignalContext);

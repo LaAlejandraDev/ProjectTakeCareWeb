@@ -85,7 +85,7 @@ export default function Chat() {
     try {
       const response = await ChatAPI.sendMessage(newMessage);
       if (response.status === 201) {
-        return response.data; 
+        return response.data;
       } else {
         toast.error("No se pudo guardar el mensaje en la base de datos");
         return null;
@@ -122,7 +122,9 @@ export default function Chat() {
   }, [connection, isConnected]);
 
 
-  const sendMessage = async () => {
+  const sendMessage = async (e) => {
+    if (e) e.preventDefault();
+
     if (!connection || !message.trim()) return;
 
     const createdMsg = await createNewMessage();
@@ -130,7 +132,7 @@ export default function Chat() {
 
     if (!createdMsg.fecha) {
       createdMsg.fecha = new Date().toISOString();
-    } 
+    }
 
     try {
       await connection.invoke("SendMessage", createdMsg);
@@ -157,7 +159,7 @@ export default function Chat() {
               key={index}
               idPsycologist={userRolId}
               messageData={item}
-              date={formatMessageDate(item.date)}  
+              date={formatMessageDate(item.date)}
             />
           ))
         ) : (
