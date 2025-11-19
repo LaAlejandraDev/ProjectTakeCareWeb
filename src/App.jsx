@@ -64,7 +64,7 @@ function App() {
     <>
       <ToastContainer />
       <div className="w-screen h-screen flex bg-base-200">
-        <div className="flex p-2 w-50">
+        <div className="flex p-2 w-50 h-full">
           <Menu />
         </div>
         <div className="flex-grow overflow-y-auto p-2">

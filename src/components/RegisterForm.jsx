@@ -61,7 +61,7 @@ export default function RegisterForm() {
               onChange={(e) => setContrasena(e.target.value)}
             />
           </fieldset>
-          <div classname="card-actions py-4">
+          <div className="card-actions py-4">
             <button
               className="btn btn-secondary w-full"
               onClick={() => handleRegister()}

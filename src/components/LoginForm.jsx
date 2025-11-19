@@ -1,3 +1,4 @@
+import React from "react";
 import { HeartIcon } from "@heroicons/react/16/solid";
 import { NavLink, useNavigate } from "react-router-dom";
 import { AuthAPI } from "../api/auth.api";
@@ -6,7 +7,7 @@ import { toast } from "react-toastify";
 import { AuthContext } from "../context/AuthContext";
 
 export default function LoginForm() {
-  const { login } = useContext(AuthContext)
+  const { login } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setUserPassword] = useState("");
   const navigation = useNavigate();
@@ -27,15 +28,13 @@ export default function LoginForm() {
 
       if (response.status === 200) {
         toast.success("Inicio de sesión exitoso. ¡Bienvenido de nuevo!");
-        login(response.data.usuario, response.data.token)
+        login(response.data.usuario, response.data.token);
         setTimeout(() => {
           navigation("/index/forum");
         }, 1500);
-
       } else {
         toast.error("Correo o contraseña incorrectos. Verifica tus datos.");
       }
-
     } catch (error) {
       toast.error("Ocurrió un error inesperado. Intenta de nuevo más tarde.");
     }
@@ -71,10 +70,7 @@ export default function LoginForm() {
           </fieldset>
 
           <div className="card-actions mt-4">
-            <button
-              className="btn btn-primary w-full"
-              type="submit"
-            >
+            <button className="btn btn-primary w-full" type="submit">
               Iniciar Sesión
               <kbd className="kbd kbd-sm bg-indigo-500">Enter</kbd>
             </button>
