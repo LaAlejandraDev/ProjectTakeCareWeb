@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import MessageComponent from "../components/Chat/Message";
 import Avatar from "../components/Avatar";
 import { useSignalR } from "../context/SignalContext";
@@ -8,7 +8,6 @@ import { toast } from "react-toastify";
 import { MessageCreateClass, MessageDataClass, MessageDeseralizerClass } from "../classes/MessageCreate";
 import { AuthContext } from "../context/AuthContext";
 import { PaperAirplaneIcon } from "@heroicons/react/16/solid";
-import { PaperClipIcon } from "@heroicons/react/24/outline";
 import { formatMessageDate } from "../utils/DateFormat";
 
 export default function Chat() {
@@ -22,8 +21,12 @@ export default function Chat() {
   const { rolId } = useContext(AuthContext)
   const userRolId = rolId.id
   const userRolType = rolId.rol
+  const chatRef = useRef(null)
 
-  console.log(userRolId)
+  useEffect(() => {
+    if(!chatRef.current) return;
+    chatRef.current.scrollTop = chatRef.current.scrollHeight;
+  }, [messagesList])
 
   function mapServerMessageToClientModel(serverMsg) {
     return new MessageDeseralizerClass(
@@ -138,8 +141,7 @@ export default function Chat() {
       await connection.invoke("SendMessage", createdMsg);
       setMessage("");
     } catch (err) {
-      console.error("Error al enviar mensaje por SignalR:", err);
-      toast.error("Error al enviar el mensaje por SignalR");
+      toast.error("Error al enviar el mensaje");
     }
   };
 
@@ -152,7 +154,7 @@ export default function Chat() {
         </div>
       </div>
 
-      <div className="w-full flex-1 overflow-y-auto bg-base-100 shadow-md p-4 space-y-2">
+      <div className="w-full flex-1 overflow-y-auto bg-base-100 shadow-md p-4 space-y-2" ref={chatRef}>
         {Array.isArray(messagesList) && messagesList.length > 0 ? (
           messagesList.map((item, index) => (
             <MessageComponent
