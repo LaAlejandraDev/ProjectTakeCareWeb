@@ -31,6 +31,7 @@ import NotFoundPage from "./pages/NotFound.jsx";
 import RoutesProtect from "./context/RoutesProtect.jsx";
 import { AuthContext } from "./context/AuthContext.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
+import SchedulePage from "./pages/dashboard/SchedulePage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -83,7 +84,14 @@ const router = createBrowserRouter([
             path: "session/:id",
             element: <Sesiones />,
           },
-          { path: "dashboard", element: <Dashboard /> },
+          {
+            path: "dashboard",
+            element: <Dashboard />,
+          },
+          {
+            path: "schedule",
+            element: <SchedulePage />,
+          },
         ],
       },
     ],

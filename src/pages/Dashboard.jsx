@@ -5,7 +5,10 @@ export default function Dashboard() {
     <div className="p-8 bg-base-200 min-h-screen">
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold text-primary">Panel del Psicólogo</h1>
-        <button className="btn btn-primary">Nueva cita</button>
+        <div className="flex gap-4">
+          <button className="btn btn-primary">Nueva cita</button>
+          <button className="btn btn-info">Definir Horario</button>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
