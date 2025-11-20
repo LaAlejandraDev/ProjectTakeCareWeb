@@ -1,4 +1,5 @@
 import React from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 
 export default function Dashboard() {
   return (
@@ -7,7 +8,7 @@ export default function Dashboard() {
         <h1 className="text-3xl font-bold text-primary">Panel del Psicólogo</h1>
         <div className="flex gap-4">
           <button className="btn btn-primary">Nueva cita</button>
-          <button className="btn btn-info">Definir Horario</button>
+          <NavLink to={"/index/schedule"} className={"btn btn-info"}>Definir Horario</NavLink>
         </div>
       </div>
 
