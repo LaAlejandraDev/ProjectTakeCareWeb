@@ -20,12 +20,21 @@ import SubscriptionsPage from "./pages/Subscriptions.jsx";
 import { SignalProvider } from "./context/SignalContext.jsx";
 import Login from "./pages/Auth/Login.jsx";
 import Register from "./pages/Auth/Register.jsx";
-import { AuthProvider } from "./context/AuthContext.jsx";
+import Expediente from "./pages/Expediente.jsx";
+import Sesiones from "./pages/Sesiones.jsx";
+import Dashboard from "./pages/Dashboard.jsx";
+import Diary from "./pages/Diary.jsx";
+import EditProfile from "./pages/EditProfile.jsx";
+import PacientesDiario from "./pages/PacientesDiario.jsx";
+import Diariopaciente from "./pages/Diariopaciente.jsx";
 import NotFoundPage from "./pages/NotFound.jsx";
 import RoutesProtect from "./context/RoutesProtect.jsx";
 import Users from "./pages/admin/Users.jsx";
 import Dashboard from "./pages/admin/Dashboard.jsx";
 import Suscriptions from "./pages/admin/Suscriptions.jsx";
+import { AuthContext } from "./context/AuthContext.jsx";
+import { AuthProvider } from "./context/AuthContext.jsx";
+import SchedulePage from "./pages/dashboard/SchedulePage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -63,8 +72,29 @@ const router = createBrowserRouter([
               { path: "chat/:id", element: <Chat /> },
             ],
           },
-          { path: "diary", element: <h1>Diario</h1> },
-          { path: "profile", element: <h1>Perfil</h1> },
+          { path: "diary", element: <PacientesDiario /> },
+          {
+            path: "diario/paciente/:id",
+            element: <Diariopaciente />,
+          },
+          { path: "profile", element: <EditProfile /> },
+
+          {
+            path: "record",
+            element: <Expediente />,
+          },
+          {
+            path: "session/:id",
+            element: <Sesiones />,
+          },
+          {
+            path: "dashboard",
+            element: <Dashboard />,
+          },
+          {
+            path: "schedule",
+            element: <SchedulePage />,
+          },
         ],
       },
     ],

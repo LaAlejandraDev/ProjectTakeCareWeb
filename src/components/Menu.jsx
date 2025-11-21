@@ -1,3 +1,4 @@
+import { BookOpenIcon } from "@heroicons/react/16/solid";
 import {
   ChatBubbleBottomCenterIcon,
   UserCircleIcon,
@@ -64,6 +65,14 @@ export default function Menu() {
         break;
       case "Suscripciones":
         navigate("/admin/subscriptions");
+      case "Expediente":
+        navigate("/index/record");
+        break;
+      case "Dashboard":
+        navigate("/index/dashboard");
+        break;
+      case "Diario":
+        navigate("/index/diary");
         break;
       default:
         break;
@@ -159,6 +168,56 @@ export default function Menu() {
           </li>
         </>
       )}
+      <li>
+        <a className="font-bold text-lg">Dashboard</a>
+        <ul>
+          <MenuItem
+            title="Dashboard"
+            section={selected}
+            onSelect={handleSelect}
+            icon={<ChartBarIcon className="h-6 w-6" />}
+          />
+        </ul>
+        <ul>
+          <MenuItem
+            title="Diario"
+            section={selected}
+            onSelect={handleSelect}
+            icon={<BookOpenIcon className="h-6 w-6" />}
+          />
+        </ul>
+        <ul>
+          <MenuItem
+            title="Expediente"
+            section={selected}
+            onSelect={handleSelect}
+            icon={<BookmarkSquareIcon className="h-6 w-6" />}
+          />
+        </ul>
+      </li>
+      <li>
+        <a className="font-bold text-lg">Foro</a>
+        <ul>
+          <MenuItem
+            title="Inicio"
+            section={selected}
+            onSelect={handleSelect}
+            icon={<QueueListIcon className="h-6 w-6" />}
+          />
+        </ul>
+      </li>
+
+      <li>
+        <a className="font-bold text-lg">Mensajeria</a>
+        <ul>
+          <MenuItem
+            title="Mensajes"
+            section={selected}
+            onSelect={handleSelect}
+            icon={<ChatBubbleBottomCenterIcon className="h-6 w-6" />}
+          />{" "}
+        </ul>
+      </li>
       <li>
         <a className="font-bold text-lg">Personal</a>
         <ul>

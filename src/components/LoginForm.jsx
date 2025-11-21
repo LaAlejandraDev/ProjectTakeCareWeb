@@ -1,3 +1,4 @@
+import React from "react";
 import { HeartIcon } from "@heroicons/react/16/solid";
 import { NavLink, useNavigate } from "react-router-dom";
 import { AuthAPI } from "../api/auth.api";
@@ -44,6 +45,7 @@ export default function LoginForm() {
       }
     } catch (error) {
       toast.error("Ocurrió un error inesperado. Intenta de nuevo más tarde.");
+      console.error(error)
     }
   }
   return (

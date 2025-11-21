@@ -1,4 +1,5 @@
 import axios from "axios";
+import { setupInterceptors } from "./interceptors";
 
 const axiosClient = axios.create({
   baseURL: "http://localhost:5002/api",
@@ -7,5 +8,7 @@ const axiosClient = axios.create({
     "Content-Type": "application/json",
   },
 });
+
+setupInterceptors(axiosClient);
 
 export default axiosClient;
