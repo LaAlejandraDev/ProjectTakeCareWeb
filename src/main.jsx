@@ -29,6 +29,9 @@ import PacientesDiario from "./pages/PacientesDiario.jsx";
 import Diariopaciente from "./pages/Diariopaciente.jsx";
 import NotFoundPage from "./pages/NotFound.jsx";
 import RoutesProtect from "./context/RoutesProtect.jsx";
+import Users from "./pages/admin/Users.jsx";
+import Dashboard from "./pages/admin/Dashboard.jsx";
+import Suscriptions from "./pages/admin/Suscriptions.jsx";
 import { AuthContext } from "./context/AuthContext.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
 import SchedulePage from "./pages/dashboard/SchedulePage.jsx";
@@ -94,6 +97,15 @@ const router = createBrowserRouter([
           },
         ],
       },
+    ],
+  },
+  {
+    path: "/admin",
+    element: <App />,
+    children: [
+      { path: "users", element: <Users /> },
+      { path: "dash", element: <Dashboard /> },
+      { path: "suscrip", element: <Suscriptions /> },
     ],
   },
   { path: "*", element: <NotFoundPage /> },

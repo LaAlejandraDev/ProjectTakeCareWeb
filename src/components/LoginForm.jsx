@@ -28,9 +28,17 @@ export default function LoginForm() {
 
       if (response.status === 200) {
         toast.success("Inicio de sesión exitoso. ¡Bienvenido de nuevo!");
+        const rol = response.data.usuario.rol;
+        localStorage.setItem("rol", response.data.usuario.rol);
         login(response.data.usuario, response.data.token);
         setTimeout(() => {
-          navigation("/index/forum");
+          if (rol === 1) {
+            navigation("/admin/users");
+          } else if (rol === 2) {
+            navigation("/index/forum");
+          } else {
+            navigation("/login");
+          }
         }, 1500);
       } else {
         toast.error("Correo o contraseña incorrectos. Verifica tus datos.");
