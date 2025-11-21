@@ -17,6 +17,21 @@ const UserForm = () => {
     setAbrirModal(true);
   };
 
+  const handleDelete = async (id) => {
+    if (!window.confirm("¿Seguro que deseas eliminar este usuario?")) return;
+
+    try {
+      await UserAPI.deleteUsuario(id);
+      toast.success("Usuario eliminado correctamente");
+
+      const res = await UserAPI.getUsers();
+      setUsers(res.data);
+    } catch (error) {
+      console.error(error);
+      toast.error("Error al eliminar usuario");
+    }
+  };
+
   useEffect(() => {
     cargarUsuarios();
   }, []);
@@ -42,7 +57,7 @@ const UserForm = () => {
       },
       1: {
         label: "Administrador",
-        color: "bg-red-100 text-red-800 border border-red-200",
+        color: "bg-purple-100 text-pruple-800 border border-purple-200",
       },
       2: {
         label: "Psicologo",
@@ -113,7 +128,13 @@ const UserForm = () => {
           </div>
 
           <div className="flex space-x-3">
-            <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center">
+            <button
+              onClick={() => {
+                setUsuarioSeleccionado(null);
+                setAbrirModal(true);
+              }}
+              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center"
+            >
               <svg
                 className="w-5 h-5 mr-2"
                 fill="none"
@@ -158,6 +179,12 @@ const UserForm = () => {
                     scope="col"
                   >
                     ROL
+                  </th>
+                  <th
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    scope="col"
+                  >
+                    ACTIVO
                   </th>
                   <th
                     className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
@@ -208,6 +235,17 @@ const UserForm = () => {
                       <td className="px-6 py-4 whitespace-nowrap">
                         {getRol(u.rol)}
                       </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        {u.activo ? (
+                          <span className="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800 border border-green-200">
+                            Activo
+                          </span>
+                        ) : (
+                          <span className="px-2 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800 border border-red-200">
+                            Inactivo
+                          </span>
+                        )}
+                      </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                         <div className="flex space-x-3">
                           <button
@@ -229,7 +267,10 @@ const UserForm = () => {
                             </svg>
                             Editar
                           </button>
-                          <button className="text-red-600 hover:text-red-900 flex items-center">
+                          <button
+                            onClick={() => handleDelete(u.id)}
+                            className="text-red-600 hover:text-red-900 flex items-center"
+                          >
                             <svg
                               className="w-4 h-4 mr-1"
                               fill="none"
