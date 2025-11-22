@@ -5,7 +5,11 @@ import { useSignalR } from "../context/SignalContext";
 import { useParams } from "react-router-dom";
 import { ChatAPI } from "../api/chat.api";
 import { toast } from "react-toastify";
-import { MessageCreateClass, MessageDataClass, MessageDeseralizerClass } from "../classes/MessageCreate";
+import {
+  MessageCreateClass,
+  MessageDataClass,
+  MessageDeseralizerClass,
+} from "../classes/MessageCreate";
 import { AuthContext } from "../context/AuthContext";
 import { PaperAirplaneIcon } from "@heroicons/react/16/solid";
 import { formatMessageDate } from "../utils/DateFormat";
@@ -18,15 +22,15 @@ export default function Chat() {
   const [chatUserName, setChatUserName] = useState("User");
   const { id: chatId } = useParams();
   const [idPsyco, setIdPsyco] = useState(-1);
-  const { rolId } = useContext(AuthContext)
-  const userRolId = rolId.id
-  const userRolType = rolId.rol
-  const chatRef = useRef(null)
+  const { rolId, user } = useContext(AuthContext);
+  const userRolId = rolId.id;
+  const userRolType = rolId.rol;
+  const chatRef = useRef(null);
 
   useEffect(() => {
-    if(!chatRef.current) return;
+    if (!chatRef.current) return;
     chatRef.current.scrollTop = chatRef.current.scrollHeight;
-  }, [messagesList])
+  }, [messagesList]);
 
   function mapServerMessageToClientModel(serverMsg) {
     return new MessageDeseralizerClass(
@@ -66,8 +70,16 @@ export default function Chat() {
     try {
       const response = await ChatAPI.getChatInfo(chatId);
       if (response.status === 200) {
-        setUser(userRolType === 2 ? (response.data.nombrePaciente) : (response.data.nombrePsicologo));
-        setChatUserName(userRolType === 2 ? (response.data.nombrePaciente) : (response.data.nombrePsicologo));
+        setUser(
+          userRolType === 2
+            ? response.data.nombrePaciente
+            : response.data.nombrePsicologo
+        );
+        setChatUserName(
+          userRolType === 2
+            ? response.data.nombrePaciente
+            : response.data.nombrePsicologo
+        );
         setIdPsyco(response.data.idPsicologo);
       } else {
         toast.error("No se pudo obtener la información del chat");
@@ -82,7 +94,7 @@ export default function Chat() {
       Number(chatId),
       userRolId,
       message.trim(),
-      false,
+      false
     );
 
     try {
@@ -124,7 +136,6 @@ export default function Chat() {
     };
   }, [connection, isConnected]);
 
-
   const sendMessage = async (e) => {
     if (e) e.preventDefault();
 
@@ -137,12 +148,7 @@ export default function Chat() {
       createdMsg.fecha = new Date().toISOString();
     }
 
-    try {
-      await connection.invoke("SendMessage", createdMsg);
-      setMessage("");
-    } catch (err) {
-      toast.error("Error al enviar el mensaje");
-    }
+    setMessage("");
   };
 
   return (
@@ -154,7 +160,10 @@ export default function Chat() {
         </div>
       </div>
 
-      <div className="w-full flex-1 overflow-y-auto bg-base-100 shadow-md p-4 space-y-2" ref={chatRef}>
+      <div
+        className="w-full flex-1 overflow-y-auto bg-base-100 shadow-md p-4 space-y-2"
+        ref={chatRef}
+      >
         {Array.isArray(messagesList) && messagesList.length > 0 ? (
           messagesList.map((item, index) => (
             <MessageComponent
@@ -179,7 +188,11 @@ export default function Chat() {
             onChange={(e) => setMessage(e.target.value)}
             className="input flex-1"
           />
-          <button onClick={sendMessage} className="btn btn-secondary" type="submit">
+          <button
+            onClick={sendMessage}
+            className="btn btn-secondary"
+            type="submit"
+          >
             <PaperAirplaneIcon className="size-[2em]" />
             Enviar
           </button>

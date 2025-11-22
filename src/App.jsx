@@ -58,7 +58,6 @@ function App() {
     };
   }, [connection, isConnected, location]);
 
-
   async function getRoleData() {
     try {
       const response = await UserAPI.getUserInformation(user.id)
