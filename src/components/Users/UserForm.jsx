@@ -57,10 +57,10 @@ const UserForm = () => {
       },
       1: {
         label: "Administrador",
-        color: "bg-purple-100 text-pruple-800 border border-purple-200",
+        color: "bg-red-100 text-red-800 border border-red-200",
       },
       2: {
-        label: "Psicologo",
+        label: "Psicólogo",
         color: "bg-blue-100 text-blue-800 border border-blue-200",
       },
     };
@@ -72,261 +72,275 @@ const UserForm = () => {
 
     return (
       <span
-        className={`px-2 py-1 text-xs font-semibold rounded-full ${config.color}`}
+        className={`px-3 py-1 rounded-full text-xs font-medium ${config.color}`}
       >
         {config.label}
       </span>
     );
   };
 
+  const getEstado = (activo) => {
+    return activo ? (
+      <span className="px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 border border-green-200">
+        Activo
+      </span>
+    ) : (
+      <span className="px-3 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800 border border-red-200">
+        Inactivo
+      </span>
+    );
+  };
+
+  const usuariosFiltrados = users
+    .filter((u) =>
+      `${u.nombre} ${u.apellidoPaterno} ${u.apellidoMaterno}`
+        .toLowerCase()
+        .includes(busqueda.toLowerCase())
+    )
+    .filter((u) => (rolFiltro === "" ? true : u.rol === Number(rolFiltro)));
+
   return (
-    <div className="min-h-screen bg-gray">
-      <div className="mb-6 mt-5">
-        <h1 className="text-2xl font-bold text-gray-800">
-          Gestión de Usuarios
-        </h1>
-        <p className="text-gray-600 mt-1">
-          Administra los usuarios de la plataforma
-        </p>
-      </div>
-
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-        <div className="px-6 py-4 border-gray-200 flex justify-between items-center">
-          <div className="flex items-center space-x-4">
-            <div className="relative">
-              <input
-                value={busqueda}
-                onChange={(e) => setBusqueda(e.target.value)}
-                type="text"
-                placeholder="Buscar usuario..."
-                className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-64"
-              />
-              <svg
-                className="w-5 h-5 text-gray-500 absolute left-3 top-2.5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                />
-              </svg>
-            </div>
-            <select
-              value={rolFiltro}
-              onChange={(e) => setRolFiltro(e.target.value)}
-              className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            >
-              <option value="">Todos los roles</option>
-              <option value="0">Paciente</option>
-              <option value="1">Administrador</option>
-              <option value="2">Psicólogo</option>
-            </select>
-          </div>
-
-          <div className="flex space-x-3">
-            <button
-              onClick={() => {
-                setUsuarioSeleccionado(null);
-                setAbrirModal(true);
-              }}
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center"
-            >
-              <svg
-                className="w-5 h-5 mr-2"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 4v16m8-8H4"
-                />
-              </svg>
-              Nuevo Usuario
-            </button>
-          </div>
+    <div className="p-8 bg-base-200 min-h-screen">
+      {/* Header */}
+      <div className="flex justify-between items-center mb-8">
+        <div>
+          <h1 className="text-3xl font-bold text-primary">
+            Gestión de Usuarios
+          </h1>
+          <p className="text-base-content/70 mt-2">
+            Administra los usuarios de la plataforma
+          </p>
         </div>
-
-        {load ? (
-          <div className="flex justify-center items-center py-12">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
-          </div>
-        ) : (
-          <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
-                <tr>
-                  <th
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                    scope="col"
-                  >
-                    USUARIO
-                  </th>
-                  <th
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                    scope="col"
-                  >
-                    CORREO
-                  </th>
-                  <th
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                    scope="col"
-                  >
-                    ROL
-                  </th>
-                  <th
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                    scope="col"
-                  >
-                    ACTIVO
-                  </th>
-                  <th
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                    scope="col"
-                  >
-                    ACCIONES
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
-                {users
-                  .filter((u) =>
-                    `${u.nombre} ${u.apellidoPaterno} ${u.apellidoMaterno}`
-                      .toLowerCase()
-                      .includes(busqueda.toLowerCase())
-                  )
-                  .filter((u) =>
-                    rolFiltro === "" ? true : u.rol === Number(rolFiltro)
-                  )
-                  .map((u) => (
-                    <tr
-                      key={u.id}
-                      className="hover:bg-gray-50 transition-colors"
-                    >
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="flex items-center">
-                          <div className="flex-shrink-0 h-10 w-10 bg-blue-100 rounded-full flex items-center justify-center">
-                            <span className="text-blue-600 font-medium text-sm">
-                              {u.nombre?.charAt(0)}
-                              {u.apellidoPaterno?.charAt(0)}
-                            </span>
-                          </div>
-                          <div className="ml-4">
-                            <div className="text-sm font-medium text-gray-900">
-                              {`${u.nombre} ${u.apellidoPaterno} ${
-                                u.apellidoMaterno || ""
-                              }`}
-                            </div>
-                            <div className="text-xs text-gray-500">
-                              ID.{u.id}
-                            </div>
-                          </div>
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-900">{u.correo}</div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        {getRol(u.rol)}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        {u.activo ? (
-                          <span className="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800 border border-green-200">
-                            Activo
-                          </span>
-                        ) : (
-                          <span className="px-2 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800 border border-red-200">
-                            Inactivo
-                          </span>
-                        )}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                        <div className="flex space-x-3">
-                          <button
-                            className="text-blue-600 hover:text-blue-900 flex items-center"
-                            onClick={() => handleEdit(u)}
-                          >
-                            <svg
-                              className="w-4 h-4 mr-1"
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                              />
-                            </svg>
-                            Editar
-                          </button>
-                          <button
-                            onClick={() => handleDelete(u.id)}
-                            className="text-red-600 hover:text-red-900 flex items-center"
-                          >
-                            <svg
-                              className="w-4 h-4 mr-1"
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                              />
-                            </svg>
-                            Eliminar
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-              </tbody>
-            </table>
-            <ModalUser
-              abrirModal={abrirModal}
-              cerrarModal={() => setAbrirModal(false)}
-              usuarioSeleccionado={usuarioSeleccionado}
-              guardar={cargarUsuarios}
+        <button
+          onClick={() => {
+            setUsuarioSeleccionado(null);
+            setAbrirModal(true);
+          }}
+          className="btn btn-primary"
+        >
+          <svg
+            className="w-5 h-5 mr-2"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M12 4v16m8-8H4"
             />
-          </div>
-        )}
-
-        {!load && users.length === 0 && (
-          <div className="text-center py-12">
-            <div className="text-gray-400 mb-4">
-              <svg
-                className="mx-auto h-16 w-16"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={1}
-                  d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"
-                />
-              </svg>
-            </div>
-            <h3 className="text-lg font-medium text-gray-900 mb-1">
-              No hay usuarios
-            </h3>
-            <p className="text-gray-500">
-              No se encontraron usuarios en el sistema.
-            </p>
-          </div>
-        )}
+          </svg>
+          Nuevo Usuario
+        </button>
       </div>
+
+      <div className="card bg-base-100 shadow-md">
+        <div className="card-body p-0">
+          <div className="px-6 py-4 border-b border-base-300">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+              <div className="flex flex-col sm:flex-row gap-4">
+                <div className="form-control">
+                  <div className="relative">
+                    <input
+                      value={busqueda}
+                      onChange={(e) => setBusqueda(e.target.value)}
+                      type="text"
+                      placeholder="Buscar usuario..."
+                      className="pl-10 pr-4 py-2 input input-bordered w-full max-w-xs"
+                    />
+                    <svg
+                      className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-base-content/70"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                      />
+                    </svg>
+                  </div>
+                </div>
+
+                <div className="form-control">
+                  <select
+                    value={rolFiltro}
+                    onChange={(e) => setRolFiltro(e.target.value)}
+                    className="select select-bordered"
+                  >
+                    <option value="">Todos los roles</option>
+                    <option value="0">Paciente</option>
+                    <option value="1">Administrador</option>
+                    <option value="2">Psicólogo</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="text-sm text-base-content/70">
+                {usuariosFiltrados.length} de {users.length} usuarios
+              </div>
+            </div>
+          </div>
+
+          {load ? (
+            <div className="flex justify-center items-center py-12">
+              <span className="loading loading-spinner loading-lg text-primary"></span>
+            </div>
+          ) : (
+            <div className="overflow-x-auto">
+              {usuariosFiltrados.length > 0 ? (
+                <table className="table">
+                  <thead>
+                    <tr className="bg-base-200">
+                      <th className="text-base-content font-semibold">
+                        Usuario
+                      </th>
+                      <th className="text-base-content font-semibold">
+                        Correo
+                      </th>
+                      <th className="text-base-content font-semibold">Rol</th>
+                      <th className="text-base-content font-semibold">
+                        Estado
+                      </th>
+                      <th className="text-base-content font-semibold">
+                        Acciones
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {usuariosFiltrados.map((u) => (
+                      <tr key={u.id} className="hover:bg-base-200/50">
+                        <td>
+                          <div className="flex items-center gap-3">
+                            <div className="avatar placeholder">
+                              <div className="bg-primary text-primary-content rounded-full w-12 h-12 flex items-center justify-center">
+                                <span className="text-sm font-bold">
+                                  {u.nombre?.charAt(0)}
+                                  {u.apellidoPaterno?.charAt(0)}
+                                </span>
+                              </div>
+                            </div>
+                            <div>
+                              <div className="font-bold text-base-content">
+                                {`${u.nombre} ${u.apellidoPaterno} ${
+                                  u.apellidoMaterno || ""
+                                }`}
+                              </div>
+                              <div className="text-sm text-base-content/70">
+                                ID.{u.id}
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="text-base-content">{u.correo}</td>
+                        <td>
+                          <div className="flex justify-start">
+                            {getRol(u.rol)}
+                          </div>
+                        </td>
+                        <td>
+                          <div className="flex justify-start">
+                            {getEstado(u.activo)}
+                          </div>
+                        </td>
+                        <td>
+                          <div className="flex gap-2">
+                            <button
+                              className="btn btn-ghost btn-sm text-primary hover:bg-primary/10"
+                              onClick={() => handleEdit(u)}
+                            >
+                              <svg
+                                className="w-4 h-4 mr-1"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                                />
+                              </svg>
+                              Editar
+                            </button>
+                            <button
+                              onClick={() => handleDelete(u.id)}
+                              className="btn btn-ghost btn-sm text-error hover:bg-error/10"
+                            >
+                              <svg
+                                className="w-4 h-4 mr-1"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                                />
+                              </svg>
+                              Eliminar
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              ) : (
+                <div className="text-center py-12">
+                  <div className="text-base-content/30 mb-4">
+                    <svg
+                      className="mx-auto h-16 w-16"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={1}
+                        d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"
+                      />
+                    </svg>
+                  </div>
+                  <h3 className="text-lg font-medium text-base-content mb-1">
+                    No se encontraron usuarios
+                  </h3>
+                  <p className="text-base-content/70 mb-4">
+                    {busqueda || rolFiltro
+                      ? "Prueba con otros filtros"
+                      : "No hay usuarios en el sistema"}
+                  </p>
+                  {(busqueda || rolFiltro) && (
+                    <button
+                      onClick={() => {
+                        setBusqueda("");
+                        setRolFiltro("");
+                      }}
+                      className="btn btn-ghost btn-sm"
+                    >
+                      Limpiar filtros
+                    </button>
+                  )}
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      </div>
+
+      <ModalUser
+        abrirModal={abrirModal}
+        cerrarModal={() => setAbrirModal(false)}
+        usuarioSeleccionado={usuarioSeleccionado}
+        guardar={cargarUsuarios}
+      />
     </div>
   );
 };

@@ -64,7 +64,7 @@ export default function Menu() {
         navigate("/admin/reports");
         break;
       case "Suscripciones":
-        navigate("/admin/subscriptions");
+        navigate("/admin/suscrip");
         break;
       case "Expediente":
         navigate("/index/record");
@@ -115,6 +115,17 @@ export default function Menu() {
             <ul>
               <MenuItem
                 title="Usuarios"
+                section={selected}
+                onSelect={handleSelect}
+                icon={<UserGroupIcon className="h-6 w-6" />}
+              />
+            </ul>
+          </li>
+          <li>
+            <a className="font-bold text-lg">Suscripciones</a>
+            <ul>
+              <MenuItem
+                title="Suscripciones"
                 section={selected}
                 onSelect={handleSelect}
                 icon={<UserGroupIcon className="h-6 w-6" />}
