@@ -16,13 +16,12 @@ export default function SubscriptionsPage() {
       await PsicologoAPI.suscribirse(idPsicologo, plan);
 
       toast.success(
-        "Solicitud enviada. Esperando aprobación del administrador."
+        "Solicitud enviada. Tu cuenta está en revisión por el administrador."
       );
-      localStorage.removeItem("token");
-      console.log("Solictud enviada.");
+
       setTimeout(() => {
-        navigation("/");
-      }, 2000);
+        navigation("/index");
+      }, 1500);
     } catch (error) {
       toast.error("No se pudo procesar la suscripción");
     }
