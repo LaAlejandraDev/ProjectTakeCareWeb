@@ -100,7 +100,7 @@ export default function Menu() {
           </div>
         )}
       </div>
-      {rol === "1" && (
+      {rol == "1" && (
         <>
           <li>
             <a className="font-bold text-lg">Dashboard</a>
@@ -138,7 +138,7 @@ export default function Menu() {
         </>
       )}
 
-      {rol === "2" && (
+      {rol == "2" && (
         <>
           <li>
             <a className="font-bold text-lg">Dashboard</a>
@@ -188,44 +188,6 @@ export default function Menu() {
                 onSelect={handleSelect}
                 icon={<ChatBubbleBottomCenterIcon className="h-6 w-6" />}
               />{" "}
-            </ul>
-          </li>
-          <li>
-            <a className="font-bold text-lg">Inicio</a>
-            <ul>
-              <MenuItem
-                title="Dashboard"
-                section={selected}
-                onSelect={handleSelect}
-                icon={<ChartBarIcon className="h-6 w-6" />}
-              />
-            </ul>
-            <ul>
-              <MenuItem
-                title="Diario"
-                section={selected}
-                onSelect={handleSelect}
-                icon={<BookOpenIcon className="h-6 w-6" />}
-              />
-            </ul>
-            <ul>
-              <MenuItem
-                title="Expediente"
-                section={selected}
-                onSelect={handleSelect}
-                icon={<BookmarkSquareIcon className="h-6 w-6" />}
-              />
-            </ul>
-          </li>
-          <li>
-            <a className="font-bold text-lg">Foro</a>
-            <ul>
-              <MenuItem
-                title="Inicio"
-                section={selected}
-                onSelect={handleSelect}
-                icon={<QueueListIcon className="h-6 w-6" />}
-              />
             </ul>
           </li>
         </>

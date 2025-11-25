@@ -1,22 +1,24 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import axiosClient from "../api/axiosClient";
+import { AuthContext } from "../context/AuthContext";
 
 export default function PsicologoDashboard() {
+  const { rolId } = useContext(AuthContext)
   const navigate = useNavigate();
   const storedId = localStorage.getItem("IdUsuario");
-  const idPsicologo = storedId ? parseInt(storedId, 10) : null;
+  const idPsicologo = rolId.psicologo.id
 
   const [pacientes, setPacientes] = useState([]);
   const [citas, setCitas] = useState([]);
   const [loadingPacientes, setLoadingPacientes] = useState(true);
   const [loadingCitas, setLoadingCitas] = useState(true);
 
-  if (!idPsicologo) {
-    console.warn("No hay IdUsuario en localStorage. Redirigiendo a /login");
-    window.location.href = "/login";
-    return null;
-  }
+  // if (!idPsicologo) {
+  //   console.warn("No hay IdUsuario en localStorage. Redirigiendo a /login");
+  //   window.location.href = "/login";
+  //   return null;
+  // } Mal manejo en la obtencion del id del psicologo
 
   const fetchPacientes = async () => {
     setLoadingPacientes(true);
