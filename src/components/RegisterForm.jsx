@@ -17,11 +17,25 @@ export default function RegisterForm() {
         correo: email,
         contrasena: contrasena,
       });
-      toast.success("Cuenta creada");
+
+      const usuario = response.data.usuario;
+      const token = response.data.token;
+
+      if (usuario && token) {
+        localStorage.setItem("token", token);
+        localStorage.setItem("usuario", JSON.stringify(usuario));
+        localStorage.setItem("rol", usuario.rol);
+
+        if (response.data.idPsicologo) {
+          localStorage.setItem("idPsicologo", response.data.idPsicologo);
+        }
+      }
+
+      toast.success("Cuenta creada correctamente.");
       navigation("/subscriptions");
-      console.log(response);
     } catch (error) {
       toast.error("Ocurrió un error inesperado. Intenta nuevamente más tarde.");
+      console.error(error);
     }
   }
   return (

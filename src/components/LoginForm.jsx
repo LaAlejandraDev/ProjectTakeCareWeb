@@ -34,19 +34,40 @@ export default function LoginForm() {
       // console.log("Usuario actual en local storage (antes de guardar):", localUser);
 
       if (response.status === 200) {
-        toast.success("Inicio de sesión exitoso");
+        const { usuario, token, estatusPsicologo } = response.data;
+        const rol = response.data.usuario.rol;
+        localStorage.setItem("rol", response.data.usuario.rol);
+        localStorage.setItem("token", token);
 
-        // 1. Llama a la función del contexto para actualizar el estado global
-        login(response.data.usuario, response.data.token);
-
-        // 2. Guarda los datos localmente SÓLO si el login fue exitoso (status 200)
-        // Usamos 'usuario' y 'token' que vienen en la respuesta
-        saveLocalUser(response.data.usuario, response.data.token);
-        console.log("Datos guardados exitosamente:", getLocalUser());
-
-        setTimeout(() => {
-          navigation("/index/forum");
-        }, 1500);
+        login(usuario, token);
+        if (rol === 1) {
+          toast.success(`Bienvenido, ${usuario.nombre}`);
+          setTimeout(() => {
+            navigation("/admin/users");
+          }, 1500);
+        } else if (rol === 2) {
+          if (estatusPsicologo === "Aprobado") {
+            toast.success("Inicio de sesión exitoso. ¡Bienvenido!");
+            setTimeout(() => {
+              navigation("/index/forum");
+            }, 1500);
+          } else if (estatusPsicologo === "Pendiente") {
+            toast.info(
+              "Tu solicitud de suscripción está pendiente de aprobación."
+            );
+          } else if (estatusPsicologo === "Rechazado") {
+            toast.error(
+              "Tu solicitud de suscripción fue rechazada. Contacta al administrador."
+            );
+          } else {
+            toast.warning("No se pudo determinar el estatus de tu cuenta.");
+          }
+        } else {
+          toast.success("Inicio de sesión exitoso. ¡Bienvenido!");
+          setTimeout(() => {
+            navigation("/index/forum");
+          }, 1500);
+        }
       } else {
         // Esto solo se ejecuta si la API devuelve un status diferente de 200 pero sin lanzar error
         toast.error("Correo o contraseña incorrectos");
