@@ -42,10 +42,9 @@ export default function Suscriptions() {
     }
   };
 
-  const handleCambiarPlan = async (id, planStr) => {
-    const planEnum = planStr === "Premium" ? 2 : 1;
+  const handleCambiarPlan = async (id, plan) => {
     try {
-      await PsicologoAPI.cambiarPlan(id, planEnum);
+      await PsicologoAPI.cambiarPlan(id, plan);
       toast.success("Plan actualizado");
       fetchPendientes();
     } catch {
@@ -199,7 +198,6 @@ export default function Suscriptions() {
                       </div>
                     </div>
 
-                    {/* Acciones */}
                     <div className="flex flex-col sm:flex-row gap-3">
                       <div className="form-control">
                         <select
