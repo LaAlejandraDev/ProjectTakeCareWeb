@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import axiosClient from "../api/axiosClient";
 
 export default function PsicologoDashboard() {

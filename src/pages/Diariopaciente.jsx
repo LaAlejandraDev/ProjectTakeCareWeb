@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { DiarioAPI } from "../api/diario.api";
 import { PacientesAPI } from "../api/pacientes.api";
 import { UserAPI } from "../api/user.api";
+import { SparklesIcon } from "@heroicons/react/16/solid";
 
 export default function DiarioPaciente() {
   const { id } = useParams();
@@ -48,7 +49,7 @@ export default function DiarioPaciente() {
 
   return (
     <div className="p-6 max-w-3xl mx-auto">
-      <div className="card bg-base-200 shadow-xl mb-6">
+      <div className="card bg-base-100 shadow-sm mb-6 rounded-xl">
         <div className="card-body">
           <h2 className="card-title text-2xl font-bold">
             {usuario
@@ -83,18 +84,16 @@ export default function DiarioPaciente() {
 
       <div className="space-y-4">
         {diariosFiltrados.map((d) => (
-          <div key={d.id} className="card bg-base-100 shadow-md">
+          <div key={d.id} className="card bg-base-100 shadow-md rounded-xl">
             <div className="card-body">
               <h4 className="font-semibold">
                 {new Date(d.fecha).toLocaleDateString()}
               </h4>
 
-              <p>
-                <b>Estado emocional:</b> {d.estadoEmocional}
-              </p>
-              <p>
-                <b>Nivel:</b> {d.nivel}
-              </p>
+              <div className="flex">
+                Estado Emocional: <span>{d.estadoEmocional}</span>
+                <SparklesIcon className="size-[1.2em] text-info mx-1" />
+              </div>
 
               <p className="mt-2 whitespace-pre-wrap">
                 {d.comentario || "Sin comentario"}
