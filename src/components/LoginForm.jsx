@@ -27,25 +27,46 @@ export default function LoginForm() {
       });
 
       if (response.status === 200) {
-        toast.success("Inicio de sesión exitoso. ¡Bienvenido de nuevo!");
+        const { usuario, token, estatusPsicologo } = response.data;
         const rol = response.data.usuario.rol;
         localStorage.setItem("rol", response.data.usuario.rol);
-        login(response.data.usuario, response.data.token);
-        setTimeout(() => {
-          if (rol === 1) {
+        localStorage.setItem("token", token);
+
+        login(usuario, token);
+        if (rol === 1) {
+          toast.success(`Bienvenido, ${usuario.nombre}`);
+          setTimeout(() => {
             navigation("/admin/users");
-          } else if (rol === 2) {
-            navigation("/index/forum");
+          }, 1500);
+        } else if (rol === 2) {
+          if (estatusPsicologo === "Aprobado") {
+            toast.success("Inicio de sesión exitoso. ¡Bienvenido!");
+            setTimeout(() => {
+              navigation("/index/forum");
+            }, 1500);
+          } else if (estatusPsicologo === "Pendiente") {
+            toast.info(
+              "Tu solicitud de suscripción está pendiente de aprobación."
+            );
+          } else if (estatusPsicologo === "Rechazado") {
+            toast.error(
+              "Tu solicitud de suscripción fue rechazada. Contacta al administrador."
+            );
           } else {
-            navigation("/login");
+            toast.warning("No se pudo determinar el estatus de tu cuenta.");
           }
-        }, 1500);
+        } else {
+          toast.success("Inicio de sesión exitoso. ¡Bienvenido!");
+          setTimeout(() => {
+            navigation("/index/forum");
+          }, 1500);
+        }
       } else {
         toast.error("Correo o contraseña incorrectos. Verifica tus datos.");
       }
     } catch (error) {
       toast.error("Ocurrió un error inesperado. Intenta de nuevo más tarde.");
-      console.error(error)
+      console.error(error);
     }
   }
   return (

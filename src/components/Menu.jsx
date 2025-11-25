@@ -54,7 +54,7 @@ export default function Menu() {
       case "Perfil":
         navigate("/index/profile");
         break;
-      case "Dashboard":
+      case "Dashboard Admin":
         navigate("/admin/dash");
         break;
       case "Usuarios":
@@ -64,7 +64,8 @@ export default function Menu() {
         navigate("/admin/reports");
         break;
       case "Suscripciones":
-        navigate("/admin/subscriptions");
+        navigate("/admin/suscrip");
+        break;
       case "Expediente":
         navigate("/index/record");
         break;
@@ -102,7 +103,7 @@ export default function Menu() {
             <a className="font-bold text-lg">Dashboard</a>
             <ul>
               <MenuItem
-                title="Dashboard"
+                title="Dashboard Admin"
                 section={selected}
                 onSelect={handleSelect}
                 icon={<ChartBarIcon className="h-6 w-6" />}
@@ -114,6 +115,17 @@ export default function Menu() {
             <ul>
               <MenuItem
                 title="Usuarios"
+                section={selected}
+                onSelect={handleSelect}
+                icon={<UserGroupIcon className="h-6 w-6" />}
+              />
+            </ul>
+          </li>
+          <li>
+            <a className="font-bold text-lg">Suscripciones</a>
+            <ul>
+              <MenuItem
+                title="Suscripciones"
                 section={selected}
                 onSelect={handleSelect}
                 icon={<UserGroupIcon className="h-6 w-6" />}
@@ -137,6 +149,14 @@ export default function Menu() {
             </ul>
             <ul>
               <MenuItem
+                title="Diario"
+                section={selected}
+                onSelect={handleSelect}
+                icon={<BookOpenIcon className="h-6 w-6" />}
+              />
+            </ul>
+            <ul>
+              <MenuItem
                 title="Expediente"
                 section={selected}
                 onSelect={handleSelect}
@@ -155,6 +175,7 @@ export default function Menu() {
               />
             </ul>
           </li>
+
           <li>
             <a className="font-bold text-lg">Mensajeria</a>
             <ul>
@@ -168,56 +189,7 @@ export default function Menu() {
           </li>
         </>
       )}
-      <li>
-        <a className="font-bold text-lg">Dashboard</a>
-        <ul>
-          <MenuItem
-            title="Dashboard"
-            section={selected}
-            onSelect={handleSelect}
-            icon={<ChartBarIcon className="h-6 w-6" />}
-          />
-        </ul>
-        <ul>
-          <MenuItem
-            title="Diario"
-            section={selected}
-            onSelect={handleSelect}
-            icon={<BookOpenIcon className="h-6 w-6" />}
-          />
-        </ul>
-        <ul>
-          <MenuItem
-            title="Expediente"
-            section={selected}
-            onSelect={handleSelect}
-            icon={<BookmarkSquareIcon className="h-6 w-6" />}
-          />
-        </ul>
-      </li>
-      <li>
-        <a className="font-bold text-lg">Foro</a>
-        <ul>
-          <MenuItem
-            title="Inicio"
-            section={selected}
-            onSelect={handleSelect}
-            icon={<QueueListIcon className="h-6 w-6" />}
-          />
-        </ul>
-      </li>
 
-      <li>
-        <a className="font-bold text-lg">Mensajeria</a>
-        <ul>
-          <MenuItem
-            title="Mensajes"
-            section={selected}
-            onSelect={handleSelect}
-            icon={<ChatBubbleBottomCenterIcon className="h-6 w-6" />}
-          />{" "}
-        </ul>
-      </li>
       <li>
         <a className="font-bold text-lg">Personal</a>
         <ul>

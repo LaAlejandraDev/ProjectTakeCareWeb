@@ -8,5 +8,7 @@ export const UserAPI = {
   deleteUsuario: (id) => axiosClient.delete(`/Usuarios/${id}`),
   getProfile: () => axiosClient.get("/Usuarios/profile"),
   updateProfile: (id, data) => axiosClient.put(`/Usuarios/${id}`, data),
+  createUsuario: (data) => axiosClient.post("/Usuarios", data),
+  viewDashboard: () => axiosClient.get("/Usuarios/dashboardAdmin"),
 }
 
