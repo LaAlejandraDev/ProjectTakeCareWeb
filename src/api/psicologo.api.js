@@ -4,7 +4,7 @@ export const PsicologoAPI = {
     getPsicologoByUsuario: (idUsuario) =>
         axiosClient.get(`/Psicologos/usuario/${idUsuario}`),
     updatePsicologo: (id, data) => axiosClient.put(`/Psicologos/${id}`, data),
-    createPsicologo: (data) => axiosClient.post("/Psicologos", data),
+    createPsicologo: (data) => axiosClient.post("/Psicologos/postUsuarioPsicologo", data),
     deletePsicologo: (id) => axiosClient.delete(`/Psicologos/${id}`),
     getPsycologistDays: (id) => axiosClient.get("/PsicologoDisponibilidades/psicologo/" + id),
     setPsycologistDays: (data) => axiosClient.post("/PsicologoDisponibilidades", data),
