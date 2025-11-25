@@ -5,6 +5,8 @@ import { AuthAPI } from "../api/auth.api";
 import { useContext, useState } from "react";
 import { toast } from "react-toastify";
 import { AuthContext } from "../context/AuthContext";
+// Importa las funciones del helper
+import { getLocalUser, saveLocalUser } from "../helpers/auth";
 
 export default function LoginForm() {
   const { login } = useContext(AuthContext);
@@ -16,15 +18,20 @@ export default function LoginForm() {
     if (e) e.preventDefault();
 
     if (email.trim() === "" || password.trim() === "") {
-      toast.warning("No se pueden dejar los campos vacíos");
+      toast.warning("No se pueden dejar los campos vacios");
       return;
     }
 
+    let response; // Se declara response aquí para que sea accesible fuera del try
     try {
-      const response = await AuthAPI.login({
+      response = await AuthAPI.login({
         correo: email,
         contrasena: password,
       });
+
+      // La llamada a getLocalUser aquí es solo para debug antes del guardado
+      // const localUser = getLocalUser();
+      // console.log("Usuario actual en local storage (antes de guardar):", localUser);
 
       if (response.status === 200) {
         const { usuario, token, estatusPsicologo } = response.data;
@@ -62,13 +69,31 @@ export default function LoginForm() {
           }, 1500);
         }
       } else {
-        toast.error("Correo o contraseña incorrectos. Verifica tus datos.");
+        // Esto solo se ejecuta si la API devuelve un status diferente de 200 pero sin lanzar error
+        toast.error("Correo o contraseña incorrectos");
       }
     } catch (error) {
-      toast.error("Ocurrió un error inesperado. Intenta de nuevo más tarde.");
       console.error(error);
+
+      if (error.response) {
+        if (error.response.status === 401) {
+          toast.error("Credenciales inválidas");
+        } else if (error.response.status === 404) {
+          toast.error("Usuario no encontrado");
+        } else {
+          toast.error("Error en el servidor. Intenta mas tarde");
+        }
+      } else if (error.request) {
+        toast.error("No hay conexión con el servidor.");
+      } else {
+        toast.error("Ocurrió un error inesperado.");
+      }
+
+      // Quité las líneas `saveLocalUser` y `console.log(getLocalUser())`
+      // que estaban mal ubicadas al final de la función.
     }
   }
+
   return (
     <div className="card card-xl card-border bg-base-100 shadow-sm w-full md:w-1/3">
       <div className="card-body">

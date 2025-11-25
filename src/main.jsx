@@ -33,6 +33,7 @@ import Users from "./pages/admin/Users.jsx";
 import Suscriptions from "./pages/admin/Suscriptions.jsx";
 import { AuthContext } from "./context/AuthContext.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
+import Solicitudes from "./pages/Solicitudes.jsx";
 import SchedulePage from "./pages/dashboard/SchedulePage.jsx";
 import DashboardAdmin from "./pages/admin/DashboardAdmin.jsx";
 
@@ -72,6 +73,7 @@ const router = createBrowserRouter([
               { path: "chat/:id", element: <Chat /> },
             ],
           },
+          { path: "solicitudes", element: <Solicitudes /> },
           { path: "diary", element: <PacientesDiario /> },
           {
             path: "diario/paciente/:id",
