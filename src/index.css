@@ -37,7 +37,7 @@ html, body {
   --color-error-content: oklch(97% 0.014 343.198);
   --radius-selector: 0.25rem;
   --radius-field: 0.5rem;
-  --radius-box: 2rem;
+  --radius-box: 1rem;
   --size-selector: 0.25rem;
   --size-field: 0.25rem;
   --border: 1px;
