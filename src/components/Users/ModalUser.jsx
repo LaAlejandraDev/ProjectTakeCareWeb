@@ -129,7 +129,7 @@ export default function ModalUser({
 
   //registrar y guardar datos del usuario
   const handleSave = async () => {
-    if (user.rol === "" || user.rol === null || user.rol === undefined) {
+    if (!user.rol && user.rol !== 0) {
       toast.error("Debes seleccionar un rol");
       return;
     }
@@ -141,57 +141,38 @@ export default function ModalUser({
       if (!user.id) {
         const usuarioData = { ...user };
         delete usuarioData.id;
+
         const res = await UserAPI.createUsuario(usuarioData);
         usuarioCreado = res.data;
 
-        //Crear a un usuario
-        if (user.rol === 0) {
-          const pacienteData = {
-            ciudad: paciente.ciudad || "",
-            estadoCivil: paciente.estadoCivil || "",
-            diagnostico: paciente.diagnostico || "",
-            antecedentesMedicos: paciente.antecedentesMedicos || "",
-            contactoEmergencia: paciente.contactoEmergencia || "",
+        if (usuarioCreado.rol === 0) {
+          await PacienteAPI.createPaciente({
+            ...paciente,
             idUsuario: usuarioCreado.id,
-          };
-          await PacienteAPI.createPaciente(pacienteData);
-        } else if (user.rol === 2) {
-          const psicologoData = {
-            cedulaProfesional: psicologo.cedulaProfesional || "",
-            especialidad: psicologo.especialidad || "",
-            descripcion: psicologo.descripcion || "",
-            experienciaAnios: psicologo.experienciaAnios || 0,
-            universidadEgreso: psicologo.universidadEgreso || "",
-            direccionConsultorio: psicologo.direccionConsultorio || "",
+          });
+        } else if (usuarioCreado.rol === 2) {
+          await PsicologoAPI.createPsicologo({
+            ...psicologo,
+            experienciaAnios: Number(psicologo.experienciaAnios || 0),
             idUsuario: usuarioCreado.id,
-          };
-          await PsicologoAPI.createPsicologo(psicologoData);
+          });
         }
 
         toast.success("Usuario creado correctamente");
       } else {
-        //Modificar a un usuario
         const usuarioData = { ...user };
-        delete usuarioData.id;
+
         await UserAPI.updateUsuario(user.id, usuarioData);
 
         if (user.rol === 0) {
           await PacienteAPI.updatePaciente(paciente.id, {
-            ciudad: paciente.ciudad || "",
-            estadoCivil: paciente.estadoCivil || "",
-            diagnostico: paciente.diagnostico || "",
-            antecedentesMedicos: paciente.antecedentesMedicos || "",
-            contactoEmergencia: paciente.contactoEmergencia || "",
+            ...paciente,
             idUsuario: user.id,
           });
         } else if (user.rol === 2) {
           await PsicologoAPI.updatePsicologo(psicologo.id, {
-            cedulaProfesional: psicologo.cedulaProfesional || "",
-            especialidad: psicologo.especialidad || "",
-            descripcion: psicologo.descripcion || "",
-            experienciaAnios: psicologo.experienciaAnios || 0,
-            universidadEgreso: psicologo.universidadEgreso || "",
-            direccionConsultorio: psicologo.direccionConsultorio || "",
+            ...psicologo,
+            experienciaAnios: Number(psicologo.experienciaAnios || 0),
             idUsuario: user.id,
           });
         }
