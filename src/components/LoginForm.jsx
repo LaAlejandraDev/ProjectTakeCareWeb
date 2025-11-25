@@ -55,6 +55,9 @@ export default function LoginForm() {
             toast.info(
               "Tu solicitud de suscripción está pendiente de aprobación."
             );
+            setTimeout(() => {
+              navigation("/index/forum");
+            }, 1500);
           } else if (estatusPsicologo === "Rechazado") {
             toast.error(
               "Tu solicitud de suscripción fue rechazada. Contacta al administrador."
