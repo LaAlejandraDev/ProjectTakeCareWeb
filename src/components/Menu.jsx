@@ -53,6 +53,9 @@ export default function Menu() {
       case "Diario":
         navigate("/index/diary");
         break;
+      case "Solicitudes":
+        navigate("/index/solicitudes");
+        break;
       default:
         break;
     }
@@ -76,7 +79,7 @@ export default function Menu() {
         )}
       </div>
       <li>
-        <a className="font-bold text-lg">Dashboard</a>
+        <a className="font-bold text-lg">Inicio</a>
         <ul>
           <MenuItem
             title="Dashboard"

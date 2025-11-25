@@ -8,8 +8,11 @@ export function SignalProvider({ children }) {
   const [isConnected, setIsConnected] = useState(false);
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
     const newConnection = new signalR.HubConnectionBuilder()
-      .withUrl("http://10.16.6.176:5002/chatHub")
+      .withUrl("http://192.168.1.13:60572/chatHub", {
+        accessTokenFactory: () => token || "",
+      })
       .configureLogging(signalR.LogLevel.Information)
       .withAutomaticReconnect()
       .build();

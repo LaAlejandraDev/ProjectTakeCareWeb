@@ -31,6 +31,7 @@ import NotFoundPage from "./pages/NotFound.jsx";
 import RoutesProtect from "./context/RoutesProtect.jsx";
 import { AuthContext } from "./context/AuthContext.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
+import Solicitudes from "./pages/Solicitudes.jsx";
 
 const router = createBrowserRouter([
   {
@@ -68,6 +69,7 @@ const router = createBrowserRouter([
               { path: "chat/:id", element: <Chat /> },
             ],
           },
+          { path: "solicitudes", element: <Solicitudes /> },
           { path: "diary", element: <PacientesDiario /> },
           {
             path: "diario/paciente/:id",
@@ -79,10 +81,7 @@ const router = createBrowserRouter([
             path: "record",
             element: <Expediente />,
           },
-          {
-            path: "session/:id",
-            element: <Sesiones />,
-          },
+          { path: "session/:id", element: <Sesiones /> },
           { path: "dashboard", element: <Dashboard /> },
         ],
       },
