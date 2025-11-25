@@ -116,8 +116,14 @@ export default function PsicologoDashboard() {
   const totalLoading = loadingPacientes || loadingCitas;
 
   return (
-    <div className="p-6">
-      <h1 className="text-xl font-bold mb-4">Dashboard del Psicólogo</h1>
+    <div className="p-8 bg-base-200 min-h-screen">
+      <div className="flex justify-between items-center mb-8">
+        <h1 className="text-3xl font-bold text-primary">Panel del Psicólogo</h1>
+        <div className="flex gap-4">
+          <button className="btn btn-primary">Nueva cita</button>
+          <NavLink to={"/index/schedule"} className={"btn btn-info"}>Definir Horario</NavLink>
+        </div>
+      </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <div className="p-4 rounded bg-blue-200">

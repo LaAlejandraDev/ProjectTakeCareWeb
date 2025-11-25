@@ -34,16 +34,30 @@ function App() {
       lastMessageId.current = msgId;
 
       if (!location.pathname.includes("/messages/chat")) {
-        toast(<ToastMessage message={message} toastProps={{}} />);
+        toast(<ToastMessage message={message} />);
       }
     };
 
+    const handleNewDate = (date) => {
+      toast(
+        <ToastMessage
+          message={{
+            title: "Nueva cita agendada",
+            body: `Fecha: ${new Date(date.fechaInicio).toLocaleString()}`
+          }}
+        />
+      );
+    };
+
     connection.on("ReceiveMessage", handleMessage);
+    connection.on("NewDate", handleNewDate);
 
     return () => {
       connection.off("ReceiveMessage", handleMessage);
+      connection.off("NewDate", handleNewDate);
     };
   }, [connection, isConnected, location]);
+
 
   async function getRoleData() {
     try {
@@ -61,7 +75,7 @@ function App() {
         <div className="flex p-2 w-50 h-full">
           <Menu />
         </div>
-        <div className="flex-grow overflow-y-auto p-2">
+        <div className="grow-1 overflow-y-auto p-2">
           <Outlet />
         </div>
       </div>
