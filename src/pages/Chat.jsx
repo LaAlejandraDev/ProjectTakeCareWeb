@@ -141,7 +141,9 @@ export default function Chat() {
       await connection.invoke("SendMessage", createdMsg);
       setMessage("");
     } catch (err) {
-      toast.error("Error al enviar el mensaje");
+      console.error(err)
+      //toast.error("Error al enviar el mensaje");
+      setMessage("");
     }
   };
 

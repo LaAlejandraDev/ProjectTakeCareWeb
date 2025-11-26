@@ -8,8 +8,6 @@ html, body {
   touch-action: manipulation;
 }
 
-
-
 @plugin "daisyui/theme" {
   name: "care";
   default: false;
