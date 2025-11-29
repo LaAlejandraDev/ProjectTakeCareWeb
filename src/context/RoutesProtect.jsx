@@ -11,8 +11,6 @@ export default function RoutesProtect() {
     return () => clearTimeout(timer);
   }, []);
 
-  console.log(user)
-
   if (loading || !delayDone) return <LoadingScreen />;
 
   if (!user) return <Navigate to="/" replace />;  
