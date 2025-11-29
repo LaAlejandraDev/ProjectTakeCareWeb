@@ -1,3 +1,5 @@
+// src/api/interceptors.js
+
 export const setupInterceptors = (axiosInstance) => {
   axiosInstance.interceptors.request.use(
     (config) => {

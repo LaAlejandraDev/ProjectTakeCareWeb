@@ -1,14 +1,35 @@
 import { useNavigate } from "react-router-dom";
 import PriceCard from "../components/Price/PriceCards";
-import { toast } from "react-toastify";
+import { PsicologoAPI } from "../api/psicologo.api";
+import { toast, ToastContainer } from "react-toastify";
 export default function SubscriptionsPage() {
-  const navigation = useNavigate()
-  const onSubscribe = () => {
-    navigation("/index")
-    toast.success("Te has suscrito exitosamente!")
-  }
+  const navigation = useNavigate();
+  const onSubscribe = async (plan) => {
+    try {
+      const token = localStorage.getItem("token");
+      const user = JSON.parse(atob(token.split(".")[1]));
+      const idUsuario = user.idUsuario;
+
+      const { data } = await PsicologoAPI.getPsicologoByUsuario(idUsuario);
+      const idPsicologo = data.id;
+
+      await PsicologoAPI.suscribirse(idPsicologo, plan);
+
+      toast.success(
+        "Solicitud enviada. Tu cuenta está en revisión por el administrador."
+      );
+
+      setTimeout(() => {
+        navigation("/index");
+      }, 1500);
+    } catch (error) {
+      toast.error("No se pudo procesar la suscripción");
+    }
+  };
+
   return (
     <>
+      <ToastContainer />
       <div className="w-full h-screen flex items-center justify-center gap-x-3">
         <PriceCard name={"Gratis"} cost={0} onSubscribe={onSubscribe}>
           <li>Gestión básica de pacientes</li>
@@ -29,7 +50,9 @@ export default function SubscriptionsPage() {
           <li>Panel administrativo avanzado</li>
           <li>Personalización del perfil profesional</li>
           <li>Notificaciones ilimitadas</li>
-          <li><b>Asistencia por IA</b></li>
+          <li>
+            <b>Asistencia por IA</b>
+          </li>
         </PriceCard>
       </div>
     </>

@@ -29,9 +29,13 @@ import PacientesDiario from "./pages/PacientesDiario.jsx";
 import Diariopaciente from "./pages/Diariopaciente.jsx";
 import NotFoundPage from "./pages/NotFound.jsx";
 import RoutesProtect from "./context/RoutesProtect.jsx";
+import Users from "./pages/admin/Users.jsx";
+import Suscriptions from "./pages/admin/Suscriptions.jsx";
 import { AuthContext } from "./context/AuthContext.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
+import Solicitudes from "./pages/Solicitudes.jsx";
 import SchedulePage from "./pages/dashboard/SchedulePage.jsx";
+import DashboardAdmin from "./pages/admin/DashboardAdmin.jsx";
 
 const router = createBrowserRouter([
   {
@@ -69,6 +73,7 @@ const router = createBrowserRouter([
               { path: "chat/:id", element: <Chat /> },
             ],
           },
+          { path: "solicitudes", element: <Solicitudes /> },
           { path: "diary", element: <PacientesDiario /> },
           {
             path: "diario/paciente/:id",
@@ -94,6 +99,15 @@ const router = createBrowserRouter([
           },
         ],
       },
+    ],
+  },
+  {
+    path: "/admin",
+    element: <App />,
+    children: [
+      { path: "users", element: <Users /> },
+      { path: "dash", element: <DashboardAdmin /> },
+      { path: "suscrip", element: <Suscriptions /> },
     ],
   },
   { path: "*", element: <NotFoundPage /> },

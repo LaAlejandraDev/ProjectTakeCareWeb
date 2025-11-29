@@ -14,10 +14,10 @@ function App() {
   const location = useLocation();
   const navigate = useNavigate();
   const lastMessageId = useRef(null);
-  const { user, roleData } = useContext(AuthContext)
+  const { user, roleData } = useContext(AuthContext);
   useEffect(() => {
     const token = localStorage.getItem("token");
-    getRoleData()
+    getRoleData();
     if (!token) {
       toast.warning("Tu sesión ha expirado. Inicia sesión nuevamente.");
       localStorage.removeItem("token");
@@ -60,13 +60,11 @@ function App() {
 
   async function getRoleData() {
     try {
-      const response = await UserAPI.getUserInformation(user.id)
+      const response = await UserAPI.getUserInformation(user.id);
       if (response.status === 200) {
-        roleData(response.data)
+        roleData(response.data);
       }
-    } catch (error) {
-
-    }
+    } catch (error) {}
   }
 
   return (

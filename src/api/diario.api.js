@@ -1,12 +1,10 @@
-import axiosClient from "./axiosClient";
+import axiosClient from "./axiosClient"; 
 
 export const DiarioAPI = {
   getAll: () => axiosClient.get("/DiarioEmocionals"),
   getById: (id) => axiosClient.get(`/DiarioEmocionals/${id}`),
-  getByPaciente: (idPaciente) =>
-    axiosClient.get(`/DiarioEmocionals?IdPaciente=${idPaciente}`), 
-  // para el paciente
+  getByPaciente: (idPaciente) => axiosClient.get(`/DiarioEmocionals?pacienteId=${idPaciente}`),
   create: (data) => axiosClient.post("/DiarioEmocionals", data),
   update: (id, data) => axiosClient.put(`/DiarioEmocionals/${id}`, data),
-  remove: (id) => axiosClient.delete(`/DiarioEmocionals/${id}`),
+  delete: (id) => axiosClient.delete(`/DiarioEmocionals/${id}`)
 };

@@ -148,7 +148,14 @@ export default function Chat() {
       createdMsg.fecha = new Date().toISOString();
     }
 
-    setMessage("");
+    try {
+      await connection.invoke("SendMessage", createdMsg);
+      setMessage("");
+    } catch (err) {
+      console.error(err)
+      //toast.error("Error al enviar el mensaje");
+      setMessage("");
+    }
   };
 
   return (
