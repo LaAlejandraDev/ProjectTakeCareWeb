@@ -4,11 +4,13 @@ import { APIExpedientes } from "../api/expedientes.api";
 import { toast } from "react-toastify";
 import Avatar from "../components/Avatar";
 import { FolderIcon } from "@heroicons/react/16/solid";
+import { useNavigate } from "react-router-dom";
 
 const Expediente = () => {
   const { rolId } = useContext(AuthContext);
   const [listaExpedientes, setLista] = useState([]);
   const idPsicologo = rolId?.psicologo?.id;
+  const [busqueda, setBusqueda] = useState("");
 
   async function getList() {
     try {
@@ -27,6 +29,14 @@ const Expediente = () => {
     if (idPsicologo) getList();
   }, [idPsicologo]);
 
+  const expedientesFiltrados = listaExpedientes.filter((item) => {
+    const usuario = item?.paciente?.usuario;
+    if (!usuario) return false;
+    const nombreCompleto =
+      `${usuario.nombre} ${usuario.apellidoPaterno} ${usuario.apellidoMaterno}`.toLowerCase();
+    return nombreCompleto.includes(busqueda.toLowerCase());
+  });
+
   return (
     <div>
       <div className="mb-4">
@@ -34,6 +44,15 @@ const Expediente = () => {
         <p className="text-md text-gray-500">
           Selecciona un usuario para ver su expediente
         </p>
+      </div>
+      <div>
+        <input
+          type="text"
+          placeholder="Buscar expediente..."
+          className="input input-bordered w-full mb-4"
+          value={busqueda}
+          onChange={(e) => setBusqueda(e.target.value)}
+        />
       </div>
 
       <div className="w-full my-2 shadow-md rounded-xl bg-base-100 p-4">
@@ -50,7 +69,7 @@ const Expediente = () => {
               </tr>
             </thead>
             <tbody>
-              {listaExpedientes.map((item, index) => (
+              {expedientesFiltrados.map((item, index) => (
                 <ItemList key={index} data={item} />
               ))}
             </tbody>
@@ -62,8 +81,13 @@ const Expediente = () => {
 };
 
 function ItemList({ data }) {
+  const navigate = useNavigate();
   const { paciente, citas, diarios } = data;
   const usuario = paciente?.usuario;
+
+  const handleView = () => {
+    navigate(`/index/session/${usuario?.id}`);
+  };
 
   return (
     <tr className="hover:bg-gray-50 transition-all">
@@ -90,7 +114,8 @@ function ItemList({ data }) {
           <ul className="list-disc list-inside text-sm">
             {citas.slice(-3).map((cita) => (
               <li key={cita.id}>
-                {new Date(cita.fechaInicio).toLocaleDateString()} - {cita.motivo}
+                {new Date(cita.fechaInicio).toLocaleDateString()} -{" "}
+                {cita.motivo}
               </li>
             ))}
           </ul>
@@ -103,7 +128,8 @@ function ItemList({ data }) {
           <ul className="list-disc list-inside text-sm">
             {diarios.slice(-3).map((diario) => (
               <li key={diario.id}>
-                {new Date(diario.fecha).toLocaleDateString()} - {diario.estadoEmocional}
+                {new Date(diario.fecha).toLocaleDateString()} -{" "}
+                {diario.estadoEmocional}
               </li>
             ))}
           </ul>
@@ -112,8 +138,14 @@ function ItemList({ data }) {
         )}
       </td>
       <td>
-        <button className="btn btn-primary btn-sm text-white">
-          Ver <span className="ml-1"><FolderIcon className="size-[1.5em]" /></span>
+        <button
+          className="btn btn-primary btn-sm text-white"
+          onClick={handleView}
+        >
+          Ver{" "}
+          <span className="ml-1">
+            <FolderIcon className="size-[1.5em]" />
+          </span>
         </button>
       </td>
     </tr>

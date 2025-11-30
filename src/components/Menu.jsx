@@ -18,6 +18,7 @@ export default function Menu() {
   const navigate = useNavigate();
   const location = useLocation();
   const rol = localStorage.getItem("rol");
+  const { logout } = useContext(AuthContext);
 
   useEffect(() => {
     if (location.pathname.includes("/index/forum")) {
@@ -84,7 +85,7 @@ export default function Menu() {
   };
 
   return (
-    <ul className="menu bg-base-100 rounded-xl shadow-sm gap-5 w-full">
+    <ul className="menu bg-base-100 rounded-xl shadow-sm gap-3 w-full">
       <h2 className="text-center pt-2 font-bold text-xl menu-title">
         TakeCare
       </h2>
@@ -203,6 +204,17 @@ export default function Menu() {
             icon={<UserCircleIcon className="h-6 w-6" />}
           />
         </ul>
+      </li>
+      <li>
+        <button
+          className="btn btn-error w-full text-white"
+          onClick={() => {
+            logout();
+            navigate("/");
+          }}
+        >
+          Cerrar Sesión
+        </button>
       </li>
     </ul>
   );
