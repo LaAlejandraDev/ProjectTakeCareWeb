@@ -12,7 +12,8 @@ export class UsuarioModel {
     activo = true,
     fechaRegistro = new Date().toISOString(),
     ultimoAcceso = null,
-    suscripcion = null
+    suscripcion = null,
+    fotoUrl = ""
   } = {}) {
     this.id = id;
     this.nombre = nombre;
@@ -27,5 +28,6 @@ export class UsuarioModel {
     this.fechaRegistro = new Date(fechaRegistro);
     this.ultimoAcceso = ultimoAcceso ? new Date(ultimoAcceso) : null;
     this.suscripcion = suscripcion;
+    this.fotoUrl = fotoUrl
   }
 }

@@ -35,13 +35,14 @@ export default function ForumAllPosts() {
             author={`${post.usuario?.nombre || "Anónimo"} ${
               post.usuario?.apellidoPaterno || ""
             }`}
-            avatar={post.usuario?.avatar}
+            avatar={post.usuario.fotoUrl}
             date={post.fecha.toLocaleDateString()}
             userRole={post.usuario?.rol}
             content={post.contenido}
             likes={post.likesCount}
             postType={post.tipo}
             comments={post.commentCount}
+            userData={post.usuario}
           />
         ))}
       </div>

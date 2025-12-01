@@ -23,6 +23,7 @@ export default function Post({
   postType,
   expanded = false,
   actions = true,
+  userData
 }) {
   const navigate = useNavigate();
 
@@ -58,7 +59,7 @@ export default function Post({
             {title.toUpperCase()}
           </h2>
           <div className="my-2 flex gap-2 p-2 rounded shadow-sm items-center">
-            <Avatar name={author} url={avatar} />
+            <Avatar name={author} url={avatar}/>
             <div>
               <p className="font-bold">{author}</p>
               <small className="text-gray-400">{date}</small>
@@ -102,7 +103,7 @@ export default function Post({
             ) : null
           ) : (
             actions ?
-            <CommentBox /> : null
+              <CommentBox /> : null
           )}
         </div>
       </div>
