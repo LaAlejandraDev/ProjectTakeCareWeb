@@ -8,8 +8,12 @@ import { useNavigate } from "react-router-dom";
 
 const Expediente = () => {
   const { rolId } = useContext(AuthContext);
+
   const [listaExpedientes, setLista] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   const idPsicologo = rolId?.psicologo?.id;
+
   const [busqueda, setBusqueda] = useState("");
 
   async function getList() {
@@ -22,6 +26,8 @@ const Expediente = () => {
       }
     } catch (error) {
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -37,6 +43,31 @@ const Expediente = () => {
     return nombreCompleto.includes(busqueda.toLowerCase());
   });
 
+  const SkeletonRow = () => (
+    <tr>
+      <td>
+        <div className="skeleton w-12 h-12 rounded-full"></div>
+      </td>
+      <td>
+        <div className="skeleton h-4 w-28 mb-2"></div>
+        <div className="skeleton h-3 w-40"></div>
+      </td>
+      <td>
+        <div className="skeleton h-3 w-40 mb-2"></div>
+        <div className="skeleton h-3 w-32"></div>
+      </td>
+      <td>
+        <div className="skeleton h-3 w-24"></div>
+      </td>
+      <td>
+        <div className="skeleton h-3 w-24"></div>
+      </td>
+      <td>
+        <div className="skeleton h-8 w-20"></div>
+      </td>
+    </tr>
+  );
+
   return (
     <div>
       <div className="mb-4">
@@ -45,6 +76,7 @@ const Expediente = () => {
           Selecciona un usuario para ver su expediente
         </p>
       </div>
+
       <div>
         <input
           type="text"
@@ -58,7 +90,7 @@ const Expediente = () => {
       <div className="w-full my-2 shadow-md rounded-xl bg-base-100 p-4">
         <div className="overflow-x-auto">
           <table className="table w-full">
-            <thead className="">
+            <thead>
               <tr>
                 <th></th>
                 <th>Nombre</th>
@@ -68,10 +100,13 @@ const Expediente = () => {
                 <th>Acciones</th>
               </tr>
             </thead>
+
             <tbody>
-              {expedientesFiltrados.map((item, index) => (
-                <ItemList key={index} data={item} />
-              ))}
+              {loading
+                ? [...Array(5)].map((_, i) => <SkeletonRow key={i} />)
+                : expedientesFiltrados.map((item, index) => (
+                    <ItemList key={index} data={item} />
+                  ))}
             </tbody>
           </table>
         </div>
@@ -86,7 +121,7 @@ function ItemList({ data }) {
   const usuario = paciente?.usuario;
 
   const handleView = () => {
-    navigate(`/index/session/${usuario?.id}`);
+    navigate(`/index/session/${paciente?.id}`);
   };
 
   return (
