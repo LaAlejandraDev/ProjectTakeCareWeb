@@ -1,12 +1,43 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Post from "../components/Forum/Post";
 import { samplePosts } from "../data/Post";
+import { AuthContext } from "../context/AuthContext";
+import { ForumAPI } from "../api/forum.api";
+import { toast } from "react-toastify";
 
 export default function CreatePost() {
+  const { user } = useContext(AuthContext)
   const post = samplePosts[0];
-
   const [title, setTitle] = useState("Titulo");
   const [content, setContent] = useState("Contenido de ejemplo");
+  const [postType, setPostType] = useState(0)
+
+  async function createNewPost() {
+    const userId = user.id
+    let newPost = {
+        "titulo": title,
+        "contenido": content,
+        "tipo": postType,
+        "idUsuario": userId,
+        "anonimo": true,
+        "likesCount": 0,
+        "commentCount": 0
+    }
+
+    console.log(newPost)
+
+    try {
+      const response = await ForumAPI.createNewPost(newPost)
+      console.log(response)
+      if (response.status === 201) {
+        toast.success("Se creo la publicacion con exito")
+      } else {
+        toast.error("Error al crear la publicacion, intentalo mas tarde")
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
 
   return (
     <div className="w-full bg-base-100 p-4 shadow-sm rounded-xl">
@@ -20,11 +51,13 @@ export default function CreatePost() {
         <div className="w-1/2">
           <fieldset className="fieldset">
             <legend className="fieldset-legend">Tipos de publicación</legend>
-            <select defaultValue="Selecciona un tipo" className="select w-full rounded-xl">
+            <select defaultValue="Selecciona un tipo" className="select w-full rounded-xl" value={ postType } onChange={(e) => setPostType(Number(e.target.value))}>
               <option disabled={true}>Selecciona un tipo</option>
-              <option>Chrome</option>
-              <option>FireFox</option>
-              <option>Safari</option>
+              <option value={0}>Pregunta</option>
+              <option value={1}>Discusion</option>
+              <option value={2}>Anuncio</option>
+              <option value={3}>Guia</option>
+              <option value={4}>Retroalimentacion</option>
             </select>
             <span className="label">Escoje el tipo de publicación</span>
           </fieldset>
@@ -48,6 +81,7 @@ export default function CreatePost() {
               onChange={(e) => setContent(e.target.value)}
             ></textarea>
           </fieldset>
+          <button className="btn btn-primary w-full" type="submit" onClick={createNewPost}>Crear Publicación</button>
         </div>
         <Post
           id={post.id}
