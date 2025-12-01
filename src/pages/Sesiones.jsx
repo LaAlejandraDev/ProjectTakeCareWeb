@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { citasAPI } from "../api/citas.api";
 import axiosClient from "../api/axiosClient";
 import { toast } from "react-toastify";
+import { data } from "autoprefixer";
 
 export default function Sesiones() {
   const navigate = useNavigate();
@@ -33,22 +34,23 @@ export default function Sesiones() {
 
     const fetchData = async () => {
       try {
-        // Info del paciente
         const { data: userData } = await axiosClient.get(
-          `/Usuarios/${pacienteId}`
+          `/Pacientes/info/${pacienteId}`
         );
+
+        console.log("PACIENTE_ID", pacienteId)
+        console.log(userData)
+
         setPacienteInfo({
-          Nombre: userData.nombre,
-          ApellidoPaterno: userData.apellidoPaterno,
-          ApellidoMaterno: userData.apellidoMaterno,
+          Nombre: userData.usuario.nombre,
+          ApellidoPaterno: userData.usuario.apellidoPaterno,
+          ApellidoMaterno: userData.usuario.apellidoMaterno,
         });
 
-        // Sesiones del paciente
         const { data: citasData } = await citasAPI.getCitasByPaciente(
           pacienteId
         );
 
-        // Orden inverso: más recientes primero
         const citasOrdenadas = citasData.sort(
           (a, b) => new Date(b.fechaInicio) - new Date(a.fechaInicio)
         );
@@ -167,11 +169,11 @@ export default function Sesiones() {
         {filteredSesiones.map((s, index) => (
           <div
             key={s.id}
-            className="card bg-white shadow-md border p-4 cursor-pointer hover:shadow-lg"
+            className="card bg-base-100 shadow-sm p-4 cursor-pointer rounded-xl hover:shadow-lg"
             onClick={() => openSesion(s)}
           >
-            <h2 className="text-lg font-bold">Sesión #{index + 1}</h2>{" "}
-            {/* ✅ Conteo local */}
+            <h2 className="text-2xl font-bold">Sesión #{index + 1}</h2>{" "}
+            {/* Conteo local */}
             <p>
               <strong>Fecha Inicio:</strong>{" "}
               {new Date(s.fechaInicio).toLocaleString()}

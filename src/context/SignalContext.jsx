@@ -10,7 +10,7 @@ export function SignalProvider({ children }) {
   useEffect(() => {
     const token = localStorage.getItem("token");
     const newConnection = new signalR.HubConnectionBuilder()
-      .withUrl("http://192.168.1.9:5002/chatHub", {
+      .withUrl("http://chc92xn0-5002.usw3.devtunnels.ms/chatHub", {
         accessTokenFactory: () => token || "",
       })
       .configureLogging(signalR.LogLevel.Information)
