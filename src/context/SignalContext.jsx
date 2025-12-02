@@ -10,7 +10,7 @@ export function SignalProvider({ children }) { // Contexto para manejar la conex
   useEffect(() => {
     const token = localStorage.getItem("token");
     const newConnection = new signalR.HubConnectionBuilder()
-      .withUrl("http://chc92xn0-5002.usw3.devtunnels.ms/chatHub", {
+      .withUrl("https://chc92xn0-5002.usw3.devtunnels.ms/chatHub", {
         accessTokenFactory: () => token || "",
       })
       .configureLogging(signalR.LogLevel.Information)
