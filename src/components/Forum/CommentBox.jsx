@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { ForumAPI } from "../../api/forum.api";
 import { toast } from "react-toastify";
+import { AuthContext } from "../../context/AuthContext";
 
 // Este componente se encarga de enviar comentarios a un post
 export default function CommentBox({ postId, onSuccess }) {
+  const { user } = useContext(AuthContext) 
   // Estado para guardar el texto del comentario
   const [comment, setComment] = useState("");
 
@@ -25,18 +27,17 @@ export default function CommentBox({ postId, onSuccess }) {
     try {
       setLoading(true); // Activa estado de carga
 
-      // Payload EXACTO que pide tu backend (C#)
       const payload = {
         idPost: postId, // ID del post donde se comenta
-        idUsuario: 1, // Debe reemplazarse por el usuario logueado
+        idUsuario: user.id,
         contenido: comment, // Texto del comentario
-        anonimo: false, // Lo enviamos como no anónimo
+        anonimo: false,
       };
 
       // Llamada HTTP a la API
       const response = await ForumAPI.addComment(payload);
 
-      // Si el backend respondió OK
+      // Si el backend dijo OK
       if (response.status === 200 || response.status === 201) {
         toast.success("Comentario agregado");
 

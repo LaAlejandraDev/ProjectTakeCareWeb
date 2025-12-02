@@ -12,6 +12,7 @@ import CommentBox from "./CommentBox";
 import Comment from "./Comment";
 import { ForumAPI } from "../../api/forum.api";
 import { toast } from "react-toastify";
+import StylizerText from "../../helpers/StylizedText";
 
 export default function Post({
   id,
@@ -94,7 +95,7 @@ export default function Post({
           </div>
         </div>
 
-        <p className="text-gray-700 whitespace-pre-line">{content ?? ""}</p>
+        <StylizerText text={content ?? ""} />
 
         <div className="card-actions justify-end gap-x-4 mt-4">
           <div className="indicator">
