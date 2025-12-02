@@ -1,28 +1,74 @@
-import Comment from "./Comment";
+import { useState } from "react";
+import { ForumAPI } from "../../api/forum.api";
+import { toast } from "react-toastify";
 
-export default function CommentBox() { // Componente para mostrar una caja de comentarios con varios comentarios
+// Este componente se encarga de enviar comentarios a un post
+export default function CommentBox({ postId, onSuccess }) {
+  // Estado para guardar el texto del comentario
+  const [comment, setComment] = useState("");
+
+  // Estado para mostrar botón cargando
+  const [loading, setLoading] = useState(false);
+
+  // Función que envía el comentario al backend
+  const sendComment = async () => {
+    if (!comment.trim()) {
+      toast.error("El comentario no puede estar vacío");
+      return;
+    }
+
+    if (comment.length < 25) {
+      toast.error("El comentario debe tener al menos 25 caracteres");
+      return;
+    }
+
+    try {
+      setLoading(true); // Activa estado de carga
+
+      // Payload EXACTO que pide tu backend (C#)
+      const payload = {
+        idPost: postId, // ID del post donde se comenta
+        idUsuario: 1, // Debe reemplazarse por el usuario logueado
+        contenido: comment, // Texto del comentario
+        anonimo: false, // Lo enviamos como no anónimo
+      };
+
+      // Llamada HTTP a la API
+      const response = await ForumAPI.addComment(payload);
+
+      // Si el backend respondió OK
+      if (response.status === 200 || response.status === 201) {
+        toast.success("Comentario agregado");
+
+        setComment("");
+
+        if (onSuccess) onSuccess();
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Error al comentar");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <>
-      <div className="divider"></div>
-      <div className="w-full flex flex-col gap-5">
-        <Comment
-          name={"Trokers"}
-          date={"2024-06-15"}
-          content={"¡Excelente publicación! Me ha sido de gran ayuda."}
-        />
-        <Comment
-          name={"Robert"}
-          date={"2024-06-15"}
-          content={"Gracias por compartir esta información tan valiosa."}
-        />
-        <Comment
-          name={"MARV"}
-          date={"2024-06-15"}
-          content={
-            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
-          }
-        />
-      </div>
-    </>
+    <div className="flex flex-col gap-2">
+      <textarea
+        className="textarea textarea-bordered w-full"
+        rows={4}
+        placeholder="Escribe tu comentario..."
+        value={comment}
+        onChange={(e) => setComment(e.target.value)}
+      />
+
+      <button
+        className="btn btn-primary"
+        onClick={sendComment}
+        disabled={loading}
+      >
+        {loading ? "Enviando..." : "Comentar"}
+      </button>
+    </div>
   );
 }

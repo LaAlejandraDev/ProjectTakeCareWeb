@@ -3,7 +3,8 @@ import { ForumAPI } from "../api/forum.api";
 import { PostModel } from "../classes/Post";
 import Post from "../components/Forum/Post";
 
-export default function ForumAllPosts() { // Componente principal para mostrar todos los posts del foro
+export default function ForumAllPosts() {
+  // Componente principal para mostrar todos los posts del foro
   const [allPost, setAllPost] = useState([]);
 
   async function getAllpost() {
