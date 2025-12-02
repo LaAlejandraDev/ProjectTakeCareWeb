@@ -3,10 +3,12 @@ import {
   EyeIcon,
   HeartIcon,
 } from "@heroicons/react/24/solid";
+
 import Avatar from "../Avatar";
 import Badge from "../Badge";
 import StylizerText from "../../helpers/StylizedText";
 
+import { useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import CommentBox from "./CommentBox";
 
@@ -17,8 +19,8 @@ export default function Post({
   author,
   avatar,
   date,
-  comments,
-  likes,
+  comments = 0,
+  likes = 0,
   userRole,
   postType,
   expanded = false,
@@ -26,86 +28,100 @@ export default function Post({
 }) {
   const navigate = useNavigate();
 
-  const badgeType = () => {
-    if (postType == 0) {
-      return "badge-secondary badge-outline";
-    } else if (postType == 1) {
-      return "badge-info badge-outline";
-    } else {
-      ("badge-neutral badge-outline");
-    }
-  };
+  const formattedTitle = title?.toUpperCase() ?? "";
 
-  const badgeTitle = () => {
-    if (postType == 0) {
-      return "Mensaje";
-    } else if (postType == 1) {
-      return "Pregunta";
-    } else {
-      return "General";
-    }
-  };
+  // --- Badge del tipo de publicación (Mensaje, Pregunta, etc)
+  const badge = useMemo(() => ({
+    type:
+      postType === 0
+        ? "badge-secondary badge-outline"
+        : postType === 1
+        ? "badge-info badge-outline"
+        : "badge-neutral badge-outline",
+    title: postType === 0 ? "Mensaje" : postType === 1 ? "Pregunta" : "General",
+  }), [postType]);
+
+  // --- Tipo de usuario
+  const userType = useMemo(() => {
+    if (userRole === 2) return "Psicólogo";
+    if (userRole === 0) return "Paciente";
+    return "Usuario";
+  }, [userRole]);
 
   const viewPost = () => {
     navigate(`/index/forum/post/${id}`);
   };
 
   return (
-    <>
-      <div className="card w-full bg-base-100 shadow-sm my-2">
-        <div className="card-body">
-          <h2 className="card-badgeTitle text-2xl font-bold text-indigo-950">
-            {title.toUpperCase()}
-          </h2>
-          <div className="my-2 flex gap-2 p-2 rounded shadow-sm items-center">
-            <Avatar name={author} url={avatar} />
-            <div>
-              <p className="font-bold">{author}</p>
-              <small className="text-gray-400">{date}</small>
-            </div>
-            <div className="aling-1.5em ml-auto flex gap-2">
-              <Badge text={badgeTitle()} type={badgeType()} />
-              <Badge text={userRole} type={"badge-accent"} />
-            </div>
+    <div className="card w-full bg-base-100 shadow-sm my-2">
+      <div className="card-body">
+
+        {/* TÍTULO */}
+        <h2 className="text-2xl font-bold text-indigo-950 cursor-pointer" onClick={viewPost}>
+          {formattedTitle}
+        </h2>
+
+        {/* INFORMACIÓN DEL AUTOR */}
+        <div className="my-3 flex gap-3 p-2 rounded shadow-sm items-center">
+          <Avatar name={author} url={avatar} />
+
+          <div>
+            <p className="font-bold">{author}</p>
+            <small className="text-gray-400">{date}</small>
           </div>
-          <StylizerText text={content} expanded={expanded} />
-          {!expanded ? (
-            actions ? (
-              <div className="card-actions justify-end gap-x-8 mt-4">
-                <div className="indicator">
-                  <button className="btn btn-outline">
-                    <HeartIcon className="size-[1.5em]" />
-                    Like
-                  </button>
-                  {likes > 0 && (
-                    <span className="indicator-item badge badge-sm badge-secondary">
-                      {likes > 99 ? "99+" : likes}
-                    </span>
-                  )}
-                </div>
-                <div className="indicator">
-                  <button className="btn btn-neutral">
-                    <ChatBubbleBottomCenterIcon className="size-[1.5em]" />
-                    Comentar
-                    {comments > 0 && (
-                      <span className="indicator-item badge badge-sm badge-info">
-                        {comments > 99 ? "99+" : comments}
-                      </span>
-                    )}
-                  </button>
-                </div>
-                <button className="btn btn-primary" onClick={viewPost}>
-                  <EyeIcon className="size-[1.5em]" />
-                  Ver Post
-                </button>
-              </div>
-            ) : null
-          ) : (
-            actions ?
-            <CommentBox /> : null
-          )}
+
+          <div className="ml-auto flex gap-2">
+            <Badge text={badge.title} type={badge.type} />
+            <Badge text={userType} type="badge-accent" />
+          </div>
         </div>
+
+        {/* CONTENIDO */}
+        <StylizerText text={content} expanded={expanded} />
+
+        {/* ACCIONES */}
+        {actions && (
+          !expanded ? (
+            <div className="card-actions justify-end gap-x-8 mt-4">
+
+              {/* LIKE BUTTON */}
+              <div className="indicator">
+                <button className="btn btn-outline" aria-label="Me gusta">
+                  <HeartIcon className="size-[1.5em]" />
+                  Like
+                </button>
+                {likes > 0 && (
+                  <span className="indicator-item badge badge-sm badge-secondary">
+                    {likes > 99 ? "99+" : likes}
+                  </span>
+                )}
+              </div>
+
+              {/* COMMENTS BUTTON */}
+              <div className="indicator">
+                <button className="btn btn-neutral" aria-label="Comentar">
+                  <ChatBubbleBottomCenterIcon className="size-[1.5em]" />
+                  Comentar
+                </button>
+                {comments > 0 && (
+                  <span className="indicator-item badge badge-sm badge-info">
+                    {comments > 99 ? "99+" : comments}
+                  </span>
+                )}
+              </div>
+
+              {/* VIEW POST */}
+              <button className="btn btn-primary" onClick={viewPost} aria-label="Ver post completo">
+                <EyeIcon className="size-[1.5em]" />
+                Ver Post
+              </button>
+            </div>
+          ) : (
+            <CommentBox />
+          )
+        )}
+
       </div>
-    </>
+    </div>
   );
 }

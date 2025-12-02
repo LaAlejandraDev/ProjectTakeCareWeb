@@ -4,10 +4,10 @@ import axiosClient from "../api/axiosClient";
 import { AuthContext } from "../context/AuthContext";
 
 export default function PsicologoDashboard() {
-  const { rolId } = useContext(AuthContext)
+  const { rolId } = useContext(AuthContext);
   const navigate = useNavigate();
   const storedId = localStorage.getItem("IdUsuario");
-  const idPsicologo = rolId.psicologo.id
+  const idPsicologo = rolId.psicologo.id;
 
   const [pacientes, setPacientes] = useState([]);
   const [citas, setCitas] = useState([]);
@@ -122,8 +122,9 @@ export default function PsicologoDashboard() {
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold text-primary">Panel del Psicólogo</h1>
         <div className="flex gap-4">
-          <button className="btn btn-primary">Nueva cita</button>
-          <NavLink to={"/index/schedule"} className={"btn btn-info"}>Definir Horario</NavLink>
+          <NavLink to={"/index/schedule"} className={"btn btn-info"}>
+            Definir Horario
+          </NavLink>
         </div>
       </div>
 

@@ -19,7 +19,7 @@ export default function ReadChats() {
     const fetchMessages = async () => {
       try {
         const response = await axios.get(
-          `http://192.168.1.13:60572/api/ChatMensajes?IdChat=${chat.id}`
+          `http://192.168.1.9:5002/api/ChatMensajes?IdChat=${chat.id}`
         );
         setMessages(response.data);
       } catch (error) {
