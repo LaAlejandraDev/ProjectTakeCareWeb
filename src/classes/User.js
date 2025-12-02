@@ -1,4 +1,4 @@
-export class UsuarioModel {
+export class UsuarioModel { // Modelo de usuario para la gestión de usuarios
   constructor({
     id = 0,
     nombre = "",

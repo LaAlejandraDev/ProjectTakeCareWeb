@@ -4,7 +4,7 @@ import { useState } from "react";
 import { AuthAPI } from "../api/auth.api";
 import { toast } from "react-toastify";
 
-export default function RegisterForm() {
+export default function RegisterForm() { // Componente de formulario de registro
   const navigation = useNavigate();
   const [nombre, setNombre] = useState("");
   const [email, setEmail] = useState("");

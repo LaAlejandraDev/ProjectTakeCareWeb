@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import axios from "axios";
 import { registerUser, sendMessage, onReceiveMessage } from "../helpers/socket";
 
-export default function ReadChats() {
+export default function ReadChats() { // Componente para leer y enviar mensajes en un chat específico
   const location = useLocation();
   const { chat, paciente } = location.state; // Recibimos datos del chat y paciente
   const [messages, setMessages] = useState([]);

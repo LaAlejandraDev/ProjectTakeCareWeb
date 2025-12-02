@@ -4,7 +4,7 @@ import { PsicologoAPI } from "../../api/psicologo.api";
 import { PacienteAPI } from "../../api/paciente.api";
 import { toast } from "react-toastify";
 
-export default function ModalUser({
+export default function ModalUser({ // Componente modal para crear o editar un usuario
   abrirModal,
   cerrarModal,
   usuarioSeleccionado,

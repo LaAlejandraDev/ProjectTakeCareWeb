@@ -1,6 +1,6 @@
 import { UsuarioModel } from "./User";
 
-export class PostModel {
+export class PostModel { // Modelo para generar una publicación
   constructor({
     id = 0,
     titulo = "",

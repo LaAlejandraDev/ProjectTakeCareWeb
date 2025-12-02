@@ -2,7 +2,7 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 
-export default function CalendarMinimal({
+export default function CalendarMinimal({ // Calendario minimalista con FullCalendar
   events = [],
   workDays = [],
   onDateClick,

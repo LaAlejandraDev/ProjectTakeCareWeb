@@ -12,7 +12,7 @@ import { useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import CommentBox from "./CommentBox";
 
-export default function Post({
+export default function Post({ // Componente para mostrar una publicación en el foro
   id,
   title,
   content,

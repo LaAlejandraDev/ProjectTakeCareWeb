@@ -3,7 +3,7 @@ import { UserAPI } from "../../api/user.api";
 import { toast } from "react-toastify";
 import ModalUser from "./ModalUser";
 
-const UserForm = () => {
+const UserForm = () => { // Componente principal para la gestión de usuarios
   const [users, setUsers] = useState([]);
   const [load, setLoad] = useState(true);
   const [busqueda, setBusqueda] = useState("");

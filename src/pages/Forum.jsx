@@ -2,7 +2,7 @@ import { Navigate, Outlet, useLocation } from "react-router-dom";
 import SearchBar from "../components/Forum/SearchBar";
 import { useEffect, useState } from "react";
 
-export default function Forum() {
+export default function Forum() { // Componente principal del foro
   const location = useLocation();
   const [searchDisabled, setSearchDisabled] = useState(false);
 

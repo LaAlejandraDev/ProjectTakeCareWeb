@@ -14,7 +14,7 @@ import { AuthContext } from "../context/AuthContext";
 import { PaperAirplaneIcon } from "@heroicons/react/16/solid";
 import { formatMessageDate } from "../utils/DateFormat";
 
-export default function Chat() {
+export default function Chat() { // Componente principal del chat
   const { connection, isConnected } = useSignalR();
   const [messagesList, setMessagesList] = useState([]);
   const [userConected, setUser] = useState("");

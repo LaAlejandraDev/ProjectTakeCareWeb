@@ -3,7 +3,7 @@ import { UserAPI } from "../api/user.api";
 import { toast } from "react-toastify";
 import Avatar from "../components/Avatar";
 
-export default function EditProfile() {
+export default function EditProfile() { // Componente principal para editar el perfil de usuario
   const [user, setUser] = useState({
     id: "",
     nombre: "",

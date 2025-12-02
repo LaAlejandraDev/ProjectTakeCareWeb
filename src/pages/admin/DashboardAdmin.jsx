@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { UserAPI } from "../../api/user.api";
 
-const DashboardAdmin = () => {
+const DashboardAdmin = () => { // Dashboard Administrativo
   const [dashboardData, setDashboardData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);

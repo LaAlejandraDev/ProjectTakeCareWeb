@@ -1,4 +1,4 @@
-export default function Breadcrumbs() {
+export default function Breadcrumbs() { // Componete de migas de pan para navegación (NO USADO)
   return (
     <>
       <div className="breadcrumbs text-sm">

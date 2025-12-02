@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { samplePosts } from "../data/Post";
 import Post from "../components/Forum/Post";
 
-export default function ForumPost() {
+export default function ForumPost() { // Componente principal para mostrar un post específico del foro
   const { postId } = useParams();
   const post = samplePosts.find((p) => p.id === parseInt(postId));
   return (

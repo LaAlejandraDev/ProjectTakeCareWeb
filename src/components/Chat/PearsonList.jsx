@@ -5,7 +5,7 @@ import { ChatAPI } from "../../api/chat.api";
 import { toast } from "react-toastify";
 import { AuthContext } from "../../context/AuthContext";
 
-export default function PearsonList() {
+export default function PearsonList() { // Componente para mostrar la lista de contactos
   const [listContacts, setListContacts] = useState([]);
   const { rolId } = useContext(AuthContext);
   const userRolType = rolId.rol;

@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "./AuthContext";
 import { Navigate, Outlet } from "react-router-dom";
 
-export default function RoutesProtect() {
+export default function RoutesProtect() { // Componente para proteger rutas
   const { user, loading } = useContext(AuthContext);
   const [delayDone, setDelayDone] = useState(false);
 
@@ -13,7 +13,7 @@ export default function RoutesProtect() {
 
   if (loading || !delayDone) return <LoadingScreen />;
 
-  if (!user) return <Navigate to="/" replace />;  
+  if (!user) return <Navigate to="/" replace />;
 
   return <Outlet />;
 }

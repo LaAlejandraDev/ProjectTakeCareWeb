@@ -5,7 +5,7 @@ import { AuthContext } from "../context/AuthContext";
 import { ForumAPI } from "../api/forum.api";
 import { toast } from "react-toastify";
 
-export default function CreatePost() {
+export default function CreatePost() { // Componente principal para crear una nueva publicación en el foro
   const { user } = useContext(AuthContext)
   const post = samplePosts[0];
   const [title, setTitle] = useState("Titulo");

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-export default function Diary() {
+export default function Diary() { // Componente principal del diario personal
   const [entries, setEntries] = useState([
     {
       id: 1,

@@ -5,7 +5,7 @@ import axiosClient from "../api/axiosClient";
 import { toast } from "react-toastify";
 import { data } from "autoprefixer";
 
-export default function Sesiones() {
+export default function Sesiones() { // Componente principal para mostrar y gestionar las sesiones de un paciente
   const navigate = useNavigate();
   const { id: pacienteIdURL } = useParams();
 

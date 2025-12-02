@@ -1,4 +1,4 @@
-export default function PriceCard({ name, cost, children, onSubscribe }) {
+export default function PriceCard({ name, cost, children, onSubscribe }) { // Componente para mostrar una tarjeta de precio
   return (
     <>
       <div

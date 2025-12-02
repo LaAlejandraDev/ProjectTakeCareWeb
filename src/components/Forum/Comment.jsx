@@ -2,7 +2,7 @@ import { useState } from "react";
 import StylizerText from "../../helpers/StylizedText";
 import Avatar from "../Avatar";
 
-export default function Comment({ name, image, date, content }) {
+export default function Comment({ name, image, date, content }) { // Componente para mostrar un comentario individual
   const [expanded, setExpanded] = useState(false);
   return (
     <>

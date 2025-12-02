@@ -1,6 +1,6 @@
 const string = "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Provident quasi maxime doloremque, repudiandae illum iste consequatur voluptatibus, sunt pariatur eveniet rem voluptas iure in harum maiores obcaecati, molestias quo iusto!"
 
-export default function Card({
+export default function Card({ // Componente de tarjeta genérica
   title = "title card",
   content = "card content",
   image = "",

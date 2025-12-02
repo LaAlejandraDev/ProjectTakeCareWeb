@@ -8,7 +8,7 @@ import { AuthContext } from "../context/AuthContext";
 // Importa las funciones del helper
 import { getLocalUser, saveLocalUser } from "../helpers/auth";
 
-export default function LoginForm() {
+export default function LoginForm() { // Componente de formulario de inicio de sesión
   const { login } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setUserPassword] = useState("");

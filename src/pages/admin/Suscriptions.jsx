@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { PsicologoAPI } from "../../api/psicologo.api";
 
-export default function Suscriptions() {
+export default function Suscriptions() { // Gestión de Suscripciones de Psicólogos
   const [pendientes, setPendientes] = useState([]);
   const [loading, setLoading] = useState(true);
 

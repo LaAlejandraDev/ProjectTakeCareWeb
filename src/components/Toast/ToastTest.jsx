@@ -2,7 +2,7 @@ import { BellAlertIcon } from "@heroicons/react/16/solid";
 import Avatar from "../Avatar";
 import { ChatBubbleBottomCenterIcon } from "@heroicons/react/24/outline";
 
-export default function ToastMessage({ closeToast, toastProps, message }) {
+export default function ToastMessage({ closeToast, toastProps, message }) { // Componente para mostrar un mensaje de toast
   const hasTitle = message.title ? true : false
   const title = message.title ? message.title : "Nuevo Mensaje"
   const body = message.body ? message.body : message.mensaje

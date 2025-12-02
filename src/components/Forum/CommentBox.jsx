@@ -1,6 +1,6 @@
 import Comment from "./Comment";
 
-export default function CommentBox() {
+export default function CommentBox() { // Componente para mostrar una caja de comentarios con varios comentarios
   return (
     <>
       <div className="divider"></div>

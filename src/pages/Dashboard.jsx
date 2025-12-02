@@ -3,7 +3,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import axiosClient from "../api/axiosClient";
 import { AuthContext } from "../context/AuthContext";
 
-export default function PsicologoDashboard() {
+export default function PsicologoDashboard() { // Componente principal del dashboard del psicólogo
   const { rolId } = useContext(AuthContext);
   const navigate = useNavigate();
   const storedId = localStorage.getItem("IdUsuario");

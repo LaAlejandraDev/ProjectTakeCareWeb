@@ -12,7 +12,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import Avatar from "./Avatar";
 
-export default function Menu() {
+export default function Menu() { // Componente de menú lateral de navegación
   const { user } = useContext(AuthContext);
   const [selected, setSelected] = useState("Inicio");
   const navigate = useNavigate();

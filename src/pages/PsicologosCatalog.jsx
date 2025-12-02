@@ -4,7 +4,7 @@ import { AuthContext } from "../context/AuthContext";
 import { useSignalR } from "../context/SignalContext";
 import ToastTest from "../components/Toast/ToastTest";
 
-export default function PsicologosCatalog() {
+export default function PsicologosCatalog() { // Componente principal para mostrar el catálogo de psicólogos y permitir enviar solicitudes
   const { user } = useContext(AuthContext);
   const { connection } = useSignalR();
 

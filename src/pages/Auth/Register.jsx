@@ -1,7 +1,7 @@
 import { ToastContainer } from "react-toastify";
 import RegisterForm from "../../components/RegisterForm";
 
-export default function Register() {
+export default function Register() { // Componente de registro
   return (
     <>
       <ToastContainer />

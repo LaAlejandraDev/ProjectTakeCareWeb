@@ -3,7 +3,7 @@ import { PacientesAPI } from "../api/pacientes.api";
 import { UserAPI } from "../api/user.api";
 import { useNavigate } from "react-router-dom";
 
-export default function PacientesDiario() {
+export default function PacientesDiario() { // Componente principal para mostrar la lista de pacientes y acceder a sus diarios emocionales
   const [pacientes, setPacientes] = useState([]);
   const [search, setSearch] = useState("");
   const navigate = useNavigate();

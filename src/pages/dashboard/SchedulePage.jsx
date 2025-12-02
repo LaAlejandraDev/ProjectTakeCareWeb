@@ -5,7 +5,7 @@ import { PsicologoAPI } from "../../api/psicologo.api";
 import { AuthContext } from "../../context/AuthContext";
 import { citasAPI } from "../../api/citas.api";
 
-export default function SchedulePage() {
+export default function SchedulePage() { // Página de programación de citas para psicólogos
   const [events, setEvents] = useState([]);
   const [workDays, setWorkDays] = useState([])
   const { rolId } = useContext(AuthContext)

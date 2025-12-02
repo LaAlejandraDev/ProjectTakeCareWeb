@@ -5,7 +5,7 @@ import { PacientesAPI } from "../api/pacientes.api";
 import { UserAPI } from "../api/user.api";
 import { SparklesIcon } from "@heroicons/react/16/solid";
 
-export default function DiarioPaciente() {
+export default function DiarioPaciente() { // Componente principal para mostrar el diario emocional de un paciente
   const { id } = useParams();
   const [diarios, setDiarios] = useState([]);
   const [paciente, setPaciente] = useState(null);

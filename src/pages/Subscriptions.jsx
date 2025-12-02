@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import PriceCard from "../components/Price/PriceCards";
 import { PsicologoAPI } from "../api/psicologo.api";
 import { toast, ToastContainer } from "react-toastify";
-export default function SubscriptionsPage() {
+export default function SubscriptionsPage() { // Componente principal para la página de suscripciones
   const navigation = useNavigate();
   const onSubscribe = async (plan) => {
     try {

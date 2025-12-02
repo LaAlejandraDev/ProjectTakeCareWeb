@@ -2,7 +2,7 @@ import { createContext, useEffect, useState } from "react";
 
 export const AuthContext = createContext();
 
-export function AuthProvider({ children }) {
+export function AuthProvider({ children }) { // Contexto para guardar los datos de autenticación
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
   const [rolId, setRolId] = useState(null);

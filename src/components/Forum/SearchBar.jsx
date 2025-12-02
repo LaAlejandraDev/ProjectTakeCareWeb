@@ -5,7 +5,7 @@ import {
 } from "@heroicons/react/24/solid";
 import { useNavigate } from "react-router-dom";
 
-export default function SearchBar() {
+export default function SearchBar() { // Componente para la barra de búsqueda del foro
   const navigate = useNavigate()
 
   const createPost = () => {

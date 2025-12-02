@@ -1,4 +1,4 @@
-export default function MessageComponent({ messageData, idPsycologist, date }) {
+export default function MessageComponent({ messageData, idPsycologist, date }) { // Componente para mostrar un mensaje individual
     const isOwner = messageData.senderId == idPsycologist ? true : false
     return (
         <>

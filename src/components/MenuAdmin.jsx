@@ -7,7 +7,7 @@ import {
 import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
-export default function MenuAdmin() {
+export default function MenuAdmin() { // Componente de menú lateral de navegación para administración
   const [selected, setSelected] = useState("Dashboard");
   const navigate = useNavigate();
   const location = useLocation();

@@ -6,7 +6,7 @@ import Avatar from "../components/Avatar";
 import { FolderIcon } from "@heroicons/react/16/solid";
 import { useNavigate } from "react-router-dom";
 
-const Expediente = () => {
+const Expediente = () => { // Componente principal para gestionar y mostrar expedientes de pacientes
   const { rolId } = useContext(AuthContext);
 
   const [listaExpedientes, setLista] = useState([]);

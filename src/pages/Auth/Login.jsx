@@ -1,7 +1,7 @@
 import { ToastContainer } from "react-toastify";
 import LoginForm from "../../components/LoginForm";
 
-export default function Login() {
+export default function Login() { // Login componente
   return (
     <>
       <ToastContainer />

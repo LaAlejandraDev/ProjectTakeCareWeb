@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import axiosClient from "../api/axiosClient";
 
-export default function Solicitudes() {
+export default function Solicitudes() { // Componente principal para gestionar las solicitudes de pacientes
   const { user, loading: authLoading } = useContext(AuthContext);
 
   const [notifs, setNotifs] = useState([]);

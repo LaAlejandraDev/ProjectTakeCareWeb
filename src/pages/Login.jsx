@@ -1,7 +1,7 @@
 import { ToastContainer } from "react-toastify";
 import LoginForm from "../components/LoginForm";
 
-export default function Login() {
+export default function Login() { // Componente principal de la página de inicio de sesión
   return (
     <>
       <ToastContainer />

@@ -3,7 +3,7 @@ import * as signalR from "@microsoft/signalr";
 
 const SignalContext = createContext();
 
-export function SignalProvider({ children }) {
+export function SignalProvider({ children }) { // Contexto para manejar la conexión de SignalR
   const [connection, setConnection] = useState(null);
   const [isConnected, setIsConnected] = useState(false);
 
